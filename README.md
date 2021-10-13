@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/guilherme-pereira/QTLpoly.svg?branch=master)](https://travis-ci.org/guilherme-pereira/QTLpoly) [![Development](https://img.shields.io/badge/development-active-blue.svg)](https://img.shields.io/badge/development-active-blue.svg)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-# QTLpoly <img src="hex.png" align="right" width="120" />
+# QTLpoly <img src="hex.png" align="right" width="150" />
 
 The R package `qtlpoly` (v. 0.2.2) is an under development software to map quantitative trait loci (QTL) in full-sib families of outcrossing autopolyploid species based on a random-effect multiple QTL model (Pereira et al. 2019). 
 
