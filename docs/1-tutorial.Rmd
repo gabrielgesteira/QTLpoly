@@ -35,28 +35,23 @@ knitr::opts_chunk$set(eval = TRUE, cache = TRUE, echo = TRUE, results = 'hold', 
 
 # Introduction
 
-The R package `qtlpoly` (v. 0.2.1) [@Pereira2020] is an under development software to map multiple quantitative trait loci (QTL) in full-sib families of outcrossing autopolyploid species. It is based on the following random-effect model:
+The R package `qtlpoly` (v. 0.2.2) [@Pereira2020] is an under development software to map multiple quantitative trait loci (QTL) in full-sib families of outcrossing autopolyploid species. It is based on the following random-effect model:
 
 $$\boldsymbol{y} = \boldsymbol{1}\mu + \sum_{q=1}^Q \boldsymbol{g}_q + \boldsymbol{e}$$
 
 where the vector of phenotypic values from a specific trait $\boldsymbol{y}$ is a function of the fixed intercept $\mu$, the $q = 1, \dots, Q$ random QTL effects $\boldsymbol{g}_q \sim \mathcal{N}(\boldsymbol{0}, \boldsymbol{G}_q\sigma^2_q)$, and the random environmental error $\boldsymbol{e} \sim \mathcal{N}(\boldsymbol{0}, \boldsymbol{I}\sigma^2)$. $\boldsymbol{G}_q$ is the additive relationship matrix between full-sibs derived from the genotype conditional probabilities of QTL $q$. See model details in @Pereira2020.
 
-Variance components associated with putative QTL ($\sigma^2_q$) are tested using score statistics from the R package `varComp` (v. 0.2-0) [@Qu2013]. Final models are fitted using residual maximum likelihood (REML) from the R package `sommer` (v. 3.6) [@Covarrubias-Pazaran2016]. Plots for visualizing the results are based on `ggplot2` (v. 3.1.0) [@Wickham2016]. 
+Variance components associated with putative QTL ($\sigma^2_q$) are tested using score statistics from the R package `varComp` (v. 0.2-0) [@Qu2013]. Final models are fitted using residual maximum likelihood (REML) from the R package `sommer` (v. 4.1) [@Covarrubias-Pazaran2016]. Plots for visualizing the results are based on `ggplot2` (v. 3.1.0) [@Wickham2016]. 
 
 This tutorial used `r R.version.string` running on either Ubuntu 18.04.1 LTS (64-bit) or Windows 10.
 
 ## Install and load the `qtlpoly` package and data
 
-As mentioned, the package `qtlpoly` depends on a couple of functions from `sommer` (v. 3.6) and `varComp` (v. 0.2-0). `varComp` has been [archived from CRAN](https://cran.r-project.org/src/contrib/Archive/varComp/), while `sommer` has been constantly updated. In order to avoid conflict with updates in functions and object structures, we decided to stick with an earlier `sommer` version (v. 3.6), so you will need to downgrade if you have installed the most recent version of `sommer`.
-
-`qtlpoly` package is available at [GitHub](https://github.com/guilherme-pereira/qtlpoly). You can install all needed packages within R using the functions from the R package `devtools`:
+`qtlpoly` package is available in its development version at [GitHub](https://github.com/guilherme-pereira/qtlpoly). You can install all needed packages within R using the R package `devtools`:
 
 ```{r, eval=FALSE}
-install.packages(c("devtools", "data.table"))
-devtools::install_url("https://cran.r-project.org/src/contrib/Archive/SPA3G/SPA3G_1.0.tar.gz")
-devtools::install_url("https://cran.r-project.org/src/contrib/Archive/varComp/varComp_0.2-0.tar.gz")
-devtools::install_version("sommer", version = "3.6", repos = "http://cran.us.r-project.org", upgrade = FALSE)
-devtools::install_github("guilherme-pereira/qtlpoly", upgrade = FALSE)
+install.packages(c("devtools"))
+devtools::install_github("guilherme-pereira/qtlpoly")
 ```
 
 Then, use the function `library()` -- or `require()` -- to load the package, and the function `data()` to preload the simulated linkage map and phenotypic data that comes with the package:
