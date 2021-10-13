@@ -283,7 +283,7 @@ summary.qtlpoly.fitted <- function(x, pheno.col = NULL) {
 
 #' Adapt to sommer MNR core function
 #'
-#' Adapts genomic incidence and relationshio (varcov) matrices to run using sommer's C++ core function (v. 4.0 or higher)
+#' Adapts genomic incidence and relationship (varcov) matrices to run using sommer's C++ core function (v. 4.0 or higher)
 #' Function adapted from sommer v. 3.6 (Author: Giovanny Covarrubias-Pazaran)
 #'
 #' @param internal
@@ -442,7 +442,7 @@ mmer_adapted <- function(Y,X=NULL,Z=NULL,R=NULL,W=NULL,method="NR",init=NULL,ite
   X = list(x)
   Gx = list(matrix(1)) # list of constraints for fixed effects
   ZETA = lapply(Z, function(x) return(x[[1]])) # list containing only incidence matrices of random effects (sparse form)
-  names(ZETA) = NULL
+  ## names(ZETA) = NULL
   for (i in 1:length(ZETA)){
     attr(ZETA[[i]], "assign") = rep(1, ncol(ZETA[[i]]))
     attr(ZETA[[i]], "contrasts") = list("contr.treatment")
@@ -450,10 +450,10 @@ mmer_adapted <- function(Y,X=NULL,Z=NULL,R=NULL,W=NULL,method="NR",init=NULL,ite
   }
   ZETA <- lapply(ZETA,function(x){as(x, Class = "sparseMatrix")})
   K = lapply(Z, function(x) return(x[[2]])) # list of varcov matrices of random effects (sparse form)
-  names(K) = NULL
-  for (i in 1:length(K)){
-    dimnames(K[[i]]) = NULL
-  }
+  ## names(K) = NULL
+  ## for (i in 1:length(K)){
+  ##   dimnames(K[[i]]) = NULL
+  ## }
   R = list(diag(1, nrow = nrow(Y), ncol = nrow(Y))) # list of residual matrices (sparse form)
   rownames(R[[1]]) = rownames(Y)
   colnames(R[[1]]) = paste0("units",sort(as.character(seq(1, nrow(Y), 1)), decreasing = F))
@@ -470,6 +470,7 @@ mmer_adapted <- function(Y,X=NULL,Z=NULL,R=NULL,W=NULL,method="NR",init=NULL,ite
   ws = rep(1, nrow(Y))
     
   RES = .Call("_sommer_MNR",PACKAGE = "sommer",Y, X,Gx,ZETA,K,R,GES,GESI, ws, iters, tolpar, tolparinv, selected,getPEV,verbose, FALSE, stepweight, emupdate)
+  RES$alleles = rownames(K[[1]])
   
   ## RES <- MNR(Y=Y,X=X,ZETA=Z,R=R,W=W,init=init,iters=iters,tolpar=tolpar,
   ##            tolparinv = tolparinv,draw=draw,silent=silent, 

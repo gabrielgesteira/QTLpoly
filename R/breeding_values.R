@@ -64,8 +64,8 @@ breeding_values <- function(data, fitted) {
       nqtl <- dim(fitted$results[[p]]$qtls)[1]
       if(nqtl > 1) nqtl <- nqtl - 1
       markers <- unlist(fitted$results[[p]]$qtls[1:nqtl,"Nmrk"])
-      u.hat <- fitted$results[[p]]$fitted$u.hat
-      beta.hat <- fitted$results[[p]]$fitted$beta.hat
+      u.hat <- fitted$results[[p]]$fitted$U
+      beta.hat <- fitted$results[[p]]$fitted$Beta
       Z <- data$Z[,markers,]
 
       Zu <- vector("list", nqtl)
@@ -83,6 +83,7 @@ breeding_values <- function(data, fitted) {
     } else {
       y.hat <- NULL
     }
+    colnames(y.hat) = "T1"
 
     results[[p]] <- list(
       pheno.col=fitted$results[[p]]$pheno.col,

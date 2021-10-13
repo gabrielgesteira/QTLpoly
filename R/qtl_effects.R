@@ -86,8 +86,9 @@ qtl_effects <- function(ploidy = 6, fitted, pheno.col = NULL, verbose = TRUE) {
             if(q == nqtl) cat(paste0("... ", qtl.mrk[q]))
           }
           
-          blups <- fitted$results[[pheno.col[p]]]$fitted$u.hat[[q]]
-          alleles <- matrix(unlist(strsplit(rownames(blups), '')), ncol=7, byrow=TRUE)[,-4]
+          blups <- fitted$results[[pheno.col[p]]]$fitted$U[[q]]
+          alleles = matrix(unlist(strsplit(fitted$results[[pheno.col[p]]]$fitted$alleles, '')), ncol=7, byrow=TRUE)[,-4]
+          ## alleles <- matrix(unlist(strsplit(rownames(blups), '')), ncol=7, byrow=TRUE)[,-4]
           
           A <- t(combn(letters[1:12],1))
           D <- t(combn(letters[1:12],2))
@@ -190,8 +191,9 @@ qtl_effects <- function(ploidy = 6, fitted, pheno.col = NULL, verbose = TRUE) {
             if(q == nqtl) cat(paste0("... ", qtl.mrk[q]))
           }
           
-          blups <- fitted$results[[pheno.col[p]]]$fitted$u.hat[[q]]
-          alleles <- matrix(unlist(strsplit(rownames(blups), '')), ncol=5, byrow=TRUE)[,-3]
+          blups <- fitted$results[[pheno.col[p]]]$fitted$U[[q]]
+          alleles = matrix(unlist(strsplit(fitted$results[[pheno.col[p]]]$fitted$alleles, '')), ncol=5, byrow=TRUE)[,-3]
+          ## alleles <- matrix(unlist(strsplit(rownames(blups), '')), ncol=5, byrow=TRUE)[,-3]
           
           A <- t(combn(letters[1:8],1))
           D <- t(combn(letters[1:8],2))
@@ -301,7 +303,7 @@ plot.qtlpoly.effects <- function(x, pheno.col = NULL, p1 = "P1", p2 = "P2") {
         data$Parent <- factor(data$Parent, levels=unique(data$Parent))
         plot <- ggplot(data[which(data$Effects == "Additive"),], aes(x = Alleles, y = Estimates, fill = Estimates)) +
           geom_bar(stat="identity") +
-          scale_fill_gradient2(low = "red", high = "blue", guide = FALSE) +
+          scale_fill_gradient2(low = "red", high = "blue", guide = "none") +
           labs(title=names(x$results)[p], subtitle=paste("QTL", q, "\n")) +
           facet_wrap(. ~ Parent, scales="free_x", ncol = 2, strip.position="bottom") +
           # facet_grid(Effects ~ Parent, scales="free_x", space="free_x") +
