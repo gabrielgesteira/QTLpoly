@@ -130,6 +130,6 @@ plot_profile <- function(data = data, model = model, pheno.col = NULL, sup.int =
     theme(legend.position=legend, plot.title = element_text(hjust = 0.5), plot.subtitle = element_text(hjust = 0.5),
           panel.spacing.x = unit(0.01, "lines"), panel.spacing.y = unit(0.05, "lines"), strip.text.y = element_blank(),
           axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) +
-    {if(is.null(legend)) guides(color = FALSE)}
+    {if(is.null(legend)) guides(color = "none")}
   print(pl)
 }
