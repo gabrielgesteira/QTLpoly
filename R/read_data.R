@@ -62,7 +62,7 @@
 #'
 #' @export read_data
 #' @importFrom abind abind
-#' @importFrom arrangements combinations
+#' @importFrom gtools combinations
 
 read_data <- function(ploidy = 6, geno.prob = genoprob, geno.dose = NULL, double.reduction = FALSE, pheno = pheno, weights = NULL, step = 1) {
   
@@ -114,12 +114,12 @@ read_data <- function(ploidy = 6, geno.prob = genoprob, geno.dose = NULL, double
       n.unique <- ploidy/2
     }
     Palleles <- letters[1:ploidy]; length(Palleles)
-    Pgametes <- arrangements::combinations(Palleles, ploidy/2, replace=TRUE); dim(Pgametes)
+    Pgametes <- gtools::combinations(length(Palleles), ploidy/2, Palleles, repeats.allowed = TRUE); dim(Pgametes)
     Punique <- apply(Pgametes, 1, unique); length(Punique)
     Pgametes <- apply(Pgametes[which(lapply(Punique, length) >= n.unique),], 1, paste, collapse=""); length(Pgametes)
     # Pgametes <- lapply(combn(Palleles, ploidy/2, simplify = FALSE), paste, collapse=""); length(Pgametes)
     Qalleles <- letters[(ploidy+1):(2*ploidy)]
-    Qgametes <- arrangements::combinations(Qalleles, ploidy/2, replace=TRUE); dim(Qgametes)
+    Qgametes <- gtools::combinations(length(Qalleles), ploidy/2, Qalleles, repeats.allowed = TRUE); dim(Qgametes)
     Qunique <- apply(Qgametes, 1, unique); length(Qunique)
     Qgametes <- apply(Qgametes[which(lapply(Qunique, length) >= n.unique),], 1, paste, collapse=""); length(Qgametes)
     # Qgametes <- lapply(combn(Qalleles, ploidy/2, simplify = FALSE), paste, collapse="")
