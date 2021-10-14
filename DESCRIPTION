@@ -11,7 +11,7 @@ LazyData: TRUE
 Depends:
     R (>= 4.1.0)
 Imports:
-    SPA3G (== 1.0), varComp (== 0.2), sommer (>= 4.0), ggplot2 (>= 3.1), abind (>= 1.4), MASS (>= 7.3), arrangements (>= 1.1), parallel, stats
+    SPA3G (== 1.0), varComp (== 0.2), sommer (>= 4.0), ggplot2 (>= 3.1), abind (>= 1.4), MASS (>= 7.3), gtools (>= 3.9.2), parallel, stats
 Suggests: mappoly, rmarkdown, devtools
 Remotes:
     cran/SPA3G, cran/varComp, mmollina/MAPpoly
