@@ -2,8 +2,26 @@ Package: qtlpoly
 Type: Package
 Title: Random-effect multiple QTL mapping in autopolyploids
 Version: 0.2.2
-Author: Guilherme da Silva Pereira [aut], Marcelo Mollinari [ctb], Zhao-Bang Zeng [ctb]
-Maintainer: Guilherme da Silva Pereira <gdasilv@ncsu.edu>
+Authors@R: c(person(given = "Guilhereme",
+                    family = "da Silva Pereira",
+                    role = "aut",
+                    email = "gdasilv@ncsu.edu",
+                    comment = c(ORCID="0000-0002-7106-8630")),
+            person(given = "Marcelo",
+                    family = "Mollinari",
+                    role = "ctb",
+                    email = "mmollin@ncsu.edu",
+                    comment = c(ORCID="0000-0002-7001-8498")),
+            person(given = "Gabriel",
+                    family = "de Siqueira Gesteira",
+                    role = c("ctb","cre"),
+                    email = "gdesiqu@ncsu.edu",
+                    comment = c(ORCID="0000-0002-4106-7346")),
+            person(given = "Zhao-Bang",
+                    family = "Zeng",
+                    role = "ctb",
+                    comment = c(ORCID="0000-0002-3115-1149")))
+Maintainer: Gabriel de Siqueira Gesteira <gdesiqu@ncsu.edu>
 Description: Performs random-effect multiple interval mapping (REMIM) in full-sib families of autopolyploid species based on REML estimation and score statistics.
 License: GPL-3 | file LICENSE
 Encoding: UTF-8
@@ -16,5 +34,5 @@ Imports:
 Suggests: mappoly, rmarkdown, devtools, knitr
 VignetteBuilder: knitr
 Remotes:
-    cran/SPA3G, cran/varComp, mmollina/MAPpoly
+    cran/SPA3G, cran/varComp
 RoxygenNote: 7.1.2

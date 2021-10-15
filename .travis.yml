@@ -6,6 +6,9 @@ cache: packages
 
 install:
 - R -e 'install.packages("devtools")'
+- R -e 'install.packages(c('sommer', 'ggplot2', 'abind', 'gtools', 'mappoly', 'rmarkdown'))'
+- R -e 'devtools::install_github('cran/SPA3G')'
+- R -e 'devtools::install_github('cran/varComp')'
 
 r_build_args: --no-build-vignettes
 r_check_args: --no-vignettes
