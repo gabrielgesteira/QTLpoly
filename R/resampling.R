@@ -8,6 +8,8 @@
 #'
 #' @param n.sim a number of simulations, e.g. 1000 (default).
 #'
+#' @param alpha a vector containing two p-value levels to be used as the lower and upper limiting quantiles of the p-value distribution (default: c(0.20, 0.05)).
+#'
 #' @param n.clusters a number of parallel processes to spawn.
 #'
 #' @param seed an integer for the \code{set.seed()} function; if \code{NULL}, no reproducible seeds are set.
@@ -17,6 +19,8 @@
 #' @param x an object of class \code{qtlpoly.perm} to be printed or plotted.
 #'
 #' @param probs a vector of probability values in [0, 1] representing the quantiles, e.g. c(0.90, 0.95) for the 90\% and 95\% quantiles.
+#'
+#' @param ... currently ignored
 #'
 #' @return An object of class \code{qtlpoly.perm} which contains a list of \code{results} for each trait with the maximum LOD score per permutation.
 #'
@@ -76,16 +80,16 @@ resampling <- function(data, n.sim = 1000, alpha = c(0.20, 0.05), n.clusters = N
 #' @rdname resampling
 #' @export
 
-print.qtlpoly.rsmp <- function(x, pheno.col=NULL, probs=c(0.90, 0.95)) {
+print.qtlpoly.rsmp <- function(x, pheno.col=NULL, probs=c(0.90, 0.95), ...) {
   if(any(class(x) == "qtlpoly.rsmp")) cat("This is an object of class 'qtlpoly.rsmp'\n")
-  quantile(sort(min.pvl), alpha)
+  quantile(sort(x$min.pvl), alpha)
 }
 
 #' @rdname resampling
 #' @import ggplot2
 #' @export
 
-plot.qtlpoly.rsmp <- function(x, alpha=c(0.20, 0.05)) {
+plot.qtlpoly.rsmp <- function(x, alpha=c(0.20, 0.05), ...) {
   if(!is.null(x$results[[p]])) {
     data <- x$min.pvl
     plot <- ggplot(data, aes(LOD)) +

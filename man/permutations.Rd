@@ -17,12 +17,14 @@ permutations(
   verbose = TRUE
 )
 
-\method{print}{qtlpoly.perm}(x, pheno.col = NULL, probs = c(0.9, 0.95))
+\method{print}{qtlpoly.perm}(x, pheno.col = NULL, probs = c(0.9, 0.95), ...)
 
-\method{plot}{qtlpoly.perm}(x, pheno.col = NULL, probs = c(0.9, 0.95))
+\method{plot}{qtlpoly.perm}(x, pheno.col = NULL, probs = c(0.9, 0.95), ...)
 }
 \arguments{
 \item{data}{an object of class \code{qtlpoly.data}.}
+
+\item{offset.data}{a subset of the data object to be used in permutation calculations.}
 
 \item{pheno.col}{a numeric vector with the phenotype columns to be analyzed; if \code{NULL} (default), all phenotypes from \code{'data'} will be included.}
 
@@ -37,6 +39,8 @@ permutations(
 \item{verbose}{if \code{TRUE} (default), current progress is shown; if \code{FALSE}, no output is produced.}
 
 \item{x}{an object of class \code{qtlpoly.perm} to be printed or plotted.}
+
+\item{...}{currently ignored}
 }
 \value{
 An object of class \code{qtlpoly.perm} which contains a list of \code{results} for each trait with the maximum LOD score per permutation.

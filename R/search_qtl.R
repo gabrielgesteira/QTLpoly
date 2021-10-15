@@ -28,6 +28,8 @@
 #'
 #' @param pheno.col a numeric vector with the phenotype column numbers to be printed; if \code{NULL}, all phenotypes from \code{'data'} will be included.
 #'
+#' @param ... currently ignored
+#'
 #' @return An object of class \code{qtlpoly.search} which contains a list of \code{results} for each trait with the following components:
 #'
 #'     \item{pheno.col}{a phenotype column number.}
@@ -274,7 +276,7 @@ search_qtl <- function(data, offset.data = NULL, model, w.size = 15, sig.fwd = 0
 #' @rdname search_qtl
 #' @export
 
-print.qtlpoly.search <- function(x, pheno.col = NULL) {
+print.qtlpoly.search <- function(x, pheno.col = NULL, ...) {
   if(any(class(x) == "qtlpoly.search")) cat("This is an object of class 'qtlpoly.search'\n")
   if(is.null(pheno.col)) {
     pheno.col <- 1:length(x$results)

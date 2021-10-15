@@ -14,7 +14,7 @@ null_model(
   verbose = TRUE
 )
 
-\method{print}{qtlpoly.null}(x, pheno.col = NULL)
+\method{print}{qtlpoly.null}(x, pheno.col = NULL, ...)
 }
 \arguments{
 \item{data}{an object of class \code{qtlpoly.data}.}
@@ -30,6 +30,8 @@ null_model(
 \item{verbose}{if \code{TRUE} (default), current progress is shown; if \code{FALSE}, no output is produced.}
 
 \item{x}{an object of class \code{qtlpoly.null} to be printed.}
+
+\item{...}{currently ignored}
 }
 \value{
 An object of class \code{qtlpoly.null} which contains a list of \code{results} for each trait with the following components:

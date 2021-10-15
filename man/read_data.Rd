@@ -7,15 +7,15 @@
 \usage{
 read_data(
   ploidy = 6,
-  geno.prob = genoprob,
+  geno.prob,
   geno.dose = NULL,
   double.reduction = FALSE,
-  pheno = pheno,
+  pheno,
   weights = NULL,
   step = 1
 )
 
-\method{print}{qtlpoly.data}(x, detailed = FALSE)
+\method{print}{qtlpoly.data}(x, detailed = FALSE, ...)
 }
 \arguments{
 \item{ploidy}{a numeric value of ploidy level of the cross.}
@@ -35,6 +35,8 @@ read_data(
 \item{x}{an object of class \code{qtlpoly.data} to be printed.}
 
 \item{detailed}{if \code{TRUE}, detailed information on linkage groups and phenotypes in shown; if \code{FALSE}, no details are printed.}
+
+\item{...}{currently ignored}
 }
 \value{
 An object of class \code{qtlpoly.data} which is a list containing the following components:
@@ -62,23 +64,19 @@ Reads files in specific formats and creates a \code{qtlpoly.data} object to be u
 }
 \examples{
   \dontrun{
-  # load raw data
-  data(maps)
-  data(pheno)
-
   # estimate conditional probabilities using mappoly package
   library(mappoly)
-  genoprob <- lapply(maps, calc_genoprob)
+  genoprob6x <- lapply(maps6x, calc_genoprob)
 
   # prepare data
-  data <- read_data(ploidy = 6, geno.prob = genoprob, pheno = pheno, step = 1)
+  data <- read_data(ploidy = 6, geno.prob = genoprob6x, pheno = pheno6x, step = 1)
   }
 }
 \references{
 Pereira GS, Gemenet DC, Mollinari M, Olukolu BA, Wood JC, Mosquera V, Gruneberg WJ, Khan A, Buell CR, Yencho GC, Zeng ZB (2020) Multiple QTL mapping in autopolyploids: a random-effect model approach with application in a hexaploid sweetpotato full-sib population, \emph{Genetics} 215 (3): 579-595. \url{http://doi.org/10.1534/genetics.120.303080}.
 }
 \seealso{
-\code{\link[mappoly]{read_data}}, \code{\link[qtlpoly]{maps}}, \code{\link[qtlpoly]{pheno}}
+\code{\link[qtlpoly]{maps6x}}, \code{\link[qtlpoly]{pheno6x}}
 }
 \author{
 Guilherme da Silva Pereira, \email{gdasilv@ncsu.edu}

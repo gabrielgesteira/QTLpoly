@@ -4,7 +4,7 @@
 #'
 #' @docType data
 #'
-#' @usage data(maps6x)
+#' @usage maps6x
 #'
 #' @format An object of class \code{"mappoly.map"} from the package \pkg{mappoly}, which is a list of three linkage groups (LGs):
 #'
@@ -16,7 +16,7 @@
 #'
 #' @keywords datasets
 #'
-#' @seealso \code{\link[mappoly]{hexafake}}, \code{\link[qtlpoly]{pheno}}
+#' @seealso \code{\link[mappoly]{hexafake}}, \code{\link[qtlpoly]{pheno6x}}
 #'
 #' @author Marcelo Mollinari, \email{mmollin@@ncsu.edu}
 #'
@@ -27,11 +27,10 @@
 #'
 #' @examples
 #' \dontrun{
-#' data(maps6x)
 #' library(mappoly)
-#' plot(maps)
+#' plot(maps6x)
 #' }
-"maps"
+"maps6x"
 
 #' Simulated phenotypes
 #'
@@ -39,7 +38,7 @@
 #'
 #' @docType data
 #'
-#' @usage data(pheno6x)
+#' @usage pheno6x
 #'
 #' @format A data frame of phenotypes with 300 named individuals in rows and three named phenotypes in columns, which are:
 #'
@@ -51,7 +50,7 @@
 #'
 #' @keywords datasets
 #'
-#' @seealso \code{\link[qtlpoly]{simulate_qtl}}, \code{\link[qtlpoly]{pheno}}
+#' @seealso \code{\link[qtlpoly]{simulate_qtl}}, \code{\link[qtlpoly]{pheno4x}}
 #'
 #' @author Guilherme da Silva Pereira, \email{gdasilv@@ncsu.edu}
 #'
@@ -60,41 +59,9 @@
 #'
 #' @examples
 #' \dontrun{
-#' data(pheno6x)
-#' head(pheno)
+#' head(pheno6x)
 #' }
-"pheno"
-
-#' Tetraploid potato genotype probabilities
-#'
-#' Genotype probabilities for three chromosomes from a tetraploid potato full-sib population (Atlantic x B1829-5).
-#'
-#' @docType data
-#'
-#' @usage data(genoprob4x)
-#'
-#' @format An object of class \code{"mappoly.map"} from the package \pkg{mappoly}, which is a list of three linkage groups (LGs):
-#'
-#' \describe{
-#'   \item{LG 1}{538 markers distributed along 112.2 cM}
-#'   \item{LG 2}{329 markers distributed along 54.6 cM}
-#'   \item{LG 3}{443 markers distributed along 98.2 cM}
-#' }
-#'
-#' @keywords datasets
-#'
-#' @author Guilherme da Silva Pereira, \email{gdasilv@@ncsu.edu}
-#'
-#' @references
-#'     Pereira GS, Gemenet DC, Mollinari M, Olukolu BA, Wood JC, Mosquera V, Gruneberg WJ, Khan A, Buell CR, Yencho GC, Zeng ZB (2019) Multiple QTL mapping in autopolyploids: a random-effect model approach with application in a hexaploid sweetpotato full-sib population, \emph{Genetics} 215 (3): 579-595. \url{http://doi.org/10.1534/genetics.120.303080}.
-#'     
-#'     Pereira GS, Mollinari M, Schumann MJ, Clough ME, Yencho C (2020) The recombination landscape and multiple QTL mapping in a \emph{Solanum tuberosum} cv. ‘Atlantic’-derived F_1 population. bioRxiv. \url{https://doi.org/10.1101/2020.08.24.265397}.
-#'
-#' @examples
-#' \dontrun{
-#' data(genoprob4x)
-#' }
-"genoprob4x"
+"pheno6x"
 
 #' Tetraploid potato phenotypes
 #'
@@ -102,7 +69,7 @@
 #'
 #' @docType data
 #'
-#' @usage data(pheno4x)
+#' @usage pheno4x
 #'
 #' @format A data frame of phenotypes with 156 named individuals in rows and three named phenotypes in columns, which are:
 #'
@@ -123,8 +90,6 @@
 #'
 #' @examples
 #' \dontrun{
-#' data(pheno4x)
 #' head(pheno4x)
 #' }
 "pheno4x"
-

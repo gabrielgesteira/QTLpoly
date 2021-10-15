@@ -15,7 +15,7 @@ profile_qtl(
   verbose = TRUE
 )
 
-\method{print}{qtlpoly.profile}(x, pheno.col = NULL, sint = NULL)
+\method{print}{qtlpoly.profile}(x, pheno.col = NULL, sint = NULL, ...)
 }
 \arguments{
 \item{data}{an object of class \code{qtlpoly.data}.}
@@ -37,6 +37,8 @@ profile_qtl(
 \item{pheno.col}{a numeric vector with the phenotype column numbers to be plotted; if \code{NULL}, all phenotypes from \code{'data'} will be included.}
 
 \item{sint}{whether \code{"upper"} or \code{"lower"} support intervals should be printed; if \code{NULL} (default), only QTL peak information will be printed.}
+
+\item{...}{currently ignored}
 }
 \value{
 An object of class \code{qtlpoly.profile} which contains a list of \code{results} for each trait with the following components:

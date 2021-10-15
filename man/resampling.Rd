@@ -15,14 +15,16 @@ resampling(
   verbose = TRUE
 )
 
-\method{print}{qtlpoly.rsmp}(x, pheno.col = NULL, probs = c(0.9, 0.95))
+\method{print}{qtlpoly.rsmp}(x, pheno.col = NULL, probs = c(0.9, 0.95), ...)
 
-\method{plot}{qtlpoly.rsmp}(x, alpha = c(0.2, 0.05))
+\method{plot}{qtlpoly.rsmp}(x, alpha = c(0.2, 0.05), ...)
 }
 \arguments{
 \item{data}{an object of class \code{qtlpoly.data}.}
 
 \item{n.sim}{a number of simulations, e.g. 1000 (default).}
+
+\item{alpha}{a vector containing two p-value levels to be used as the lower and upper limiting quantiles of the p-value distribution (default: c(0.20, 0.05)).}
 
 \item{n.clusters}{a number of parallel processes to spawn.}
 
@@ -35,6 +37,8 @@ resampling(
 \item{pheno.col}{a numeric vector with the phenotype columns to be analyzed; if \code{NULL} (default), all phenotypes from \code{'data'} will be included.}
 
 \item{probs}{a vector of probability values in [0, 1] representing the quantiles, e.g. c(0.90, 0.95) for the 90\% and 95\% quantiles.}
+
+\item{...}{currently ignored}
 }
 \value{
 An object of class \code{qtlpoly.perm} which contains a list of \code{results} for each trait with the maximum LOD score per permutation.

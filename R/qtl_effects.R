@@ -10,9 +10,13 @@
 #'
 #' @param pheno.col a numeric vector with the phenotype column numbers to be plotted; if \code{NULL}, all phenotypes from \code{'fitted'} will be included.
 #'
+#' @param verbose if \code{TRUE} (default), current progress is shown; if \code{FALSE}, no output is produced.
+#'
 #' @param p1 a character string with the first parent name, e.g. \code{"P1"} (default).
 #'
 #' @param p2 a character string with the second parent name, e.g. \code{"P2"} (default).
+#'
+#' @param ... currently ignored
 #'
 #' @return An object of class \code{qtlpoly.effects} which is a list of \code{results} for each containing the following components:
 #'
@@ -281,7 +285,7 @@ qtl_effects <- function(ploidy = 6, fitted, pheno.col = NULL, verbose = TRUE) {
 #' @import ggplot2
 #' @export
 
-plot.qtlpoly.effects <- function(x, pheno.col = NULL, p1 = "P1", p2 = "P2") {
+plot.qtlpoly.effects <- function(x, pheno.col = NULL, p1 = "P1", p2 = "P2", ...) {
   if(is.null(pheno.col)) {
     pheno.col <- 1:length(x$results)
   } else {

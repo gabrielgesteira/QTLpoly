@@ -20,6 +20,8 @@
 #'
 #' @param detailed if \code{TRUE}, detailed information on linkage groups and phenotypes in shown; if \code{FALSE}, no details are printed.
 #'
+#' @param ... currently ignored
+#'
 #' @return An object of class \code{qtlpoly.data} which is a list containing the following components:
 #'
 #'     \item{ploidy}{a scalar with ploidy level.}
@@ -40,20 +42,16 @@
 #'     \item{X}{a list of conditional probability matrices for each marker position for alleles.}
 #'     \item{Pi}{a matrix of identical-by-descent shared alleles among genotypes.}
 #'
-#' @seealso \code{\link[mappoly]{read_data}}, \code{\link[qtlpoly]{maps}}, \code{\link[qtlpoly]{pheno}}
+#' @seealso \code{\link[qtlpoly]{maps6x}}, \code{\link[qtlpoly]{pheno6x}}
 #'
 #' @examples
 #'   \dontrun{
-#'   # load raw data
-#'   data(maps)
-#'   data(pheno)
-#'
 #'   # estimate conditional probabilities using mappoly package
 #'   library(mappoly)
-#'   genoprob <- lapply(maps, calc_genoprob)
+#'   genoprob6x <- lapply(maps6x, calc_genoprob)
 #'
 #'   # prepare data
-#'   data <- read_data(ploidy = 6, geno.prob = genoprob, pheno = pheno, step = 1)
+#'   data <- read_data(ploidy = 6, geno.prob = genoprob6x, pheno = pheno6x, step = 1)
 #'   }
 #' @author Guilherme da Silva Pereira, \email{gdasilv@@ncsu.edu}
 #'
@@ -64,7 +62,7 @@
 #' @importFrom abind abind
 #' @importFrom gtools combinations
 
-read_data <- function(ploidy = 6, geno.prob = genoprob, geno.dose = NULL, double.reduction = FALSE, pheno = pheno, weights = NULL, step = 1) {
+read_data <- function(ploidy = 6, geno.prob, geno.dose = NULL, double.reduction = FALSE, pheno, weights = NULL, step = 1) {
   
   # if (!is.null(pheno) && !is.null(geno.prob) || !is.null(geno.dose) ) {
   #   nphe <- dim(pheno)[2] 
@@ -283,7 +281,7 @@ read_data <- function(ploidy = 6, geno.prob = genoprob, geno.dose = NULL, double
 
 #' @rdname read_data
 #' @export
-print.qtlpoly.data <- function(x, detailed = FALSE) {
+print.qtlpoly.data <- function(x, detailed = FALSE, ...) {
   cat("This is an object of class 'qtlpoly.data'\n")
   cat("  Ploidy level:       ", x$ploidy, "\n", sep="")
   cat("  No. individuals:    ", x$nind, "\n", sep="")

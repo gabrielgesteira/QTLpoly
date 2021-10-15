@@ -20,6 +20,8 @@
 #'
 #' @param sint whether \code{"upper"} or \code{"lower"} support intervals should be printed; if \code{NULL} (default), QTL peak information will be printed.
 #'
+#' @param ... currently ignored
+#'
 #' @return An object of class \code{qtlpoly.feim} which contains a list of \code{results} for each trait with the following components:
 #'
 #'     \item{pheno.col}{a phenotype column number.}
@@ -56,6 +58,7 @@
 #'
 #'     Hackett CA, Bradshaw JE, McNicol JW (2001) Interval mapping of quantitative trait loci in autotetraploid species, \emph{Genetics} 159: 1819-1832. \url{http://www.genetics.org/content/159/4/1819}
 #'
+#' @import grDevices graphics methods stats utils
 #' @export feim
 
 feim <- function(data = data, pheno.col = NULL, w.size = 15, sig.lod = 7, d.sint = 1.5, plot = "feim", verbose = TRUE) {
@@ -218,7 +221,7 @@ feim <- function(data = data, pheno.col = NULL, w.size = 15, sig.lod = 7, d.sint
 
 #' @rdname feim
 #' @export
-print.qtlpoly.feim <- function(x, pheno.col = NULL, sint=NULL) {
+print.qtlpoly.feim <- function(x, pheno.col = NULL, sint=NULL, ...) {
   if(any(class(x) == "qtlpoly.feim")) cat("This is an object of class 'qtlpoly.feim'\n")
   if(is.null(pheno.col)) {
     pheno.col <- 1:length(x$results)

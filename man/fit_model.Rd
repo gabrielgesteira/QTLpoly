@@ -11,10 +11,11 @@ fit_model(
   probs = "joint",
   polygenes = "none",
   keep = TRUE,
-  verbose = TRUE
+  verbose = TRUE,
+  pheno.col = NULL
 )
 
-\method{summary}{qtlpoly.fitted}(x, pheno.col = NULL)
+\method{summary}{qtlpoly.fitted}(object, pheno.col = NULL, ...)
 }
 \arguments{
 \item{data}{an object of class \code{qtlpoly.data}.}
@@ -27,9 +28,14 @@ fit_model(
 
 \item{keep}{if \code{TRUE} (default), stores all matrices and estimates from fitted model; if \code{FALSE}, nothing is stored.}
 
-\item{x}{an object of class \code{qtlpoly.fitted} to be summarized.}
+\item{verbose}{if \code{TRUE} (default), current progress is shown; if
+\code{FALSE}, no output is produced.}
 
-\item{pheno.col}{a numeric vector with the phenotype column numbers to be summarized; if \code{NULL}, all phenotypes from \code{'data'} will be included.}
+\item{pheno.col}{a numeric vector with the phenotype column numbers to be summarized; if \code{NULL} (default), all phenotypes from \code{'data'} will be included.}
+
+\item{object}{an object of class \code{qtlpoly.fitted} to be summarized.}
+
+\item{...}{currently ignored}
 }
 \value{
 An object of class \code{qtlpoly.fitted} which contains a list of \code{results} for each trait with the following components:

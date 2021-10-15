@@ -13,7 +13,7 @@ modify_qtl(
   verbose = TRUE
 )
 
-\method{print}{qtlpoly.modify}(x, pheno.col = NULL)
+\method{print}{qtlpoly.modify}(x, pheno.col = NULL, ...)
 }
 \arguments{
 \item{model}{an object of class \code{qtlpoly.model} containing the QTL to be modified.}
@@ -27,6 +27,8 @@ modify_qtl(
 \item{verbose}{if \code{TRUE} (default), current progress is shown; if \code{FALSE}, no output is produced.}
 
 \item{x}{an object of class \code{qtlpoly.modify} to be printed.}
+
+\item{...}{currently ignored}
 }
 \value{
 An object of class \code{qtlpoly.modify} which contains a list of \code{results} for each trait with the following components:

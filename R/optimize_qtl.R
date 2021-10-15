@@ -24,6 +24,8 @@
 #'
 #' @param pheno.col a numeric vector with the phenotype columns to be printed; if \code{NULL}, all phenotypes from \code{'data'} will be included.
 #'
+#' @param ... currently ignored
+#'
 #' @return An object of class \code{qtlpoly.optimize} which contains a list of \code{results} for each trait with the following components:
 #'
 #'     \item{pheno.col}{a phenotype column number.}
@@ -282,7 +284,7 @@ optimize_qtl <- function(data, offset.data = NULL, model, sig.bwd = 0.05, score.
 #' @rdname optimize_qtl
 #' @export
 
-print.qtlpoly.optimize <- function(x, pheno.col = NULL) {
+print.qtlpoly.optimize <- function(x, pheno.col = NULL, ...) {
   if(any(class(x) == "qtlpoly.optimize")) cat("This is an object of class 'qtlpoly.optimize'\n")
   if(is.null(pheno.col)) {
     pheno.col <- 1:length(x$results)

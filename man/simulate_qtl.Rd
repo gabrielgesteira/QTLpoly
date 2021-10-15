@@ -18,7 +18,7 @@ simulate_qtl(
   verbose = TRUE
 )
 
-\method{print}{qtlpoly.simul}(x, detailed = FALSE)
+\method{print}{qtlpoly.simul}(x, detailed = FALSE, ...)
 }
 \arguments{
 \item{data}{an object of class \code{qtlpoly.data}.}
@@ -44,6 +44,8 @@ simulate_qtl(
 \item{x}{an object of class \code{qtlpoly.sim} to be printed.}
 
 \item{detailed}{if \code{TRUE}, detailed information on linkage groups and phenotypes in shown; if \code{FALSE}, no details are printed.}
+
+\item{...}{currently ignored}
 }
 \value{
 An object of class \code{qtlpoly.sim} which contains a list of \code{results} with the same structure of class \code{qtlpoly.data}.

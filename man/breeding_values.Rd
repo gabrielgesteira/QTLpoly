@@ -7,7 +7,7 @@
 \usage{
 breeding_values(data, fitted)
 
-\method{plot}{qtlpoly.bvalues}(x, pheno.col = NULL)
+\method{plot}{qtlpoly.bvalues}(x, pheno.col = NULL, ...)
 }
 \arguments{
 \item{data}{an object of class \code{qtlpoly.data}.}
@@ -17,6 +17,8 @@ breeding_values(data, fitted)
 \item{x}{an object of class \code{qtlpoly.bvalues} to be plotted.}
 
 \item{pheno.col}{a numeric vector with the phenotype column numbers to be plotted; if \code{NULL}, all phenotypes from \code{'data'} will be included.}
+
+\item{...}{currently ignored}
 }
 \value{
 An object of class \code{qtlpoly.bvalues} which is a list of \code{results} for each trait containing the following components:

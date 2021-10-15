@@ -30,6 +30,8 @@
 #'
 #' @param sint whether \code{"upper"} or \code{"lower"} support intervals should be printed; if \code{NULL} (default), only QTL peak information will be printed.
 #'
+#' @param ... currently ignored
+#'
 #' @return An object of class \code{qtlpoly.remim} which contains a list of \code{results} for each trait with the following components:
 #'
 #'     \item{pheno.col}{a phenotype column number.}
@@ -565,7 +567,7 @@ remim <- function(data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01, sig.bwd =
 
 #' @rdname remim
 #' @export
-print.qtlpoly.remim <- function(x, pheno.col = NULL, sint=NULL) {
+print.qtlpoly.remim <- function(x, pheno.col = NULL, sint=NULL, ...) {
   if(any(class(x) == "qtlpoly.remim")) cat("This is an object of class 'qtlpoly.remim'\n")
   if(is.null(pheno.col)) {
     pheno.col <- 1:length(x$results)

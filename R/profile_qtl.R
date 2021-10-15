@@ -22,6 +22,8 @@
 #'
 #' @param pheno.col a numeric vector with the phenotype column numbers to be plotted; if \code{NULL}, all phenotypes from \code{'data'} will be included.
 #'
+#' @param ... currently ignored
+#'
 #' @return An object of class \code{qtlpoly.profile} which contains a list of \code{results} for each trait with the following components:
 #'
 #'     \item{pheno.col}{a phenotype column number.}
@@ -345,7 +347,7 @@ profile_qtl <- function(data, model, d.sint = 1.5, polygenes = FALSE, n.clusters
 #' @rdname profile_qtl
 #' @export
 
-print.qtlpoly.profile <- function(x, pheno.col = NULL, sint=NULL) {
+print.qtlpoly.profile <- function(x, pheno.col = NULL, sint=NULL, ...) {
   if(any(class(x) == "qtlpoly.profile")) cat("This is an object of class 'qtlpoly.profile'\n")
   if(is.null(pheno.col)) {
     pheno.col <- 1:length(x$results)

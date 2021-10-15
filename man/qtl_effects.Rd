@@ -7,7 +7,7 @@
 \usage{
 qtl_effects(ploidy = 6, fitted, pheno.col = NULL, verbose = TRUE)
 
-\method{plot}{qtlpoly.effects}(x, pheno.col = NULL, p1 = "P1", p2 = "P2")
+\method{plot}{qtlpoly.effects}(x, pheno.col = NULL, p1 = "P1", p2 = "P2", ...)
 }
 \arguments{
 \item{ploidy}{a numeric value of ploidy level of the cross (currently, only 4 or 6).}
@@ -16,11 +16,15 @@ qtl_effects(ploidy = 6, fitted, pheno.col = NULL, verbose = TRUE)
 
 \item{pheno.col}{a numeric vector with the phenotype column numbers to be plotted; if \code{NULL}, all phenotypes from \code{'fitted'} will be included.}
 
+\item{verbose}{if \code{TRUE} (default), current progress is shown; if \code{FALSE}, no output is produced.}
+
 \item{x}{an object of class \code{qtlpoly.effects} to be plotted.}
 
 \item{p1}{a character string with the first parent name, e.g. \code{"P1"} (default).}
 
 \item{p2}{a character string with the second parent name, e.g. \code{"P2"} (default).}
+
+\item{...}{currently ignored}
 }
 \value{
 An object of class \code{qtlpoly.effects} which is a list of \code{results} for each containing the following components:

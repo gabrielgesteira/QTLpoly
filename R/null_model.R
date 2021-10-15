@@ -16,6 +16,8 @@
 #'
 #' @param x an object of class \code{qtlpoly.null} to be printed.
 #'
+#' @param ... currently ignored
+#'
 #' @return An object of class \code{qtlpoly.null} which contains a list of \code{results} for each trait with the following components:
 #'
 #'     \item{pheno.col}{a phenotype column number.}
@@ -124,7 +126,7 @@ null_model <- function(data, offset.data = NULL, pheno.col = NULL, n.clusters = 
 #' @rdname null_model
 #' @export
 
-print.qtlpoly.null <- function(x, pheno.col = NULL) {
+print.qtlpoly.null <- function(x, pheno.col = NULL, ...) {
   if(any(class(x) == "qtlpoly.null")) cat("This is an object of class 'qtlpoly.null'\n")
   if(is.null(pheno.col)) {
     pheno.col <- 1:length(x$results)

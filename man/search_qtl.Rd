@@ -19,7 +19,7 @@ search_qtl(
   verbose = TRUE
 )
 
-\method{print}{qtlpoly.search}(x, pheno.col = NULL)
+\method{print}{qtlpoly.search}(x, pheno.col = NULL, ...)
 }
 \arguments{
 \item{data}{an object of class \code{qtlpoly.data}.}
@@ -47,6 +47,8 @@ search_qtl(
 \item{x}{an object of class \code{qtlpoly.search} to be printed.}
 
 \item{pheno.col}{a numeric vector with the phenotype column numbers to be printed; if \code{NULL}, all phenotypes from \code{'data'} will be included.}
+
+\item{...}{currently ignored}
 }
 \value{
 An object of class \code{qtlpoly.search} which contains a list of \code{results} for each trait with the following components:

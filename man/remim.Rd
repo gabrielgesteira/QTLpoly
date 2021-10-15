@@ -20,7 +20,7 @@ remim(
   verbose = TRUE
 )
 
-\method{print}{qtlpoly.remim}(x, pheno.col = NULL, sint = NULL)
+\method{print}{qtlpoly.remim}(x, pheno.col = NULL, sint = NULL, ...)
 }
 \arguments{
 \item{data}{an object of class \code{qtlpoly.data}.}
@@ -50,6 +50,8 @@ remim(
 \item{x}{an object of class \code{qtlpoly.remim} to be printed.}
 
 \item{sint}{whether \code{"upper"} or \code{"lower"} support intervals should be printed; if \code{NULL} (default), only QTL peak information will be printed.}
+
+\item{...}{currently ignored}
 }
 \value{
 An object of class \code{qtlpoly.remim} which contains a list of \code{results} for each trait with the following components:

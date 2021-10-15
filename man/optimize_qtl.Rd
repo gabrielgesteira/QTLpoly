@@ -17,7 +17,7 @@ optimize_qtl(
   verbose = TRUE
 )
 
-\method{print}{qtlpoly.optimize}(x, pheno.col = NULL)
+\method{print}{qtlpoly.optimize}(x, pheno.col = NULL, ...)
 }
 \arguments{
 \item{data}{an object of class \code{qtlpoly.data}.}
@@ -41,6 +41,8 @@ optimize_qtl(
 \item{x}{an object of class \code{qtlpoly.optimize} to be printed.}
 
 \item{pheno.col}{a numeric vector with the phenotype columns to be printed; if \code{NULL}, all phenotypes from \code{'data'} will be included.}
+
+\item{...}{currently ignored}
 }
 \value{
 An object of class \code{qtlpoly.optimize} which contains a list of \code{results} for each trait with the following components:

@@ -14,14 +14,13 @@ A data frame of phenotypes with 156 named individuals in rows and three named ph
 }
 }
 \usage{
-data(pheno4x)
+pheno4x
 }
 \description{
 A subset of phenotypes from a tetraploid potato full-sib family (Atlantic x B1829-5).
 }
 \examples{
 \dontrun{
-data(pheno4x)
 head(pheno4x)
 }
 }

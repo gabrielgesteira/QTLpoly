@@ -15,7 +15,7 @@ feim(
   verbose = TRUE
 )
 
-\method{print}{qtlpoly.feim}(x, pheno.col = NULL, sint = NULL)
+\method{print}{qtlpoly.feim}(x, pheno.col = NULL, sint = NULL, ...)
 }
 \arguments{
 \item{data}{an object of class \code{qtlpoly.data}.}
@@ -35,6 +35,8 @@ feim(
 \item{x}{an object of class \code{qtlpoly.feim} to be printed.}
 
 \item{sint}{whether \code{"upper"} or \code{"lower"} support intervals should be printed; if \code{NULL} (default), QTL peak information will be printed.}
+
+\item{...}{currently ignored}
 }
 \value{
 An object of class \code{qtlpoly.feim} which contains a list of \code{results} for each trait with the following components:

@@ -10,6 +10,8 @@
 #'
 #' @param pheno.col a numeric vector with the phenotype column numbers to be plotted; if \code{NULL}, all phenotypes from \code{'data'} will be included.
 #' 
+#' @param ... currently ignored
+#'
 #' @return An object of class \code{qtlpoly.bvalues} which is a list of \code{results} for each trait containing the following components:
 #'
 #'     \item{pheno.col}{a phenotype column number.}
@@ -102,7 +104,7 @@ breeding_values <- function(data, fitted) {
 #' @import ggplot2
 #' @export
 
-plot.qtlpoly.bvalues <- function(x, pheno.col = NULL) {
+plot.qtlpoly.bvalues <- function(x, pheno.col = NULL, ...) {
   if(is.null(pheno.col)) {
     pheno.col <- 1:length(x$results)
   } else {

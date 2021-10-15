@@ -4,6 +4,8 @@
 #'
 #' @param data an object of class \code{qtlpoly.data}.
 #'
+#' @param offset.data a subset of the data object to be used in permutation calculations.
+#'
 #' @param pheno.col a numeric vector with the phenotype columns to be analyzed; if \code{NULL} (default), all phenotypes from \code{'data'} will be included.
 #'
 #' @param n.sim a number of simulations, e.g. 1000 (default).
@@ -17,6 +19,8 @@
 #' @param x an object of class \code{qtlpoly.perm} to be printed or plotted.
 #'
 #' @param probs a vector of probability values in [0, 1] representing the quantiles, e.g. c(0.90, 0.95) for the 90\% and 95\% quantiles.
+#'
+#' @param ... currently ignored
 #'
 #' @return An object of class \code{qtlpoly.perm} which contains a list of \code{results} for each trait with the maximum LOD score per permutation.
 #'
@@ -96,7 +100,7 @@ permutations <- function(data, offset.data = NULL, pheno.col = NULL, n.sim = 100
 #' @rdname permutations
 #' @export
 
-print.qtlpoly.perm <- function(x, pheno.col=NULL, probs=c(0.90, 0.95)) {
+print.qtlpoly.perm <- function(x, pheno.col=NULL, probs=c(0.90, 0.95), ...) {
   if(any(class(x) == "qtlpoly.perm")) cat("This is an object of class 'qtlpoly.perm'\n")
   if(is.null(pheno.col)) {
     pheno.col <- 1:length(x$results)
@@ -113,7 +117,7 @@ print.qtlpoly.perm <- function(x, pheno.col=NULL, probs=c(0.90, 0.95)) {
 #' @import ggplot2
 #' @export
 
-plot.qtlpoly.perm <- function(x, pheno.col=NULL, probs=c(0.90, 0.95)) {
+plot.qtlpoly.perm <- function(x, pheno.col=NULL, probs=c(0.90, 0.95), ...) {
   if(is.null(pheno.col)) {
     pheno.col <- 1:length(x$results)
   } else {

@@ -26,6 +26,8 @@
 #'
 #' @param detailed if \code{TRUE}, detailed information on linkage groups and phenotypes in shown; if \code{FALSE}, no details are printed.
 #'
+#' @param ... currently ignored
+#'
 #' @return An object of class \code{qtlpoly.sim} which contains a list of \code{results} with the same structure of class \code{qtlpoly.data}.
 #'
 #' @seealso \code{\link[qtlpoly]{read_data}}
@@ -159,7 +161,7 @@ simulate_qtl <- function(data, mu = 0, h2.qtl = c(0.3, 0.2, 0.1), var.error = 1,
 #' @rdname simulate_qtl
 #' @export
 
-print.qtlpoly.simul <- function(x, detailed = FALSE) {
+print.qtlpoly.simul <- function(x, detailed = FALSE, ...) {
   x <- x$results
   cat("This is an object of class 'qtlpoly.simul'\n")
   cat("  Ploidy level:       ", x$ploidy, "\n", sep="")

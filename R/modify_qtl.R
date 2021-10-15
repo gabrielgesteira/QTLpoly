@@ -14,6 +14,8 @@
 #'
 #' @param x an object of class \code{qtlpoly.modify} to be printed.
 #'
+#' @param ... currently ignored
+#'
 #' @return An object of class \code{qtlpoly.modify} which contains a list of \code{results} for each trait with the following components:
 #'
 #'     \item{pheno.col}{a phenotype column number.}
@@ -130,7 +132,7 @@ modify_qtl <- function(model, pheno.col = NULL, add.qtl = NULL, drop.qtl = NULL,
 #' @rdname modify_qtl
 #' @export
 #'
-print.qtlpoly.modify <- function(x, pheno.col=NULL) {
+print.qtlpoly.modify <- function(x, pheno.col=NULL, ...) {
   if(any(class(x) == "qtlpoly.modify")) cat("This is an object of class 'qtlpoly.modify' and it has not been profiled yet\n")
   if(is.null(pheno.col)) {
     pheno.col <- 1:length(x$results)

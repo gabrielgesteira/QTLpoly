@@ -31,7 +31,7 @@ mmer_adapted(
 )
 }
 \arguments{
-\item{internal}{}
+\item{void}{internal function to be documented}
 }
 \description{
 Adapts genomic incidence and relationship (varcov) matrices to run using sommer's C++ core function (v. 4.0 or higher)
@@ -45,3 +45,4 @@ Covarrubias-Pazaran G (2016) Genome-assisted prediction of quantitative traits u
 \author{
 Gabriel de Siqueira Gesteira, \email{gdesiqu@ncsu.edu}
 }
+\keyword{internal}

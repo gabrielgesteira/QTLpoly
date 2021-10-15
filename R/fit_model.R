@@ -12,9 +12,14 @@
 #'
 #' @param keep if \code{TRUE} (default), stores all matrices and estimates from fitted model; if \code{FALSE}, nothing is stored.
 #'
-#' @param x an object of class \code{qtlpoly.fitted} to be summarized.
+#' @param verbose if \code{TRUE} (default), current progress is shown; if
+#'     \code{FALSE}, no output is produced.
+#' 
+#' @param object an object of class \code{qtlpoly.fitted} to be summarized.
 #'
-#' @param pheno.col a numeric vector with the phenotype column numbers to be summarized; if \code{NULL}, all phenotypes from \code{'data'} will be included.
+#' @param pheno.col a numeric vector with the phenotype column numbers to be summarized; if \code{NULL} (default), all phenotypes from \code{'data'} will be included.
+#'
+#' @param ... currently ignored
 #' 
 #' @return An object of class \code{qtlpoly.fitted} which contains a list of \code{results} for each trait with the following components:
 #'
@@ -52,10 +57,10 @@
 #' 
 #'     Pereira GS, Gemenet DC, Mollinari M, Olukolu BA, Wood JC, Mosquera V, Gruneberg WJ, Khan A, Buell CR, Yencho GC, Zeng ZB (2020) Multiple QTL mapping in autopolyploids: a random-effect model approach with application in a hexaploid sweetpotato full-sib population, \emph{Genetics} 215 (3): 579-595. \url{http://doi.org/10.1534/genetics.120.303080}.
 #'
+#' @import sommer
 #' @export fit_model
-#' @importFrom sommer mmer
 
-fit_model <- function(data, model, probs="joint", polygenes="none", keep=TRUE, verbose=TRUE) {
+fit_model <- function(data, model, probs="joint", polygenes="none", keep=TRUE, verbose=TRUE, pheno.col = NULL) {
 
   results <- vector("list", length(model$results))
   names(results) <- names(model$results)
@@ -80,6 +85,8 @@ fit_model <- function(data, model, probs="joint", polygenes="none", keep=TRUE, v
 
     indnames <- dimnames(data$Zd)[[3]]
     mrknames <- dimnames(data$Zd)[[2]]
+    nmrk = length(mrknames)
+    nind = length(indnames)
     Za <- array(data = NA, dim = c(length(Pgametes), nmrk, nind), dimnames = list(c(Pgametes), c(mrknames), c(indnames))) # Za = Z1
     Zb <- array(data = NA, dim = c(length(Qgametes), nmrk, nind), dimnames = list(c(Qgametes), c(mrknames), c(indnames))) # Zb = Z2
     for(m in 1:nmrk) {
@@ -267,16 +274,16 @@ fit_model <- function(data, model, probs="joint", polygenes="none", keep=TRUE, v
 #' @rdname fit_model
 #' @export
 
-summary.qtlpoly.fitted <- function(x, pheno.col = NULL) {
-  if(any(class(x) == "qtlpoly.fitted")) cat("This is an object of class 'qtlpoly.fitted'\n")
+summary.qtlpoly.fitted <- function(object, pheno.col=NULL, ...) {
+  if(any(class(object) == "qtlpoly.fitted")) cat("This is an object of class 'qtlpoly.fitted'\n")
   if(is.null(pheno.col)) {
-    pheno.col <- 1:length(x$results)
+    pheno.col <- 1:length(object$results)
   } else {
-    pheno.col <- which(x$pheno.col %in% pheno.col)
+    pheno.col <- which(object$pheno.col %in% pheno.col)
   }
   for(p in pheno.col) {
-    cat("\n* Trait", x$results[[p]]$pheno.col, sQuote(names(x$results)[[p]]), "\n")
-    if(!is.null(x$results[[p]]$qtls)) print(x$results[[p]]$qtls)
+    cat("\n* Trait", object$results[[p]]$pheno.col, sQuote(names(object$results)[[p]]), "\n")
+    if(!is.null(object$results[[p]]$qtls)) print(object$results[[p]]$qtls)
     else cat("There are no QTL in the model \n")
   }
 }
@@ -286,7 +293,9 @@ summary.qtlpoly.fitted <- function(x, pheno.col = NULL) {
 #' Adapts genomic incidence and relationship (varcov) matrices to run using sommer's C++ core function (v. 4.0 or higher)
 #' Function adapted from sommer v. 3.6 (Author: Giovanny Covarrubias-Pazaran)
 #'
-#' @param internal
+#' @param void internal function to be documented
+#'
+#' @keywords internal
 #'
 #' @author Gabriel de Siqueira Gesteira, \email{gdesiqu@@ncsu.edu}
 #'
@@ -468,8 +477,9 @@ mmer_adapted <- function(Y,X=NULL,Z=NULL,R=NULL,W=NULL,method="NR",init=NULL,ite
   stepweight <- rep(0.9,iters); stepweight[1:2] <- c(0.5,0.7)
   emupdate <- rep(0, iters)
   ws = rep(1, nrow(Y))
-    
-  RES = .Call("_sommer_MNR",PACKAGE = "sommer",Y, X,Gx,ZETA,K,R,GES,GESI, ws, iters, tolpar, tolparinv, selected,getPEV,verbose, FALSE, stepweight, emupdate)
+  
+  RES = sommer:::MNR(Y, X,Gx,ZETA,K,R,GES,GESI, ws, iters, tolpar, tolparinv, selected,getPEV,verbose, FALSE, stepweight, emupdate)
+  ## RES = .Call("_sommer_MNR",PACKAGE = "sommer",Y, X,Gx,ZETA,K,R,GES,GESI, ws, iters, tolpar, tolparinv, selected,getPEV,verbose, FALSE, stepweight, emupdate)
   RES$alleles = rownames(K[[1]])
   
   ## RES <- MNR(Y=Y,X=X,ZETA=Z,R=R,W=W,init=init,iters=iters,tolpar=tolpar,
