@@ -1,9 +1,11 @@
 language: r
 cache: packages
+r: release
 
-#r_packages:
-#- devtools
-
+env:
+  global:
+  - _R_CHECK_DONTTEST_EXAMPLES_=FALSE
+  
 install:
 - R -e 'install.packages("devtools")'
 - R -e 'install.packages(c("sommer", "ggplot2", "abind", "gtools", "mappoly", "rmarkdown"))'
@@ -11,4 +13,20 @@ install:
 - R -e 'remotes::install_github("cran/varComp")'
 
 r_build_args: --no-build-vignettes
-r_check_args: --no-vignettes
+r_check_args: "--no-vignettes --as-cran --install-args=--build"
+
+r_packages:
+- devtools
+- SPA3G
+- varComp
+- sommer
+- ggplot2
+- abind
+- MASS
+- gtools
+- parallel
+- stats
+- methods
+- mappoly
+- rmarkdown
+- knitr

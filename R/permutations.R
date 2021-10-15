@@ -118,6 +118,7 @@ print.qtlpoly.perm <- function(x, pheno.col=NULL, probs=c(0.90, 0.95), ...) {
 #' @export
 
 plot.qtlpoly.perm <- function(x, pheno.col=NULL, probs=c(0.90, 0.95), ...) {
+  LOD = NULL
   if(is.null(pheno.col)) {
     pheno.col <- 1:length(x$results)
   } else {

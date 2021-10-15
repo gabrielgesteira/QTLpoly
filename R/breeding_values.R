@@ -105,6 +105,7 @@ breeding_values <- function(data, fitted) {
 #' @export
 
 plot.qtlpoly.bvalues <- function(x, pheno.col = NULL, ...) {
+  T1 = NULL
   if(is.null(pheno.col)) {
     pheno.col <- 1:length(x$results)
   } else {

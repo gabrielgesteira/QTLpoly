@@ -52,6 +52,7 @@
 #' @import ggplot2
 
 plot_qtl <- function(data=data, model=model, fitted=fitted, pheno.col=NULL, main=NULL, drop.pheno=TRUE, drop.lgs=TRUE) {
+  Pos = Trait = Pval = H2 = NULL
   trt <- c()
   lgs <- c()
   pos <- c()

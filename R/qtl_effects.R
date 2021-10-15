@@ -286,6 +286,7 @@ qtl_effects <- function(ploidy = 6, fitted, pheno.col = NULL, verbose = TRUE) {
 #' @export
 
 plot.qtlpoly.effects <- function(x, pheno.col = NULL, p1 = "P1", p2 = "P2", ...) {
+  Alleles = Estimates = NULL
   if(is.null(pheno.col)) {
     pheno.col <- 1:length(x$results)
   } else {

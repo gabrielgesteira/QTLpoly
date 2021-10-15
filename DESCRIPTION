@@ -24,6 +24,8 @@ Authors@R: c(person(given = "Guilhereme",
 Maintainer: Gabriel de Siqueira Gesteira <gdesiqu@ncsu.edu>
 Description: Performs random-effect multiple interval mapping (REMIM) in full-sib families of autopolyploid species based on REML estimation and score statistics.
 License: GPL-3 | file LICENSE
+URL: https://github.com/gabrielgesteira/QTLpoly
+BugReports: https://github.com/gabrielgesteira/QTLpoly/issues
 Encoding: UTF-8
 LazyData: TRUE
 LazyDataCompression: xz

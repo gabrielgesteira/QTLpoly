@@ -15,8 +15,8 @@ Variance components associated with putative QTL are tested using score statisti
 `qtlpoly` package is available in its development version here on [GitHub](https://github.com/guilherme-pereira/qtlpoly). You can install all needed packages within R using the R package `devtools`:
 
 ```r
-> install.packages("devtools")
-> devtools::install_github("guilherme-pereira/qtlpoly") 
+install.packages("devtools")
+devtools::install_github("guilherme-pereira/qtlpoly") 
 ```
 
 ## Documents 

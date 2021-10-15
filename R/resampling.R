@@ -90,6 +90,7 @@ print.qtlpoly.rsmp <- function(x, pheno.col=NULL, probs=c(0.90, 0.95), ...) {
 #' @export
 
 plot.qtlpoly.rsmp <- function(x, alpha=c(0.20, 0.05), ...) {
+  p = LOD = probs = NULL
   if(!is.null(x$results[[p]])) {
     data <- x$min.pvl
     plot <- ggplot(data, aes(LOD)) +
