@@ -5,7 +5,7 @@ cache: packages
 #- devtools
 
 install:
-- R -e 'install.packages("remotes")'
+- R -e 'install.packages("devtools")'
 - R -e 'install.packages(c("sommer", "ggplot2", "abind", "gtools", "mappoly", "rmarkdown"))'
 - R -e 'remotes::install_github("cran/SPA3G")'
 - R -e 'remotes::install_github("cran/varComp")'
