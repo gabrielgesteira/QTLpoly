@@ -292,6 +292,7 @@ plot.qtlpoly.effects <- function(x, pheno.col = NULL, p1 = "P1", p2 = "P2", ...)
   } else {
     pheno.col <- which(x$pheno.col %in% pheno.col)
   }
+  res = list()
   for(p in pheno.col) {
     nqtl <- length(x$results[[p]]$effects)
     if(nqtl > 0) {
@@ -314,9 +315,11 @@ plot.qtlpoly.effects <- function(x, pheno.col = NULL, p1 = "P1", p2 = "P2", ...)
           # facet_grid(Effects ~ Parent, scales="free_x", space="free_x") +
           theme_minimal() +
           theme(plot.title = element_text(hjust = 0.5), plot.subtitle = element_text(hjust = 0.5), axis.text.x.bottom = element_text(hjust = 1, vjust = 0.5))
+        res[[p]] = plot
         print(plot)
       }
     }
   }
+  return(res)
 }
 
