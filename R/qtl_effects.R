@@ -315,7 +315,8 @@ plot.qtlpoly.effects <- function(x, pheno.col = NULL, p1 = "P1", p2 = "P2", ...)
           # facet_grid(Effects ~ Parent, scales="free_x", space="free_x") +
           theme_minimal() +
           theme(plot.title = element_text(hjust = 0.5), plot.subtitle = element_text(hjust = 0.5), axis.text.x.bottom = element_text(hjust = 1, vjust = 0.5))
-        res[[p]] = plot
+        res = c(res, plot)
+        names(res) = c(names(res), paste0(names(x$results)[p],"_",q))
         print(plot)
       }
     }
