@@ -7,26 +7,27 @@ env:
   - _R_CHECK_DONTTEST_EXAMPLES_=FALSE
   
 install:
-- R -e 'install.packages("devtools")'
-- R -e 'install.packages(c("sommer", "ggplot2", "abind", "gtools", "mappoly", "rmarkdown"))'
-- R -e 'devtools::install_github("cran/SPA3G")'
-- R -e 'devtools::install_github("cran/varComp")'
+- R -e 'install.packages(c("sommer","ggplot2","abind","MASS","gtools","CompQuadForm","Matrix","RLRsim","mvtnorm","nlme","quadprog","parallel","stats","methods","mappoly","rmarkdown","devtools","knitr"))'
 
 r_build_args: --no-build-vignettes
 r_check_args: "--no-vignettes --as-cran --install-args=--build"
 
 r_packages:
-- devtools
-- SPA3G
-- varComp
 - sommer
 - ggplot2
 - abind
 - MASS
 - gtools
+- CompQuadForm
+- Matrix
+- RLRsim
+- mvtnorm
+- nlme
+- quadprog
 - parallel
 - stats
 - methods
 - mappoly
 - rmarkdown
+- devtools
 - knitr
