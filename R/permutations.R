@@ -32,34 +32,29 @@
 #'
 #' @examples
 #'   \dontrun{
-#'   # load raw data
-#'   data(maps)
-#'   data(pheno)
-#'
-#'   # estimate conditional probabilities using mappoly package
+#'   # Estimate conditional probabilities using mappoly package
 #'   library(mappoly)
-#'   genoprob <- lapply(maps, calc_genoprob)
+#'   library(qtlpoly)
+#'   genoprob4x = lapply(maps4x[c(5)], calc_genoprob)
+#'   data = read_data(ploidy = 4, geno.prob = genoprob4x, pheno = pheno4x, step = 1)
 #'
-#'   # prepare data
-#'   data <- read_data(ploidy = 6, geno.prob = genoprob, pheno = pheno, step = 1)
-#'
-#'   # perform permutations
-#'   perm <- permutations(data = data, n.sim = 1000, n.clusters = 4)
+#'   # Perform permutations
+#'   perm = permutations(data = data, pheno.col = 1, n.sim = 10, n.clusters = 1)
 #'   }
 #'
 #' @author Guilherme da Silva Pereira, \email{gdasilv@@ncsu.edu}
 #'
 #' @references
-#'     Churchill GA, Doerge RW (1994) Empirical threshold values for quantitative trait mapping, \emph{Genetics} 138: 963-971. \url{http://www.genetics.org/content/138/3/963}
+#'     Churchill GA, Doerge RW (1994) Empirical threshold values for quantitative trait mapping, \emph{Genetics} 138: 963-971.
 #'
-#'     Pereira GS, Gemenet DC, Mollinari M, Olukolu BA, Wood JC, Mosquera V, Gruneberg WJ, Khan A, Buell CR, Yencho GC, Zeng ZB (2020) Multiple QTL mapping in autopolyploids: a random-effect model approach with application in a hexaploid sweetpotato full-sib population, \emph{Genetics} 215 (3): 579-595. \url{http://doi.org/10.1534/genetics.120.303080}.
+#'     Pereira GS, Gemenet DC, Mollinari M, Olukolu BA, Wood JC, Mosquera V, Gruneberg WJ, Khan A, Buell CR, Yencho GC, Zeng ZB (2020) Multiple QTL mapping in autopolyploids: a random-effect model approach with application in a hexaploid sweetpotato full-sib population, \emph{Genetics} 215 (3): 579-595. \doi{10.1534/genetics.120.303080}.
 #'
 #' @export permutations
 #' @import parallel
 
 permutations <- function(data, offset.data = NULL, pheno.col = NULL, n.sim = 1000, probs = c(0.90, 0.95), n.clusters = NULL, seed = 123, verbose = TRUE) {
   if(is.null(n.clusters)) n.clusters <- 1
-  cat("INFO: Using", n.clusters, "CPUs for calculation\n\n")
+  if(verbose) cat("INFO: Using", n.clusters, "CPUs for calculation\n\n")
   cl <- makeCluster(n.clusters)
   clusterSetRNGStream(cl, seed) # to make this reproducible
   #clusterEvalQ(cl, permuta)
@@ -140,14 +135,7 @@ plot.qtlpoly.perm <- function(x, pheno.col=NULL, probs=c(0.90, 0.95), ...) {
   }
 }
 
-#' Compute LOD score from a simulated phenotype using fixed-effect interval mapping (FEIM) model
-#'
-#' @param x an array with the number of simulations
-#' @param data an object of 'qtlpoly.data'
-#' @param pheno.col a vector of phenotype column numbers
-#' @param p the phenotype column number to be evaluated
 #' @keywords internal
-#' @export
 permuta <- function(x, data = data, offset.data = offset.data, pheno.col = pheno.col, p = p) {
   ind <- which(dimnames(data$pheno)[[1]] %in% dimnames(data$X)[[1]])
   LRT <- numeric(data$nmrk)

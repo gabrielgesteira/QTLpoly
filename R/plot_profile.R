@@ -24,33 +24,24 @@
 #'
 #' @examples
 #'   \dontrun{
-#'   # load raw data
-#'   data(maps)
-#'   data(pheno)
-#'
-#'   # estimate conditional probabilities using mappoly package
+#'   # Estimate conditional probabilities using mappoly package
 #'   library(mappoly)
-#'   genoprob <- lapply(maps, calc_genoprob)
+#'   library(qtlpoly)
+#'   genoprob4x = lapply(maps4x[c(5)], calc_genoprob)
+#'   data = read_data(ploidy = 4, geno.prob = genoprob4x, pheno = pheno4x, step = 1)
 #'
-#'   # prepare data
-#'   data <- read_data(ploidy = 6, geno.prob = genoprob, pheno = pheno, step = 1)
+#'   # Search for QTL
+#'   remim.mod = remim(data = data, pheno.col = 1, w.size = 15, sig.fwd = 0.0011493379,
+#' sig.bwd = 0.0002284465, d.sint = 1.5, n.clusters = 1)
 #'
-#'   # perform remim
-#'   remim.mod <- remim(data = data, w.size = 15, sig.fwd = 0.01, sig.bwd = 0.0001,
-#'     d.sint = 1.5, n.clusters = 4, plot = "remim")
-#'
-#'   # plot profiles
-#'   for (p in remim.mod$pheno.col) { 
-#'     plot_profile(data = data, model = remim.mod, pheno.col = p, ylim = c(0, 10))
-#'   } # separate plots
-#'     
-#'   plot_profile(data = data, model = remim.mod, grid = FALSE) # combined plots
+#'   # Plot profile
+#'   plot_profile(data = data, model = remim.mod, grid = FALSE)
 #'   }
 #'
 #' @author Guilherme da Silva Pereira, \email{gdasilv@@ncsu.edu}
 #'
 #' @references
-#'     Pereira GS, Gemenet DC, Mollinari M, Olukolu BA, Wood JC, Mosquera V, Gruneberg WJ, Khan A, Buell CR, Yencho GC, Zeng ZB (2020) Multiple QTL mapping in autopolyploids: a random-effect model approach with application in a hexaploid sweetpotato full-sib population, \emph{Genetics} 215 (3): 579-595. \url{http://doi.org/10.1534/genetics.120.303080}.
+#'     Pereira GS, Gemenet DC, Mollinari M, Olukolu BA, Wood JC, Mosquera V, Gruneberg WJ, Khan A, Buell CR, Yencho GC, Zeng ZB (2020) Multiple QTL mapping in autopolyploids: a random-effect model approach with application in a hexaploid sweetpotato full-sib population, \emph{Genetics} 215 (3): 579-595. \doi{10.1534/genetics.120.303080}.
 #'
 #' @export plot_profile
 #' @import ggplot2

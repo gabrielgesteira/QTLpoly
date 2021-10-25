@@ -29,38 +29,32 @@
 #'
 #' @examples
 #'   \dontrun{
-#'   # load raw data
-#'   data(maps)
-#'   data(pheno)
-#'
-#'   # estimate conditional probabilities using 'mappoly' package
+#'   # Estimate conditional probabilities using mappoly package
 #'   library(mappoly)
-#'   genoprob <- lapply(maps, calc_genoprob)
+#'   library(qtlpoly)
+#'   genoprob4x = lapply(maps4x[c(5)], calc_genoprob)
+#'   data = read_data(ploidy = 4, geno.prob = genoprob4x, pheno = pheno4x, step = 1)
 #'
-#'   # prepare data
-#'   data <- read_data(ploidy = 6, geno.prob = genoprob, pheno = pheno, step = 1)
-#'
-#'   # build null models
-#'   null.mod <- null_model(data = data, n.clusters = 4, plot = "null")
+#'   # Build null models
+#'   null.mod = null_model(data = data, pheno.col = 1, n.clusters = 1)
 #'   }
 #'
 #' @author Guilherme da Silva Pereira, \email{gdasilv@@ncsu.edu}
 #'
 #' @references
-#'     Pereira GS, Gemenet DC, Mollinari M, Olukolu BA, Wood JC, Mosquera V, Gruneberg WJ, Khan A, Buell CR, Yencho GC, Zeng ZB (2020) Multiple QTL mapping in autopolyploids: a random-effect model approach with application in a hexaploid sweetpotato full-sib population, \emph{Genetics} 215 (3): 579-595. \url{http://doi.org/10.1534/genetics.120.303080}.
+#'     Pereira GS, Gemenet DC, Mollinari M, Olukolu BA, Wood JC, Mosquera V, Gruneberg WJ, Khan A, Buell CR, Yencho GC, Zeng ZB (2020) Multiple QTL mapping in autopolyploids: a random-effect model approach with application in a hexaploid sweetpotato full-sib population, \emph{Genetics} 215 (3): 579-595. \doi{10.1534/genetics.120.303080}.
 #'     
-#'     Qu L, Guennel T, Marshall SL (2013) Linear score tests for variance components in linear mixed models and applications to genetic association studies. \emph{Biometrics} 69 (4): 883–92. \url{doi.org/10.1111/biom.12095}.
+#'     Qu L, Guennel T, Marshall SL (2013) Linear score tests for variance components in linear mixed models and applications to genetic association studies. \emph{Biometrics} 69 (4): 883–92. \doi{10.1111/biom.12095}.
 #'
 #' @export null_model
-#' @import varComp parallel
+#' @import parallel
 
-null_model <- function(data, offset.data = NULL, pheno.col = NULL, n.clusters = NULL, plot = "null", verbose = TRUE) {
+null_model <- function(data, offset.data = NULL, pheno.col = NULL, n.clusters = NULL, plot = NULL, verbose = TRUE) {
   
   if(is.null(n.clusters)) n.clusters <- 1
-  cat("INFO: Using", n.clusters, "CPUs for calculation\n\n")
+  if(verbose) cat("INFO: Using", n.clusters, "CPUs for calculation\n\n")
   cl <- makeCluster(n.clusters)
-  clusterEvalQ(cl, require(varComp))
-  
+  clusterEvalQ(cl, require(qtlpoly))
   if(is.null(pheno.col)) pheno.col <- 1:dim(data$pheno)[2]
   if(!is.null(plot)) plot <- paste(plot, "pdf", sep = ".")
   results <- vector("list", length(pheno.col))
@@ -83,7 +77,11 @@ null_model <- function(data, offset.data = NULL, pheno.col = NULL, n.clusters = 
     
     markers <- c(1:data$nmrk)
     temp <- parSapply(cl, as.character(markers), function(x) {
+    ## temp <- sapply(as.character(markers), function(x) {
       m <- as.numeric(x)
+      print(m)
+      ## m = as.numeric(as.character(markers)[1])
+      cat("\nau\n")
       full.mod <- varComp(Y ~ 1, varcov = list(data$G[ind,ind,m]), offset = offset)
       test <- varComp.test(full.mod, null=integer(0L))
       c(st=as.numeric(test[[1]][[1]][[1]]$statistic), pv=as.numeric(test[[1]][[1]][[1]]$p.value))
@@ -109,7 +107,6 @@ null_model <- function(data, offset.data = NULL, pheno.col = NULL, n.clusters = 
   }
   
   stopCluster(cl)
-  
   structure(list(data=deparse(substitute(data)),
                  offset.data=deparse(substitute(offset.data)),
                  pheno.col=pheno.col,

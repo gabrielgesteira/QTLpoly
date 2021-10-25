@@ -31,31 +31,26 @@
 #'
 #' @examples
 #'   \dontrun{
-#'   # load raw data
-#'   data(maps)
-#'   data(pheno)
-#'
-#'   # estimate conditional probabilities using mappoly package
+#'   # Estimate conditional probabilities using mappoly package
 #'   library(mappoly)
-#'   genoprob <- lapply(maps, calc_genoprob)
+#'   library(qtlpoly)
+#'   genoprob4x = lapply(maps4x[c(5)], calc_genoprob)
+#'   data = read_data(ploidy = 4, geno.prob = genoprob4x, pheno = pheno4x, step = 1)
 #'
-#'   # prepare data
-#'   data <- read_data(ploidy = 6, geno.prob = geno.prob, pheno = pheno, step = 1)
+#'   # Search for QTL
+#'   remim.mod = remim(data = data, pheno.col = 1, w.size = 15, sig.fwd = 0.0011493379,
+#' sig.bwd = 0.0002284465, d.sint = 1.5, n.clusters = 1)
 #'
-#'   # perform remim
-#'   remim.mod <- remim(data = data, w.size = 15, sig.fwd = 0.01, sig.bwd = 0.0001,
-#'     d.sint = 1.5, n.clusters = 4, plot = "remim")
-#'
-#'   # fit model
-#'   fitted.mod <- fit_remim(data=data, model=remim.mod, probs="joint", polygenes="none")
+#'   # Fit model
+#'   fitted.mod = fit_remim(data=data, model=remim.mod, probs="joint", polygenes="none")
 #'   }
 #'
 #' @author Guilherme da Silva Pereira, \email{gdasilv@@ncsu.edu}
 #'
 #' @references
-#'     Covarrubias-Pazaran G (2016) Genome-assisted prediction of quantitative traits using the R package sommer. \emph{PLoS ONE} 11 (6): 1–15. \url{http://doi.org/10.1371/journal.pone.0156744}.
+#'     Covarrubias-Pazaran G (2016) Genome-assisted prediction of quantitative traits using the R package sommer. \emph{PLoS ONE} 11 (6): 1–15. \doi{10.1371/journal.pone.0156744}.
 #' 
-#'     Pereira GS, Gemenet DC, Mollinari M, Olukolu BA, Wood JC, Mosquera V, Gruneberg WJ, Khan A, Buell CR, Yencho GC, Zeng ZB (2020) Multiple QTL mapping in autopolyploids: a random-effect model approach with application in a hexaploid sweetpotato full-sib population, \emph{Genetics} 215 (3): 579-595. \url{http://doi.org/10.1534/genetics.120.303080}.
+#'     Pereira GS, Gemenet DC, Mollinari M, Olukolu BA, Wood JC, Mosquera V, Gruneberg WJ, Khan A, Buell CR, Yencho GC, Zeng ZB (2020) Multiple QTL mapping in autopolyploids: a random-effect model approach with application in a hexaploid sweetpotato full-sib population, \emph{Genetics} 215 (3): 579-595. \doi{10.1534/genetics.120.303080}.
 #'
 #' @import sommer
 #' @export fit_model
@@ -83,8 +78,8 @@ fit_model <- function(data, model, probs="joint", polygenes="none", keep=TRUE, v
     colnames(Pia) <- rownames(Pia) <- unlist(Pgametes)
     colnames(Pib) <- rownames(Pib) <- unlist(Qgametes)
 
-    indnames <- dimnames(data$Zd)[[3]]
-    mrknames <- dimnames(data$Zd)[[2]]
+    indnames <- dimnames(data$Z)[[3]]
+    mrknames <- dimnames(data$Z)[[2]]
     nmrk = length(mrknames)
     nind = length(indnames)
     Za <- array(data = NA, dim = c(length(Pgametes), nmrk, nind), dimnames = list(c(Pgametes), c(mrknames), c(indnames))) # Za = Z1
@@ -104,8 +99,8 @@ fit_model <- function(data, model, probs="joint", polygenes="none", keep=TRUE, v
     qtl.lgr <- model$results[[p]]$qtl[,"LG"]
     qtl.pos <- model$results[[p]]$qtl[,"Pos"]
     if(verbose) {
-      if(length(qtl.mrk) == 1) cat("There is ", length(qtl.mrk), " QTL in the model for trait ", pheno.col, " ", sQuote(colnames(data$pheno)[pheno.col]), ". Fitting model... ", sep="")
-      if(length(qtl.mrk) >= 2) cat("There are ", length(qtl.mrk), " QTL in the model for trait ", pheno.col, " ", sQuote(colnames(data$pheno)[pheno.col]), ". Fitting model... ", sep="")
+      if(length(qtl.mrk) == 1 && verbose) cat("There is ", length(qtl.mrk), " QTL in the model for trait ", pheno.col, " ", sQuote(colnames(data$pheno)[pheno.col]), ". Fitting model... ", sep="")
+      if(length(qtl.mrk) >= 2 && verbose) cat("There are ", length(qtl.mrk), " QTL in the model for trait ", pheno.col, " ", sQuote(colnames(data$pheno)[pheno.col]), ". Fitting model... ", sep="")
     }
     
     if(!is.null(model$results[[p]]$qtls)) {
@@ -300,9 +295,9 @@ summary.qtlpoly.fitted <- function(object, pheno.col=NULL, ...) {
 #' @author Gabriel de Siqueira Gesteira, \email{gdesiqu@@ncsu.edu}
 #'
 #' @references
-#'     Covarrubias-Pazaran G (2016) Genome-assisted prediction of quantitative traits using the R package sommer. \emph{PLoS ONE} 11 (6): 1–15. \url{http://doi.org/10.1371/journal.pone.0156744}.
+#'     Covarrubias-Pazaran G (2016) Genome-assisted prediction of quantitative traits using the R package sommer. \emph{PLoS ONE} 11 (6): 1–15. \doi{10.1371/journal.pone.0156744}.
 #' 
-#'     Pereira GS, Gemenet DC, Mollinari M, Olukolu BA, Wood JC, Mosquera V, Gruneberg WJ, Khan A, Buell CR, Yencho GC, Zeng ZB (2020) Multiple QTL mapping in autopolyploids: a random-effect model approach with application in a hexaploid sweetpotato full-sib population, \emph{Genetics} 215 (3): 579-595. \url{http://doi.org/10.1534/genetics.120.303080}.
+#'     Pereira GS, Gemenet DC, Mollinari M, Olukolu BA, Wood JC, Mosquera V, Gruneberg WJ, Khan A, Buell CR, Yencho GC, Zeng ZB (2020) Multiple QTL mapping in autopolyploids: a random-effect model approach with application in a hexaploid sweetpotato full-sib population, \emph{Genetics} 215 (3): 579-595. \doi{10.1534/genetics.120.303080}.
 mmer_adapted <- function(Y,X=NULL,Z=NULL,R=NULL,W=NULL,method="NR",init=NULL,iters=20,tolpar=1e-3,
                  tolparinv=1e-6,draw=FALSE,silent=FALSE, constraint=TRUE, 
                  EIGEND=FALSE, forced=NULL, IMP=FALSE, complete=TRUE, 
@@ -400,8 +395,8 @@ mmer_adapted <- function(Y,X=NULL,Z=NULL,R=NULL,W=NULL,method="NR",init=NULL,ite
             condi<-(dido$Z[2] == dido$K[1] & dido$Z[2] == dido$K[2]) 
             # condition, column size on Z matches with a square matrix K
             if(!condi){
-              cat(paste("ERROR! In the",s,"th random effect you have provided or created an incidence \nmatrix with dimensions:",dido$Z[1],"rows and",dido$Z[2],"columns. Therefore the \nvariance-covariance matrix(K) for this random effect expected was a \nsquare matrix with dimensions",dido$Z[2],"x",dido$Z[2]),", but you provided a",dido$K[1],"x",dido$K[2]," matrix \nas a variance-covariance matrix. Please double check your matrices. Might be that you didn't drop all levels while subsetting your data, if so try: yourdata <- droplevels(yourdata).")
-              stop()
+              stop(paste("ERROR! In the",s,"th random effect you have provided or created an incidence \nmatrix with dimensions:",dido$Z[1],"rows and",dido$Z[2],"columns. Therefore the \nvariance-covariance matrix(K) for this random effect expected was a \nsquare matrix with dimensions",dido$Z[2],"x",dido$Z[2]),", but you provided a",dido$K[1],"x",dido$K[2]," matrix \nas a variance-covariance matrix. Please double check your matrices. Might be that you didn't drop all levels while subsetting your data, if so try: yourdata <- droplevels(yourdata).")
+              ## stop()
             }
           }#---------------------------------------------------------------------------
         } #for each random effect end =================================================
@@ -425,19 +420,21 @@ mmer_adapted <- function(Y,X=NULL,Z=NULL,R=NULL,W=NULL,method="NR",init=NULL,ite
           condi<-(dido$Z[2] == dido$K[1] & dido$Z[2] == dido$K[2]) 
           # condition, column size on Z matches with a square matrix K
           if(!condi){
-            cat(paste("ERROR! In the",s,"th random effect you have provided or created an incidence \nmatrix with dimensions:",dido$Z[1],"rows and",dido$Z[2],"columns. Therefore the \nvariance-covariance matrix(K) for this random effect expected was a \nsquare matrix with dimensions",dido$Z[2],"x",dido$Z[2]),", but you provided a",dido$K[1],"x",dido$K[2]," matrix \nas a variance-covariance matrix. Please double check your matrices. Might be that you didn't drop all levels while subsetting your data, if so try: yourdata <- droplevels(yourdata).")
-            stop()
+            stop(paste("ERROR! In the",s,"th random effect you have provided or created an incidence \nmatrix with dimensions:",dido$Z[1],"rows and",dido$Z[2],"columns. Therefore the \nvariance-covariance matrix(K) for this random effect expected was a \nsquare matrix with dimensions",dido$Z[2],"x",dido$Z[2]),", but you provided a",dido$K[1],"x",dido$K[2]," matrix \nas a variance-covariance matrix. Please double check your matrices. Might be that you didn't drop all levels while subsetting your data, if so try: yourdata <- droplevels(yourdata).")
+            ## stop()
           }else{Z=list(Z=Z)}
         }
       }
     }else{
       if(is.null(Z)){ # the user is not using the random part
-        cat("Error. No random effects specified in the model. \nPlease use 'lm' or provide a diagonal matrix in Z\ni.e. Zu = list(A=list(Z=diag(length(y))))\n")
-        stop()
+        stop("Error. No random effects specified in the model. \nPlease use 'lm' or provide a diagonal matrix in Z\ni.e. Zu = list(A=list(Z=diag(length(y))))\n")
+        ## stop()
       }else{
         #stop;
-        cat("\nThe parameter 'Z' needs to be provided in a 2-level list structure. \n\nPlease see help typing ?mmer and look at the 'Arguments' section\n")
-        cat("\nIf no random effects provided, the model will be fitted using the 'lm' function\n\n")
+        if(verbose) {
+          cat("\nThe parameter 'Z' needs to be provided in a 2-level list structure. \n\nPlease see help typing ?mmer and look at the 'Arguments' section\n")
+          cat("\nIf no random effects provided, the model will be fitted using the 'lm' function\n\n")
+        }
       }
     }
   }

@@ -1,7 +1,10 @@
 .Rproj
 .Rhistory
 *.RData
+*.rda
 .Ruserdata
 *.pdf
 *cache/
 test-qtl.R
+resampling.R
+.Rproj.user

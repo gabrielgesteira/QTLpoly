@@ -16,6 +16,8 @@
 #'
 #' @param step a numeric value of step size (in centiMorgans) where tests will be performed, e.g. 1 (default); if \code{NULL}, tests will be performed at every marker.
 #'
+#' @param verbose if \code{TRUE} (default), current progress is shown; if \code{FALSE}, no output is produced.
+#'
 #' @param x an object of class \code{qtlpoly.data} to be printed.
 #'
 #' @param detailed if \code{TRUE}, detailed information on linkage groups and phenotypes in shown; if \code{FALSE}, no details are printed.
@@ -46,23 +48,22 @@
 #'
 #' @examples
 #'   \dontrun{
-#'   # estimate conditional probabilities using mappoly package
+#'   # Estimate conditional probabilities using mappoly package
 #'   library(mappoly)
-#'   genoprob6x <- lapply(maps6x, calc_genoprob)
-#'
-#'   # prepare data
-#'   data <- read_data(ploidy = 6, geno.prob = genoprob6x, pheno = pheno6x, step = 1)
+#'   library(qtlpoly)
+#'   genoprob4x = lapply(maps4x[c(5)], calc_genoprob)
+#'   data = read_data(ploidy = 4, geno.prob = genoprob4x, pheno = pheno4x, step = 1)
 #'   }
 #' @author Guilherme da Silva Pereira, \email{gdasilv@@ncsu.edu}
 #'
 #' @references
-#'     Pereira GS, Gemenet DC, Mollinari M, Olukolu BA, Wood JC, Mosquera V, Gruneberg WJ, Khan A, Buell CR, Yencho GC, Zeng ZB (2020) Multiple QTL mapping in autopolyploids: a random-effect model approach with application in a hexaploid sweetpotato full-sib population, \emph{Genetics} 215 (3): 579-595. \url{http://doi.org/10.1534/genetics.120.303080}.
+#'     Pereira GS, Gemenet DC, Mollinari M, Olukolu BA, Wood JC, Mosquera V, Gruneberg WJ, Khan A, Buell CR, Yencho GC, Zeng ZB (2020) Multiple QTL mapping in autopolyploids: a random-effect model approach with application in a hexaploid sweetpotato full-sib population, \emph{Genetics} 215 (3): 579-595. \doi{10.1534/genetics.120.303080}.
 #'
 #' @export read_data
 #' @importFrom abind abind
 #' @importFrom gtools combinations
 
-read_data <- function(ploidy = 6, geno.prob, geno.dose = NULL, double.reduction = FALSE, pheno, weights = NULL, step = 1) {
+read_data <- function(ploidy = 6, geno.prob, geno.dose = NULL, double.reduction = FALSE, pheno, weights = NULL, step = 1, verbose = TRUE) {
   
   # if (!is.null(pheno) && !is.null(geno.prob) || !is.null(geno.dose) ) {
   #   nphe <- dim(pheno)[2] 
@@ -140,6 +141,8 @@ read_data <- function(ploidy = 6, geno.prob, geno.dose = NULL, double.reduction 
     }
     
     nphe <- dim(pheno)[2]
+    ## Check for matching individual names
+    if (length(which(rownames(pheno) %in% dimnames(G)[[1]])) == 0) stop("Individual names between genotype and phenotype data do not match. Please check your datasets and try again.")
     pheno.new <- as.matrix(pheno[which(rownames(pheno) %in% dimnames(G)[[1]]),])
     rownames(pheno.new) <- rownames(pheno)[which(rownames(pheno) %in% dimnames(G)[[1]])]
     
@@ -234,21 +237,22 @@ read_data <- function(ploidy = 6, geno.prob, geno.dose = NULL, double.reduction 
   } else G.dose <- Pi.dose <- Z.dose <- X.dose <- NULL
   
   ############
-  
-  cat("Reading the following data: \n")
-  cat("  Ploidy level:       ", ploidy, "\n", sep="")
-  cat("  No. individuals:    ", nind, "\n", sep="")
-  if (!is.null(G)) {
-    cat("  No. linkage groups: ", nlgs, "\n", sep="")
-    cat("  Step size:          ", step, " cM \n", sep="")
-    cat("  Map size:           ", round(last(cum.size), 2), " cM (", last(cum.nmrk), " positions) \n", sep="")
+  if(verbose) {
+    cat("Reading the following data: \n")
+    cat("  Ploidy level:       ", ploidy, "\n", sep="")
+    cat("  No. individuals:    ", nind, "\n", sep="")
+    if (!is.null(G)) {
+      cat("  No. linkage groups: ", nlgs, "\n", sep="")
+      cat("  Step size:          ", step, " cM \n", sep="")
+      cat("  Map size:           ", round(last(cum.size), 2), " cM (", last(cum.nmrk), " positions) \n", sep="")
+    }
+    if (!is.null(G.dose)) {
+      cat("  No. chromosomes:    ", nlgs, "\n", sep="")
+      cat("  Step size:          ", step, "\n", sep="")
+      cat("  Genome size:        ", round(last(cum.size)/10e5, 2), " Mbp (", last(cum.nmrk), ") \n", sep="")
+    }
+    cat("  No. phenotypes:     ", nphe, "\n", sep="")
   }
-  if (!is.null(G.dose)) {
-    cat("  No. chromosomes:    ", nlgs, "\n", sep="")
-    cat("  Step size:          ", step, "\n", sep="")
-    cat("  Genome size:        ", round(last(cum.size)/10e5, 2), " Mbp (", last(cum.nmrk), ") \n", sep="")
-  }
-  cat("  No. phenotypes:     ", nphe, "\n", sep="")
   
   structure(list(ploidy = ploidy,
                  nlgs = nlgs,
@@ -264,7 +268,7 @@ read_data <- function(ploidy = 6, geno.prob, geno.dose = NULL, double.reduction 
                  lgs = lgs,
                  lgs.all = lgs.all,
                  step = step,
-                 pheno = pheno.new,
+                 pheno = matrix(as.numeric(pheno.new), nrow = nrow(pheno.new), ncol = ncol(pheno.new), dimnames = dimnames(pheno.new)),
                  weights = weights.new,
                  G = G,
                  Z = Z,

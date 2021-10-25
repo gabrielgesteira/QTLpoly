@@ -13,7 +13,7 @@ optimize_qtl(
   score.null = NULL,
   polygenes = FALSE,
   n.clusters = NULL,
-  plot = "optimize",
+  plot = NULL,
   verbose = TRUE
 )
 
@@ -57,36 +57,30 @@ Tests each QTL at a time and updates its position (if it changes) or drops the Q
 }
 \examples{
   \dontrun{
-  # load raw data
-  data(maps)
-  data(pheno)
-
-  # estimate conditional probabilities using 'mappoly' package
+  # Estimate conditional probabilities using mappoly package
   library(mappoly)
-  genoprob <- lapply(maps, calc_genoprob)
+  library(qtlpoly)
+  genoprob4x = lapply(maps4x[c(5)], calc_genoprob)
+  data = read_data(ploidy = 4, geno.prob = genoprob4x, pheno = pheno4x, step = 1)
 
-  # prepare data
-  data <- read_data(ploidy = 6, geno.prob = genoprob, pheno = pheno, step = 1)
+  # Build null model
+  null.mod = null_model(data = data, pheno.col = 1,n.clusters = 1)
 
-  # build null models
-  null.mod <- null_model(data = data, n.clusters = 4, plot = "null")
+  # Perform forward search
+  search.mod = search_qtl(data = data, model = null.mod,
+w.size = 15, sig.fwd = 0.01, n.clusters = 1)
 
-  # perform forward search
-  search.mod <- search_qtl(data = data, model = null.mod, w.size = 15, sig.fwd = 0.01,
-    n.clusters = 4, plot = "search")
-
-  # optimize model
-  optimize.mod <- optimize_qtl(data = data, model = search.mod, sig.bwd = 0.0001,
-    n.clusters = 4, plot = "optimize")
+  # Optimize model
+  optimize.mod = optimize_qtl(data = data, model = search.mod, sig.bwd = 0.0001, n.clusters = 1)
   }
 
 }
 \references{
-Pereira GS, Gemenet DC, Mollinari M, Olukolu BA, Wood JC, Mosquera V, Gruneberg WJ, Khan A, Buell CR, Yencho GC, Zeng ZB (2020) Multiple QTL mapping in autopolyploids: a random-effect model approach with application in a hexaploid sweetpotato full-sib population, \emph{Genetics} 215 (3): 579-595. \url{http://doi.org/10.1534/genetics.120.303080}.
+Pereira GS, Gemenet DC, Mollinari M, Olukolu BA, Wood JC, Mosquera V, Gruneberg WJ, Khan A, Buell CR, Yencho GC, Zeng ZB (2020) Multiple QTL mapping in autopolyploids: a random-effect model approach with application in a hexaploid sweetpotato full-sib population, \emph{Genetics} 215 (3): 579-595. \doi{10.1534/genetics.120.303080}.
     
-    Qu L, Guennel T, Marshall SL (2013) Linear score tests for variance components in linear mixed models and applications to genetic association studies. \emph{Biometrics} 69 (4): 883–92. \url{doi.org/10.1111/biom.12095}.
+    Qu L, Guennel T, Marshall SL (2013) Linear score tests for variance components in linear mixed models and applications to genetic association studies. \emph{Biometrics} 69 (4): 883–92. \doi{10.1111/biom.12095}.
 
-    Zou F, Fine JP, Hu J, Lin DY (2004) An efficient resampling method for assessing genome-wide statistical significance in mapping quantitative trait loci. \emph{Genetics} 168 (4): 2307-16. \url{doi.org/10.1534/genetics.104.031427}
+    Zou F, Fine JP, Hu J, Lin DY (2004) An efficient resampling method for assessing genome-wide statistical significance in mapping quantitative trait loci. \emph{Genetics} 168 (4): 2307-16. \doi{10.1534/genetics.104.031427}
 }
 \seealso{
 \code{\link[qtlpoly]{read_data}}, \code{\link[qtlpoly]{null_model}}, \code{\link[qtlpoly]{search_qtl}}

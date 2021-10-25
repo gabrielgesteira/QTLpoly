@@ -55,24 +55,20 @@ Simulate new phenotypes with a given number of QTL and creates new object with t
 }
 \examples{
   \dontrun{
-  # load raw data
-  data(maps)
-  data(pheno)
-
-  # estimate conditional probabilities using mappoly package
+  # Estimate conditional probabilities using mappoly package
   library(mappoly)
-  genoprob <- lapply(maps, calc_genoprob)
+  library(qtlpoly)
+  genoprob4x = lapply(maps4x[c(5)], calc_genoprob)
+  data = read_data(ploidy = 4, geno.prob = genoprob4x, pheno = pheno4x, step = 1)
 
-  # prepare data
-  data <- read_data(ploidy = 6, geno.prob = genoprob, pheno = pheno, step = 1)
-
-  # simulate new phenotypes
-  sim.dat <- simulate_qtl(data = data, n.sim = 1000)
+  # Simulate new phenotypes
+  sim.dat = simulate_qtl(data = data, n.sim = 1)
+  sim.dat
   }
 
 }
 \references{
-Pereira GS, Gemenet DC, Mollinari M, Olukolu BA, Wood JC, Mosquera V, Gruneberg WJ, Khan A, Buell CR, Yencho GC, Zeng ZB (2020) Multiple QTL mapping in autopolyploids: a random-effect model approach with application in a hexaploid sweetpotato full-sib population, \emph{Genetics} 215 (3): 579-595. \url{http://doi.org/10.1534/genetics.120.303080}.
+Pereira GS, Gemenet DC, Mollinari M, Olukolu BA, Wood JC, Mosquera V, Gruneberg WJ, Khan A, Buell CR, Yencho GC, Zeng ZB (2020) Multiple QTL mapping in autopolyploids: a random-effect model approach with application in a hexaploid sweetpotato full-sib population, \emph{Genetics} 215 (3): 579-595. \doi{10.1534/genetics.120.303080}.
 }
 \seealso{
 \code{\link[qtlpoly]{read_data}}

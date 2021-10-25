@@ -21,7 +21,12 @@ Authors@R: c(person(given = "Guilhereme",
                     family = "Zeng",
                     role = "ctb",
                     email = "szeng@ncsu.edu",
-                    comment = c(ORCID="0000-0002-3115-1149")))
+                    comment = c(ORCID="0000-0002-3115-1149")),
+            person(given = "Long",
+                    family = "Qu",
+                    role = "ctb",
+                    email = "rtistician@gmail.com")
+                    )
 Maintainer: Gabriel de Siqueira Gesteira <gdesiqu@ncsu.edu>
 Description: Performs random-effect multiple interval mapping (REMIM) in full-sib families of autopolyploid species based on restricted maximum likelihood (REML) estimation and score statistics.
 License: GPL-3 | file LICENSE
@@ -33,9 +38,6 @@ LazyDataCompression: xz
 Depends:
     R (>= 4.0)
 Imports:
-    SPA3G (== 1.0), varComp (== 0.2), sommer (>= 4.0), ggplot2 (>= 3.1), abind (>= 1.4), MASS (>= 7.3), gtools (>= 3.9.2), parallel, stats, methods
+    sommer (>= 4.0), ggplot2 (>= 3.1), abind (>= 1.4), MASS (>= 7.3), gtools (>= 3.9.2), CompQuadForm, Matrix, RLRsim, mvtnorm, nlme, quadprog,  parallel, stats, methods
 Suggests: mappoly, rmarkdown, devtools, knitr
-VignetteBuilder: knitr
-Remotes:
-    cran/SPA3G, cran/varComp
 RoxygenNote: 7.1.2

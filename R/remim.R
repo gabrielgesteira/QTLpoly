@@ -22,7 +22,7 @@
 #'
 #' @param n.rounds number of search rounds; if \code{Inf} (default) forward search will stop when no more significant positions can be found.
 #'
-#' @param plot a suffix for the file's name containing plots of every algorithm step, e.g. "remim" (default); if \code{NULL}, no file is produced.
+#' @param plot a suffix for the file's name containing plots of every algorithm step, e.g. "remim"; if \code{NULL} (default), no file is produced.
 #'
 #' @param verbose if \code{TRUE} (default), current progress is shown; if \code{FALSE}, no output is produced.
 #'
@@ -45,41 +45,35 @@
 #'
 #' @examples
 #'   \dontrun{
-#'   # load raw data
-#'   data(maps)
-#'   data(pheno)
-#'
-#'   # estimate conditional probabilities using mappoly package
+#'   # Estimate conditional probabilities using mappoly package
 #'   library(mappoly)
-#'   genoprob <- lapply(maps, calc_genoprob)
+#'   library(qtlpoly)
+#'   genoprob4x = lapply(maps4x[c(5)], calc_genoprob)
+#'   data = read_data(ploidy = 4, geno.prob = genoprob4x, pheno = pheno4x, step = 1)
 #'
-#'   # prepare data
-#'   data <- read_data(ploidy = 6, geno.prob = genoprob, pheno = pheno, step = 1)
-#'
-#'   # perform remim
-#'   remim.mod <- remim(data = data, w.size = 15, sig.fwd = 0.01, sig.bwd = 0.0001,
-#'     d.sint = 1.5, n.clusters = 4, plot = "remim")
+#'   # Search for QTL
+#'   remim.mod = remim(data = data, pheno.col = 1, w.size = 15, sig.fwd = 0.0011493379,
+#' sig.bwd = 0.0002284465, d.sint = 1.5, n.clusters = 1)
 #'   }
 #'
 #' @author Guilherme da Silva Pereira, \email{gdasilv@@ncsu.edu}
 #'
 #' @references
-#'     Kao CH, Zeng ZB, Teasdale RD (1999) Multiple interval mapping for quantitative trait loci. \emph{Genetics} 152 (3): 1203–16. \url{www.genetics.org/content/152/3/1203}. 
+#'     Kao CH, Zeng ZB, Teasdale RD (1999) Multiple interval mapping for quantitative trait loci. \emph{Genetics} 152 (3): 1203–16. 
 #' 
-#'     Pereira GS, Gemenet DC, Mollinari M, Olukolu BA, Wood JC, Mosquera V, Gruneberg WJ, Khan A, Buell CR, Yencho GC, Zeng ZB (2020) Multiple QTL mapping in autopolyploids: a random-effect model approach with application in a hexaploid sweetpotato full-sib population, \emph{Genetics} 215 (3): 579-595. \url{http://doi.org/10.1534/genetics.120.303080}.
+#'     Pereira GS, Gemenet DC, Mollinari M, Olukolu BA, Wood JC, Mosquera V, Gruneberg WJ, Khan A, Buell CR, Yencho GC, Zeng ZB (2020) Multiple QTL mapping in autopolyploids: a random-effect model approach with application in a hexaploid sweetpotato full-sib population, \emph{Genetics} 215 (3): 579-595. \doi{10.1534/genetics.120.303080}.
 #'     
-#'     Qu L, Guennel T, Marshall SL (2013) Linear score tests for variance components in linear mixed models and applications to genetic association studies. \emph{Biometrics} 69 (4): 883–92. \url{doi.org/10.1111/biom.12095}.
+#'     Qu L, Guennel T, Marshall SL (2013) Linear score tests for variance components in linear mixed models and applications to genetic association studies. \emph{Biometrics} 69 (4): 883–92. \doi{10.1111/biom.12095}.
 #'
-#'     Zou F, Fine JP, Hu J, Lin DY (2004) An efficient resampling method for assessing genome-wide statistical significance in mapping quantitative trait loci. \emph{Genetics} 168 (4): 2307-16. \url{doi.org/10.1534/genetics.104.031427}
+#'     Zou F, Fine JP, Hu J, Lin DY (2004) An efficient resampling method for assessing genome-wide statistical significance in mapping quantitative trait loci. \emph{Genetics} 168 (4): 2307-16. \doi{10.1534/genetics.104.031427}
 #'
 #' @export remim
-
-remim <- function(data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01, sig.bwd = 0.0001, score.null = NULL, d.sint = 1.5, polygenes = FALSE, n.clusters = NULL, n.rounds = Inf, plot = "remim", verbose = TRUE) {
+remim <- function(data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01, sig.bwd = 0.0001, score.null = NULL, d.sint = 1.5, polygenes = FALSE, n.clusters = NULL, n.rounds = Inf, plot = NULL, verbose = TRUE) {
   
   if(is.null(n.clusters)) n.clusters <- 1
-  cat("INFO: Using", n.clusters, "CPUs for calculation\n\n")
+  if(verbose) cat("INFO: Using", n.clusters, "CPUs for calculation\n\n")
   cl <- makeCluster(n.clusters)
-  clusterEvalQ(cl, require(varComp))
+  clusterEvalQ(cl, require(qtlpoly))
   sig.fwd0 <- sig.fwd
   sig.bwd0 <- sig.bwd
   
@@ -98,7 +92,6 @@ remim <- function(data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01, sig.bwd =
   if(data$step > 1) w.size <- w.size/data$step
   
   for(p in 1:length(results)) {
-    
     round <- 1
     stat <- numeric(data$nmrk)
     pval <- numeric(data$nmrk)
@@ -139,6 +132,9 @@ remim <- function(data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01, sig.bwd =
       qtl.lgr0 <- last(which(last(qtl.mrk0) > data$cum.nmrk))
       qtl.pos0 <- round(unlist(data$lgs)[[qtl.mrk0]], digits = 2)
       if(verbose) cat("  No QTL were found. A putative QTL on LG ", last(qtl.lgr0), " at ", last(qtl.pos0), " cM (position number ", last(qtl.mrk0), ") did not reach the threshold; its p-value was ", round(temp["pv",][which.max(temp["st",])], 5), "\n", sep="")
+      if(length(temp) < 1) {
+        stop("No QTL was found (1).")
+      }
       stat[as.numeric(colnames(temp))] <- temp["st",]
       pval[as.numeric(colnames(temp))] <- temp["pv",]
     }
@@ -187,7 +183,10 @@ remim <- function(data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01, sig.bwd =
       qtl.mrk0 <- as.numeric(names(which.max(temp["st",])))
       qtl.lgr0 <- last(which(last(qtl.mrk0) > data$cum.nmrk))
       qtl.pos0 <- round(unlist(data$lgs)[[qtl.mrk0]], digits = 2)
-      if(!is.null(qtl.mrk) & verbose) cat("  No more QTL were found. A putative QTL on LG ", last(qtl.lgr0), " at ", last(qtl.pos0), " cM (position number ", last(qtl.mrk0), ") did not reach the threshold; its p-value was ", round(temp["pv",][which.max(temp["st",])], 5), "\n", sep="")
+      if(!is.null(qtl.mrk) && verbose) cat("  No more QTL were found. A putative QTL on LG ", last(qtl.lgr0), " at ", last(qtl.pos0), " cM (position number ", last(qtl.mrk0), ") did not reach the threshold; its p-value was ", round(temp["pv",][which.max(temp["st",])], 5), "\n", sep="")
+      if(length(temp) < 1) {
+        stop("No QTL was found (2).")
+      }
       stat[as.numeric(colnames(temp))] <- temp["st",]
       pval[as.numeric(colnames(temp))] <- temp["pv",]
       if(is.null(qtl.mrk)) {
@@ -210,6 +209,9 @@ remim <- function(data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01, sig.bwd =
             test <- varComp.test(full.mod, null=integer(0L))
             c(st=as.numeric(test[[1]][[1]][[1]]$statistic), pv=as.numeric(test[[1]][[1]][[1]]$p.value))
           })
+          if(length(temp) < 1) {
+            stop("No QTL was found (3).")
+          }
           stat[as.numeric(colnames(temp))] <- temp["st",]
           pval[as.numeric(colnames(temp))] <- temp["pv",]
           if(pval[markers.out[which.max(stat[markers.out])]] <= sig.bwd) { # updates position
@@ -274,6 +276,9 @@ remim <- function(data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01, sig.bwd =
                   c(st=as.numeric(test[[1]][[1]][[1]]$statistic), pv=as.numeric(test[[1]][[1]][[1]]$p.value))
                 })
               }
+              if(length(temp) < 1) {
+                stop("No QTL was found (4).")
+              }
               stat[as.numeric(colnames(temp))] <- temp["st",]
               pval[as.numeric(colnames(temp))] <- temp["pv",]
               if(pval[markers.out[which.max(stat[markers.out])]] <= sig.bwd) { # updates position
@@ -323,6 +328,9 @@ remim <- function(data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01, sig.bwd =
           test <- varComp.test(full.mod, null=integer(0L))
           c(st=as.numeric(test[[1]][[1]][[1]]$statistic), pv=as.numeric(test[[1]][[1]][[1]]$p.value))
         })
+        if(length(temp) < 1) {
+          stop("No QTL was found (5).")
+        }
         stat[as.numeric(colnames(temp))] <- temp["st",]
         pval[as.numeric(colnames(temp))] <- temp["pv",]
         if(!is.null(plot)) {
@@ -334,6 +342,7 @@ remim <- function(data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01, sig.bwd =
       if(length(qtl.mrk) == 1) {
         if(verbose) cat("  Profiling QTL ...", qtl.mrk, "\n")
         markers.out <- c((data$cum.nmrk[qtl.lgr[1]]+1):(data$cum.nmrk[qtl.lgr[1]+1]))
+        markers.out = markers.out[-c(qtl.mrk)]
         markers <- c(1:data$nmrk)[-markers.out]
         temp <- parSapply(cl, as.character(markers.out), function(x) { #like first search
           m <- as.numeric(x)
@@ -341,6 +350,9 @@ remim <- function(data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01, sig.bwd =
           test <- varComp.test(full.mod, null=integer(0L))
           c(st=as.numeric(test[[1]][[1]][[1]]$statistic), pv=as.numeric(test[[1]][[1]][[1]]$p.value))
         })
+        if(length(temp) < 1) {
+          stop("No QTL was found (6).")
+        }
         stat[as.numeric(colnames(temp))] <- temp["st",]
         pval[as.numeric(colnames(temp))] <- temp["pv",]
         qtl.vcv <- list(data$G[ind,ind,qtl.mrk[1]])
@@ -352,6 +364,9 @@ remim <- function(data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01, sig.bwd =
           test <- varComp.test(full.mod, null=1L)
           c(st=as.numeric(test[[1]][[1]][[1]]$statistic), pv=as.numeric(test[[1]][[1]][[1]]$p.value))
         })
+        if(length(temp) < 1) {
+          stop("No QTL was found (7).")
+        }
         stat[as.numeric(colnames(temp))] <- temp["st",]
         pval[as.numeric(colnames(temp))] <- temp["pv",]
         if(!is.null(plot)) {
@@ -413,9 +428,12 @@ remim <- function(data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01, sig.bwd =
               c(st=as.numeric(test[[1]][[1]][[1]]$statistic), pv=as.numeric(test[[1]][[1]][[1]]$p.value))
             })
           }
+          if(length(temp) < 1) {
+            stop("No QTL was found (8).")
+          }
           stat[as.numeric(colnames(temp))] <- temp["st",]
           pval[as.numeric(colnames(temp))] <- temp["pv",]
-          
+
           qtl.mrk[q] <- markers.out[which.max(stat[markers.out])]
           qtl.pos[q] <- round(unlist(data$lgs)[qtl.mrk[q]], digits = 2)
           
@@ -460,6 +478,9 @@ remim <- function(data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01, sig.bwd =
               test <- varComp.test(full.mod, null=c(1:length(qtl.vcv)))
               c(st=as.numeric(test[[1]][[1]][[1]]$statistic), pv=as.numeric(test[[1]][[1]][[1]]$p.value))
             })
+          }
+          if(length(temp) < 1) {
+            stop("No QTL was found (9).")
           }
           stat[as.numeric(colnames(temp))] <- temp["st",]
           pval[as.numeric(colnames(temp))] <- temp["pv",]

@@ -1,3 +1,4 @@
+
 #' QTL allele effect estimation
 #'
 #' Computes allele specific and allele combination (within-parent) heritable effects from multiple QTL models.
@@ -29,33 +30,30 @@
 #'
 #' @examples
 #'   \dontrun{
-#'   # load raw data
-#'   data(maps)
-#'   data(pheno)
-#'
-#'   # estimate conditional probabilities using mappoly package
+#'   # Estimate conditional probabilities using mappoly package
 #'   library(mappoly)
-#'   genoprob <- lapply(maps, calc_genoprob)
+#'   library(qtlpoly)
+#'   genoprob4x = lapply(maps4x[c(5)], calc_genoprob)
+#'   data = read_data(ploidy = 4, geno.prob = genoprob4x, pheno = pheno4x, step = 1)
 #'
-#'   # prepare data
-#'   data <- read_data(ploidy = 6, geno.prob = genoprob, pheno = pheno, step = 1)
+#'   # Search for QTL
+#'   remim.mod = remim(data = data, pheno.col = 1, w.size = 15, sig.fwd = 0.0011493379,
+#' sig.bwd = 0.0002284465, d.sint = 1.5, n.clusters = 1)
 #'
-#'   # perform remim
-#'   remim.mod <- remim(data = data, w.size = 15, sig.fwd = 0.01, sig.bwd = 0.0001,
-#'     d.sint = 1.5, n.clusters = 4, plot = "remim")
+#'   # Fit model
+#'   fitted.mod = fit_model(data, model=remim.mod, probs="joint", polygenes="none")
 #'
-#'   # fit model
-#'   fitted.mod <- fit_model(data=data, model=remim.mod, probs="joint", polygenes="none")
+#'   # Estimate effects
+#'   est.effects = qtl_effects(ploidy = 4, fitted = fitted.mod, pheno.col = 1)
 #'
-#'   # estimate effects
-#'   est.effects <- qtl_effects(ploidy = 6, fitted = fitted.mod)
+#'   # Plot results
 #'   plot(est.effects)
 #'   }
 #'   
 #' @author Guilherme da Silva Pereira, \email{gdasilv@@ncsu.edu}
 #'
 #' @references
-#'     Pereira GS, Gemenet DC, Mollinari M, Olukolu BA, Wood JC, Mosquera V, Gruneberg WJ, Khan A, Buell CR, Yencho GC, Zeng ZB (2020) Multiple QTL mapping in autopolyploids: a random-effect model approach with application in a hexaploid sweetpotato full-sib population, \emph{Genetics} 215 (3): 579-595. \url{http://doi.org/10.1534/genetics.120.303080}.
+#'     Pereira GS, Gemenet DC, Mollinari M, Olukolu BA, Wood JC, Mosquera V, Gruneberg WJ, Khan A, Buell CR, Yencho GC, Zeng ZB (2020) Multiple QTL mapping in autopolyploids: a random-effect model approach with application in a hexaploid sweetpotato full-sib population, \emph{Genetics} 215 (3): 579-595. \doi{10.1534/genetics.120.303080}.
 #'     
 #'     Kempthorne O (1955) The correlation between relatives in a simple autotetraploid population, \emph{Genetics} 40: 168-174.
 #'
@@ -316,7 +314,11 @@ plot.qtlpoly.effects <- function(x, pheno.col = NULL, p1 = "P1", p2 = "P2", ...)
           theme_minimal() +
           theme(plot.title = element_text(hjust = 0.5), plot.subtitle = element_text(hjust = 0.5), axis.text.x.bottom = element_text(hjust = 1, vjust = 0.5))
         res = c(res, plot)
-        names(res) = c(names(res), paste0(names(x$results)[p],"_",q))
+        ## if (is.null(names(res))){
+        ##   names(res) = paste0(names(x$results)[p],"_",q)
+        ## } else {
+        ##   names(res) = c(names(res), paste0(names(x$results)[p],"_",q))          
+        ## }
         print(plot)
       }
     }

@@ -1,10 +1,56 @@
+#' Simulated autohexaploid dataset.
+#'
+#' A dataset of a hypothetical autohexaploid full-sib population 
+#' containing three homology groups
+#'
+#' @docType data
+#'
+#' @format An object of class \code{mappoly.data} which contains a
+#'     list with the following components:
+#' \describe{
+#'     \item{plody}{ploidy level = 6}
+#'     \item{n.ind}{number individuals = 300}
+#'     \item{n.mrk}{total number of markers = 1500}
+#'     \item{ind.names}{the names of the individuals}
+#'     \item{mrk.names}{the names of the markers}
+#'     \item{dosage.p1}{a vector containing the dosage in
+#'       parent P for all \code{n.mrk} markers}
+#'     \item{dosage.p2}{a vector containing the dosage in
+#'       parent Q for all \code{n.mrk} markers}
+#'     \item{chrom}{a vector indicating the chromosome each marker
+#'       belongs. Zero indicates that the marker was not assigned to any
+#'       chromosome}
+#'     \item{genome.pos}{Physical position of the markers into the
+#'       sequence}
+#'     \item{geno.dose}{a matrix containing the dosage for each markers (rows) 
+#'       for each individual (columns). Missing data are represented by 
+#'       \code{ploidy_level + 1 = 7}}
+#'     \item{n.phen}{There are no phenotypes in this simulation}
+#'     \item{phen}{There are no phenotypes in this simulation}
+#'     \item{chisq.pval}{vector containing p-values for all markers associated to 
+#'                       the chi-square test for the expected segregation patterns 
+#'                       under Mendelian segregation}
+#' }
+#'
+#' @keywords datasets
+#'
+#' @author Marcelo Mollinari, \email{mmollin@@ncsu.edu}
+#'
+#' @references 
+#'     Mollinari M, Garcia AAF (2019) Linkage analysis and haplotype phasing in experimental autopolyploid populations with high ploidy level using hidden Markov models, \emph{G3: Genes|Genomes|Genetics} 9 (10): 3297-3314. \doi{10.1534/g3.119.400378}
+#'
+#' @examples
+#' \dontrun{
+#' library(mappoly)
+#' plot(hexafake)
+#' }
+"hexafake"
+
 #' Simulated autohexaploid map
 #'
 #' A simulated map containing three homology groups of a hypotetical cross between two autohexaploid individuals.
 #'
 #' @docType data
-#'
-#' @usage maps6x
 #'
 #' @format An object of class \code{"mappoly.map"} from the package \pkg{mappoly}, which is a list of three linkage groups (LGs):
 #'
@@ -21,9 +67,9 @@
 #' @author Marcelo Mollinari, \email{mmollin@@ncsu.edu}
 #'
 #' @references
-#'     Pereira GS, Gemenet DC, Mollinari M, Olukolu BA, Wood JC, Mosquera V, Gruneberg WJ, Khan A, Buell CR, Yencho GC, Zeng ZB (2019) Multiple QTL mapping in autopolyploids: a random-effect model approach with application in a hexaploid sweetpotato full-sib population, \emph{Genetics} 215 (3): 579-595. \url{http://doi.org/10.1534/genetics.120.303080}.
+#'     Pereira GS, Gemenet DC, Mollinari M, Olukolu BA, Wood JC, Mosquera V, Gruneberg WJ, Khan A, Buell CR, Yencho GC, Zeng ZB (2019) Multiple QTL mapping in autopolyploids: a random-effect model approach with application in a hexaploid sweetpotato full-sib population, \emph{Genetics} 215 (3): 579-595. \doi{10.1534/genetics.120.303080}.
 #'
-#'     Mollinari M, Garcia AAF (2019) Linkage analysis and haplotype phasing in experimental autopolyploid populations with high ploidy level using hidden Markov models, \emph{G3: Genes|Genomes|Genetics} 9 (10): 3297-3314. \url{https://doi.org/10.1534/g3.119.400378}
+#'     Mollinari M, Garcia AAF (2019) Linkage analysis and haplotype phasing in experimental autopolyploid populations with high ploidy level using hidden Markov models, \emph{G3: Genes|Genomes|Genetics} 9 (10): 3297-3314. \doi{10.1534/g3.119.400378}
 #'
 #' @examples
 #' \dontrun{
@@ -37,8 +83,6 @@
 #' A simulated data set of phenotypes for a hipotetical autohexaploid species map.
 #'
 #' @docType data
-#'
-#' @usage pheno6x
 #'
 #' @format A data frame of phenotypes with 300 named individuals in rows and three named phenotypes in columns, which are:
 #'
@@ -55,7 +99,7 @@
 #' @author Guilherme da Silva Pereira, \email{gdasilv@@ncsu.edu}
 #'
 #' @references
-#'     Pereira GS, Gemenet DC, Mollinari M, Olukolu BA, Wood JC, Mosquera V, Gruneberg WJ, Khan A, Buell CR, Yencho GC, Zeng ZB (2019) Multiple QTL mapping in autopolyploids: a random-effect model approach with application in a hexaploid sweetpotato full-sib population, \emph{Genetics} 215 (3): 579-595. \url{http://doi.org/10.1534/genetics.120.303080}.
+#'     Pereira GS, Gemenet DC, Mollinari M, Olukolu BA, Wood JC, Mosquera V, Gruneberg WJ, Khan A, Buell CR, Yencho GC, Zeng ZB (2019) Multiple QTL mapping in autopolyploids: a random-effect model approach with application in a hexaploid sweetpotato full-sib population, \emph{Genetics} 215 (3): 579-595. \doi{10.1534/genetics.120.303080}.
 #'
 #' @examples
 #' \dontrun{
@@ -63,13 +107,66 @@
 #' }
 "pheno6x"
 
-#' Tetraploid potato phenotypes
+#' Autotetraploid potato dataset
+#'
+#' A dataset of the B2721 population which derived from a cross between 
+#' two tetraploid potato varieties: Atlantic × B1829-5. 
+#'
+#' @docType data
+#'
+#' @format An object of class \code{mappoly.data} from the package \pkg{mappoly}.
+#' 
+#' @keywords datasets
+#'
+#' @author Marcelo Mollinari, \email{mmollin@@ncsu.edu}
+#'
+#' @references 
+#'     Mollinari M, Garcia AAF (2019) Linkage analysis and haplotype phasing in experimental autopolyploid populations with high ploidy level using hidden Markov models, \emph{G3: Genes|Genomes|Genetics} 9 (10): 3297-3314. \doi{10.1534/g3.119.400378}
+#'
+#'     Pereira GS, Gemenet DC, Mollinari M, Olukolu BA, Wood JC, Mosquera V, Gruneberg WJ, Khan A, Buell CR, Yencho GC, Zeng ZB (2020) Multiple QTL mapping in autopolyploids: a random-effect model approach with application in a hexaploid sweetpotato full-sib population, \emph{Genetics} 215 (3): 579-595. \doi{10.1534/genetics.120.303080}.
+#'     
+#'     Pereira GS, Mollinari M, Schumann MJ, Clough ME, Zeng ZB, Yencho C (2021) The recombination landscape and multiple QTL mapping in a \emph{Solanum tuberosum} cv. ‘Atlantic’-derived F_1 population. Heredity. \doi{10.1038/s41437-021-00416-x}.
+#' 
+#' @examples
+#' \dontrun{
+#' library(mappoly)
+#' plot(B2721)
+#' }
+"B2721"
+
+#' Autotetraploid potato map
+#'
+#' A real autotetraploid potato map containing 12 homology groups from a tetraploid potato full-sib family (Atlantic x B1829-5).
+#'
+#' @docType data
+#'
+#' @format An object of class \code{"mappoly.map"} from the package \pkg{mappoly}, which is a list of 12 linkage groups (LGs)
+#'
+#' @keywords datasets
+#'
+#' @seealso \code{\link[mappoly]{hexafake}}, \code{\link[qtlpoly]{pheno6x}}
+#'
+#' @author Marcelo Mollinari, \email{mmollin@@ncsu.edu}
+#'
+#' @references
+#'     Pereira GS, Gemenet DC, Mollinari M, Olukolu BA, Wood JC, Mosquera V, Gruneberg WJ, Khan A, Buell CR, Yencho GC, Zeng ZB (2019) Multiple QTL mapping in autopolyploids: a random-effect model approach with application in a hexaploid sweetpotato full-sib population, \emph{Genetics} 215 (3): 579-595. \doi{10.1534/genetics.120.303080}.
+#'
+#'     Mollinari M, Garcia AAF (2019) Linkage analysis and haplotype phasing in experimental autopolyploid populations with high ploidy level using hidden Markov models, \emph{G3: Genes|Genomes|Genetics} 9 (10): 3297-3314. \doi{10.1534/g3.119.400378}
+#'
+#'     Pereira GS, Mollinari M, Schumann MJ, Clough ME, Zeng ZB, Yencho C (2021) The recombination landscape and multiple QTL mapping in a \emph{Solanum tuberosum} cv. ‘Atlantic’-derived F_1 population. Heredity. \doi{10.1038/s41437-021-00416-x}.
+#'
+#' @examples
+#' \dontrun{
+#' library(mappoly)
+#' plot(maps4x)
+#' }
+"maps4x"
+
+#' Autotetraploid potato phenotypes
 #'
 #' A subset of phenotypes from a tetraploid potato full-sib family (Atlantic x B1829-5).
 #'
 #' @docType data
-#'
-#' @usage pheno4x
 #'
 #' @format A data frame of phenotypes with 156 named individuals in rows and three named phenotypes in columns, which are:
 #'
@@ -84,9 +181,9 @@
 #' @author Guilherme da Silva Pereira, \email{gdasilv@@ncsu.edu}
 #'
 #' @references
-#'     Pereira GS, Gemenet DC, Mollinari M, Olukolu BA, Wood JC, Mosquera V, Gruneberg WJ, Khan A, Buell CR, Yencho GC, Zeng ZB (2020) Multiple QTL mapping in autopolyploids: a random-effect model approach with application in a hexaploid sweetpotato full-sib population, \emph{Genetics} 215 (3): 579-595. \url{http://doi.org/10.1534/genetics.120.303080}.
+#'     Pereira GS, Gemenet DC, Mollinari M, Olukolu BA, Wood JC, Mosquera V, Gruneberg WJ, Khan A, Buell CR, Yencho GC, Zeng ZB (2020) Multiple QTL mapping in autopolyploids: a random-effect model approach with application in a hexaploid sweetpotato full-sib population, \emph{Genetics} 215 (3): 579-595. \doi{10.1534/genetics.120.303080}.
 #'     
-#'     Pereira GS, Mollinari M, Schumann MJ, Clough ME, Yencho C (2020) The recombination landscape and multiple QTL mapping in a \emph{Solanum tuberosum} cv. ‘Atlantic’-derived F_1 population. bioRxiv. \url{https://doi.org/10.1101/2020.08.24.265397}.
+#'     Pereira GS, Mollinari M, Schumann MJ, Clough ME, Zeng ZB, Yencho C (2021) The recombination landscape and multiple QTL mapping in a \emph{Solanum tuberosum} cv. ‘Atlantic’-derived F_1 population. Heredity. \doi{10.1038/s41437-021-00416-x}.
 #'
 #' @examples
 #' \dontrun{

@@ -19,4 +19,9 @@ cran-comments.md
 backup_QTLpoly_testing_data.RData
 hex.xcf
 test-qtl.R
+resampling.R
 vigs
+qtl_ivan_test.R
+potato.rda
+example-data.rda
+^.*\.RData

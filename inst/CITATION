@@ -21,4 +21,4 @@ bibentry(bibtype = "Article",
          pages = "579-595",
          doi = "10.1534/genetics.120.303080",
          note = "Open Access",
-         url = "https://www.genetics.org/content/215/3/579")
+         url = "https://doi.org/10.1534/genetics.120.303080")

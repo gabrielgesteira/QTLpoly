@@ -3,7 +3,7 @@
 \docType{data}
 \name{pheno4x}
 \alias{pheno4x}
-\title{Tetraploid potato phenotypes}
+\title{Autotetraploid potato phenotypes}
 \format{
 A data frame of phenotypes with 156 named individuals in rows and three named phenotypes in columns, which are:
 
@@ -25,9 +25,9 @@ head(pheno4x)
 }
 }
 \references{
-Pereira GS, Gemenet DC, Mollinari M, Olukolu BA, Wood JC, Mosquera V, Gruneberg WJ, Khan A, Buell CR, Yencho GC, Zeng ZB (2020) Multiple QTL mapping in autopolyploids: a random-effect model approach with application in a hexaploid sweetpotato full-sib population, \emph{Genetics} 215 (3): 579-595. \url{http://doi.org/10.1534/genetics.120.303080}.
+Pereira GS, Gemenet DC, Mollinari M, Olukolu BA, Wood JC, Mosquera V, Gruneberg WJ, Khan A, Buell CR, Yencho GC, Zeng ZB (2020) Multiple QTL mapping in autopolyploids: a random-effect model approach with application in a hexaploid sweetpotato full-sib population, \emph{Genetics} 215 (3): 579-595. \doi{10.1534/genetics.120.303080}.
     
-    Pereira GS, Mollinari M, Schumann MJ, Clough ME, Yencho C (2020) The recombination landscape and multiple QTL mapping in a \emph{Solanum tuberosum} cv. ‘Atlantic’-derived F_1 population. bioRxiv. \url{https://doi.org/10.1101/2020.08.24.265397}.
+    Pereira GS, Mollinari M, Schumann MJ, Clough ME, Zeng ZB, Yencho C (2021) The recombination landscape and multiple QTL mapping in a \emph{Solanum tuberosum} cv. ‘Atlantic’-derived F_1 population. Heredity. \doi{10.1038/s41437-021-00416-x}.
 }
 \author{
 Guilherme da Silva Pereira, \email{gdasilv@ncsu.edu}

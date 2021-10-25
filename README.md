@@ -6,13 +6,13 @@
 
 The R package `qtlpoly` (v. 0.2.2) is an under development software to map quantitative trait loci (QTL) in full-sib families of outcrossing autopolyploid species based on a random-effect multiple QTL model (Pereira et al. 2019). 
 
-In order to do so, you will need a genetic map from which conditional probabilities of putative QTL can be computed. We recommend [`mappoly`](https://github.com/mmollina/MAPpoly), a hidden Markov model-based R package to construct genetic maps in autopolyploids (Mollinari and Garcia 2019).
+In order to do so, you will need a genetic map from which conditional probabilities of putative QTL can be computed. We recommend [`mappoly`](https://cran.r-project.org/package=mappoly), a hidden Markov model-based R package to construct genetic maps in autopolyploids (Mollinari and Garcia 2019).
 
-Variance components associated with putative QTL are tested using score statistics from the R package `varComp` (v. 0.2-0) (Qu et al. 2013). Final models are fitted using residual maximum likelihood (REML) from the R package `sommer` (v. 4.0 or higher) (Covarrubias-Pazaran 2016). Plots for visualizing the results are based on `ggplot2` (v. 3.1 or higher) (Wickham 2016). 
+Variance components associated with putative QTL are tested using score statistics (Qu et al. 2013), and final models are fitted using residual maximum likelihood (REML) from the R package `sommer` (v. 4.0 or higher) (Covarrubias-Pazaran 2016). Plots for visualizing the results are based on `ggplot2` (v. 3.1 or higher) (Wickham 2016). 
 
 ## Install `qtlpoly` package
 
-`qtlpoly` package is available in its development version here on [GitHub](https://github.com/guilherme-pereira/qtlpoly). You can install all needed packages within R using the R package `devtools`:
+`qtlpoly` package is available in its development version here on [GitHub](https://github.com/guilherme-pereira/qtlpoly). You can install all needed packages using the R package `devtools`:
 
 ```r
 install.packages("devtools")
@@ -21,7 +21,7 @@ devtools::install_github("gabrielgesteira/qtlpoly")
 
 ## Documents 
 
-Tutorials as well as simulated and real data set analyses will be listed here opportunately in order to help users to get familiar with the software and allow them to perform their own analyses:
+Tutorials as well as simulated and real data set analyses will be listed here in order to help users to get familiar with the software and allow them to perform their own analyses:
 
 1. [Tutorial on Multiple QTL Mapping in Autopolyploids with QTLpoly](https://guilherme-pereira.github.io/QTLpoly/1-tutorial)
 2. [Tools for Polyploids](https://www.polyploids.org/workshop/2021/january/info) training section: [Multiple QTL Mapping in an Autotetraploid F<sub>1</sub> population with QTLpoly](https://guilherme-pereira.github.io/QTLpoly/2-tetraploid_example.html)
