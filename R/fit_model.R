@@ -475,8 +475,8 @@ mmer_adapted <- function(Y,X=NULL,Z=NULL,R=NULL,W=NULL,method="NR",init=NULL,ite
   emupdate <- rep(0, iters)
   ws = rep(1, nrow(Y))
   
-  RES = sommer:::MNR(Y, X,Gx,ZETA,K,R,GES,GESI, ws, iters, tolpar, tolparinv, selected,getPEV,verbose, FALSE, stepweight, emupdate)
-  ## RES = .Call("_sommer_MNR",PACKAGE = "sommer",Y, X,Gx,ZETA,K,R,GES,GESI, ws, iters, tolpar, tolparinv, selected,getPEV,verbose, FALSE, stepweight, emupdate)
+  ## RES = MNR(Y, X,Gx,ZETA,K,R,GES,GESI, ws, iters, tolpar, tolparinv, selected,getPEV,verbose, FALSE, stepweight, emupdate)
+  RES = .Call("_qtlpoly_MNR",PACKAGE = "qtlpoly",Y, X,Gx,ZETA,K,R,GES,GESI, ws, iters, tolpar, tolparinv, selected,getPEV,verbose, FALSE, stepweight, emupdate)
   RES$alleles = rownames(K[[1]])
   
   ## RES <- MNR(Y=Y,X=X,ZETA=Z,R=R,W=W,init=init,iters=iters,tolpar=tolpar,

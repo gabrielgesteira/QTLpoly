@@ -25,7 +25,13 @@ Authors@R: c(person(given = "Guilhereme",
             person(given = "Long",
                     family = "Qu",
                     role = "ctb",
-                    email = "rtistician@gmail.com")
+                    email = "rtistician@gmail.com",
+                    comment = "C code for variance component tests using score statistics in R/varComp.R"),
+            person(given = "Giovanny",
+                    family = "Covarrubias-Pazaran",
+                    role = "ctb",
+                    email = "cova_ruber@live.com.mx",
+                    comment = "C code for fitting mixed models with REML estimation in src/MNR.cpp")
                     )
 Maintainer: Gabriel de Siqueira Gesteira <gdesiqu@ncsu.edu>
 Description: Performs random-effect multiple interval mapping (REMIM) in full-sib families of autopolyploid species based on restricted maximum likelihood (REML) estimation and score statistics.
@@ -38,6 +44,7 @@ LazyDataCompression: xz
 Depends:
     R (>= 4.0)
 Imports:
-    sommer (>= 4.0), ggplot2 (>= 3.1), abind (>= 1.4), MASS (>= 7.3), gtools (>= 3.9.2), CompQuadForm, Matrix, RLRsim, mvtnorm, nlme, quadprog,  parallel, stats, methods
+    sommer (>= 4.0), ggplot2 (>= 3.1), abind (>= 1.4), MASS (>= 7.3), gtools (>= 3.9.2), CompQuadForm, Matrix, RLRsim, mvtnorm, nlme, quadprog,  parallel, stats, methods, Rcpp (>= 0.12.19)
+LinkingTo: Rcpp, RcppArmadillo, RcppProgress
 Suggests: mappoly, rmarkdown, devtools, knitr
 RoxygenNote: 7.1.2
