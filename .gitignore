@@ -1,7 +1,8 @@
 .Rproj
 .Rhistory
 *.RData
-*.rda
+potato.rda
+example-data.rda
 .Ruserdata
 *.pdf
 *cache/
