@@ -52,9 +52,7 @@
 #' 
 #'     Pereira GS, Gemenet DC, Mollinari M, Olukolu BA, Wood JC, Mosquera V, Gruneberg WJ, Khan A, Buell CR, Yencho GC, Zeng ZB (2020) Multiple QTL mapping in autopolyploids: a random-effect model approach with application in a hexaploid sweetpotato full-sib population, \emph{Genetics} 215 (3): 579-595. \doi{10.1534/genetics.120.303080}.
 #'
-#' @import sommer
 #' @export fit_model
-
 fit_model <- function(data, model, probs="joint", polygenes="none", keep=TRUE, verbose=TRUE, pheno.col = NULL) {
 
   results <- vector("list", length(model$results))

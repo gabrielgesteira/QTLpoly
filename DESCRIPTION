@@ -36,7 +36,7 @@ Authors@R: c(person(given = "Guilhereme",
 Maintainer: Gabriel de Siqueira Gesteira <gdesiqu@ncsu.edu>
 Description: Performs random-effect multiple interval mapping (REMIM) in full-sib families of autopolyploid species based on restricted maximum likelihood (REML) estimation and score statistics.
 License: GPL-3 | file LICENSE
-URL: https://github.com/gabrielgesteira/QTLpoly
+URL: https://gabrielgesteira.github.io/QTLpoly/
 BugReports: https://github.com/gabrielgesteira/QTLpoly/issues
 Encoding: UTF-8
 LazyData: TRUE
@@ -44,7 +44,7 @@ LazyDataCompression: xz
 Depends:
     R (>= 4.0)
 Imports:
-    sommer (>= 4.0), ggplot2 (>= 3.1), abind (>= 1.4), MASS (>= 7.3), gtools (>= 3.9.2), CompQuadForm, Matrix, RLRsim, mvtnorm, nlme, quadprog,  parallel, stats, methods, Rcpp (>= 0.12.19)
+     ggplot2 (>= 3.1), abind (>= 1.4), MASS (>= 7.3), gtools (>= 3.9.2), CompQuadForm, Matrix, RLRsim, mvtnorm, nlme, quadprog,  parallel, stats, methods, Rcpp (>= 0.12.19)
 LinkingTo: Rcpp, RcppArmadillo, RcppProgress
 Suggests: mappoly, rmarkdown, devtools, knitr
 RoxygenNote: 7.1.2
