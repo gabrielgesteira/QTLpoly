@@ -42,7 +42,7 @@
 #' sig.bwd = 0.0002284465, d.sint = 1.5, n.clusters = 1)
 #'
 #'   # Fit model
-#'   fitted.mod = fit_remim(data=data, model=remim.mod, probs="joint", polygenes="none")
+#'   fitted.mod = fit_model(data=data, model=remim.mod, probs="joint", polygenes="none")
 #'   }
 #'
 #' @author Guilherme da Silva Pereira, \email{gdasilv@@ncsu.edu}
@@ -52,6 +52,8 @@
 #' 
 #'     Pereira GS, Gemenet DC, Mollinari M, Olukolu BA, Wood JC, Mosquera V, Gruneberg WJ, Khan A, Buell CR, Yencho GC, Zeng ZB (2020) Multiple QTL mapping in autopolyploids: a random-effect model approach with application in a hexaploid sweetpotato full-sib population, \emph{Genetics} 215 (3): 579-595. \doi{10.1534/genetics.120.303080}.
 #'
+#' @useDynLib qtlpoly, .registration = TRUE
+#' @importFrom Rcpp evalCpp
 #' @export fit_model
 fit_model <- function(data, model, probs="joint", polygenes="none", keep=TRUE, verbose=TRUE, pheno.col = NULL) {
 
@@ -474,7 +476,7 @@ mmer_adapted <- function(Y,X=NULL,Z=NULL,R=NULL,W=NULL,method="NR",init=NULL,ite
   ws = rep(1, nrow(Y))
   
   ## RES = MNR(Y, X,Gx,ZETA,K,R,GES,GESI, ws, iters, tolpar, tolparinv, selected,getPEV,verbose, FALSE, stepweight, emupdate)
-  RES = .Call("_qtlpoly_MNR",PACKAGE = "qtlpoly",Y, X,Gx,ZETA,K,R,GES,GESI, ws, iters, tolpar, tolparinv, selected,getPEV,verbose, FALSE, stepweight, emupdate)
+  RES = .Call("_qtlpoly_MNR", PACKAGE = "qtlpoly",Y, X,Gx,ZETA,K,R,GES,GESI, ws, iters, tolpar, tolparinv, selected,getPEV,verbose, FALSE, stepweight, emupdate)
   RES$alleles = rownames(K[[1]])
   
   ## RES <- MNR(Y=Y,X=X,ZETA=Z,R=R,W=W,init=init,iters=iters,tolpar=tolpar,

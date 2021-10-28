@@ -60,7 +60,7 @@ Fits alternative multiple QTL models by performing variance component estimation
 sig.bwd = 0.0002284465, d.sint = 1.5, n.clusters = 1)
 
   # Fit model
-  fitted.mod = fit_remim(data=data, model=remim.mod, probs="joint", polygenes="none")
+  fitted.mod = fit_model(data=data, model=remim.mod, probs="joint", polygenes="none")
   }
 
 }
