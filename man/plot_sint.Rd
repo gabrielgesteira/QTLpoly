@@ -24,7 +24,7 @@ A \pkg{ggplot2} with QTL bars for each linkage group.
 Creates a plot where colored bars represent the support intervals for QTL peaks (black dots).
 }
 \examples{
-  \dontrun{
+  \donttest{
   # Estimate conditional probabilities using mappoly package
   library(mappoly)
   library(qtlpoly)

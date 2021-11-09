@@ -54,7 +54,7 @@ An object of class \code{qtlpoly.profile} which contains a list of \code{results
 Generates the score-based genome-wide profile conditional to the selected QTL.
 }
 \examples{
-  \dontrun{
+  \donttest{
   # Estimate conditional probabilities using mappoly package
   library(mappoly)
   library(qtlpoly)

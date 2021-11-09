@@ -32,7 +32,7 @@ A \pkg{ggplot2} histogram with the distribution of breeding values.
 Computes breeding values for each genotyped individual based on multiple QTL models
 }
 \examples{
-  \dontrun{
+  \donttest{
   # Estimate conditional probabilities using mappoly package
   library(mappoly)
   library(qtlpoly)

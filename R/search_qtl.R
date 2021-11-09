@@ -40,7 +40,7 @@
 #' @seealso \code{\link[qtlpoly]{read_data}}, \code{\link[qtlpoly]{null_model}}
 #'
 #' @examples
-#'   \dontrun{
+#'   \donttest{
 #'   # Estimate conditional probabilities using mappoly package
 #'   library(mappoly)
 #'   library(qtlpoly)

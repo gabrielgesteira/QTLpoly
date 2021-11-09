@@ -48,7 +48,7 @@ An object of class \code{qtlpoly.fitted} which contains a list of \code{results}
 Fits alternative multiple QTL models by performing variance component estimation using REML.
 }
 \examples{
-  \dontrun{
+  \donttest{
   # Estimate conditional probabilities using mappoly package
   library(mappoly)
   library(qtlpoly)

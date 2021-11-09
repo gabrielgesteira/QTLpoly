@@ -40,10 +40,8 @@ A dataset of a hypothetical autohexaploid full-sib population
 containing three homology groups
 }
 \examples{
-\dontrun{
 library(mappoly)
 plot(hexafake)
-}
 }
 \references{
 Mollinari M, Garcia AAF (2019) Linkage analysis and haplotype phasing in experimental autopolyploid populations with high ploidy level using hidden Markov models, \emph{G3: Genes|Genomes|Genetics} 9 (10): 3297-3314. \doi{10.1534/g3.119.400378}

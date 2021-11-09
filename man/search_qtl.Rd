@@ -62,7 +62,7 @@ An object of class \code{qtlpoly.search} which contains a list of \code{results}
 Searches for QTL and adds them one at a time to a multiple random-effect QTL model based on score statistics.
 }
 \examples{
-  \dontrun{
+  \donttest{
   # Estimate conditional probabilities using mappoly package
   library(mappoly)
   library(qtlpoly)

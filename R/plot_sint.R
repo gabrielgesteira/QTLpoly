@@ -17,7 +17,7 @@
 #' @seealso \code{\link[qtlpoly]{read_data}}, \code{\link[qtlpoly]{remim}}, \code{\link[qtlpoly]{profile_qtl}}
 #'
 #' @examples
-#'   \dontrun{
+#'   \donttest{
 #'   # Estimate conditional probabilities using mappoly package
 #'   library(mappoly)
 #'   library(qtlpoly)

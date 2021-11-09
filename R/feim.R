@@ -35,17 +35,14 @@
 #' @seealso \code{\link[qtlpoly]{permutations}}
 #'
 #' @examples
-#'   \dontrun{
 #'   # Estimate conditional probabilities using mappoly package
 #'   library(mappoly)
 #'   library(qtlpoly)
 #'   genoprob4x = lapply(maps4x[c(5)], calc_genoprob)
-#'   data = read_data(ploidy = 4, geno.prob = genoprob4x, pheno = pheno4x, step = 1)
+#'   data = read_data(ploidy = 4, geno.prob = genoprob4x, pheno = pheno4x, step = 5)
 #'
 #'   # Perform remim
 #'   feim.mod = feim(data = data, sig.lod = 7)
-#'   plot(feim.mod)
-#'   }
 #'
 #' @author Guilherme da Silva Pereira, \email{gdasilv@@ncsu.edu}
 #'
@@ -57,7 +54,7 @@
 #' @import grDevices graphics methods stats utils
 #' @export feim
 
-feim <- function(data = data, pheno.col = NULL, w.size = 15, sig.lod = 7, d.sint = 1.5, plot = "feim", verbose = TRUE) {
+feim <- function(data = data, pheno.col = NULL, w.size = 15, sig.lod = 7, d.sint = 1.5, plot = NULL, verbose = TRUE) {
 
   w.size <- w.size/data$step
   start <- proc.time()

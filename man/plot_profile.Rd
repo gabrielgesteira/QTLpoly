@@ -39,7 +39,7 @@ A \pkg{ggplot2} with the LOP profiles for each trait.
 Plots profiled logarithm of score-based \emph{P}-values (LOP) from individual or combined traits.
 }
 \examples{
-  \dontrun{
+  \donttest{
   # Estimate conditional probabilities using mappoly package
   library(mappoly)
   library(qtlpoly)

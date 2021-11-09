@@ -53,7 +53,7 @@ A \pkg{ggplot2} histogram with the distribution of ordered maximum LOD scores an
 Stores maximum LOD scores for a number of permutations of given phenotypes.
 }
 \examples{
-  \dontrun{
+  \donttest{
   # Estimate conditional probabilities using mappoly package
   library(mappoly)
   library(qtlpoly)

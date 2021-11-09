@@ -15,10 +15,8 @@ A dataset of the B2721 population which derived from a cross between
 two tetraploid potato varieties: Atlantic × B1829-5.
 }
 \examples{
-\dontrun{
 library(mappoly)
 plot(B2721)
-}
 }
 \references{
 Mollinari M, Garcia AAF (2019) Linkage analysis and haplotype phasing in experimental autopolyploid populations with high ploidy level using hidden Markov models, \emph{G3: Genes|Genomes|Genetics} 9 (10): 3297-3314. \doi{10.1534/g3.119.400378}

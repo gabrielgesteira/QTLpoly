@@ -34,8 +34,8 @@ Authors@R: c(person(given = "Guilhereme",
                     comment = "C code for fitting mixed models with REML estimation in src/MNR.cpp")
                     )
 Maintainer: Gabriel de Siqueira Gesteira <gdesiqu@ncsu.edu>
-Description: Performs random-effect multiple interval mapping (REMIM) in full-sib families of autopolyploid species based on restricted maximum likelihood (REML) estimation and score statistics.
-License: GPL-3 | file LICENSE
+Description: Performs random-effect multiple interval mapping (REMIM) in full-sib families of autopolyploid species based on restricted maximum likelihood (REML) estimation and score statistics, as described in Pereira et al. (2020) <doi:10.1534/genetics.120.303080>.
+License: GPL-3
 URL: https://gabrielgesteira.github.io/QTLpoly/
 BugReports: https://github.com/gabrielgesteira/QTLpoly/issues
 Encoding: UTF-8

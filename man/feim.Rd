@@ -11,7 +11,7 @@ feim(
   w.size = 15,
   sig.lod = 7,
   d.sint = 1.5,
-  plot = "feim",
+  plot = NULL,
   verbose = TRUE
 )
 
@@ -53,17 +53,14 @@ An object of class \code{qtlpoly.feim} which contains a list of \code{results} f
 Performs interval mapping using the single-QTL, fixed-effect model proposed by Hackett et al. (2001).
 }
 \examples{
-  \dontrun{
   # Estimate conditional probabilities using mappoly package
   library(mappoly)
   library(qtlpoly)
   genoprob4x = lapply(maps4x[c(5)], calc_genoprob)
-  data = read_data(ploidy = 4, geno.prob = genoprob4x, pheno = pheno4x, step = 1)
+  data = read_data(ploidy = 4, geno.prob = genoprob4x, pheno = pheno4x, step = 5)
 
   # Perform remim
   feim.mod = feim(data = data, sig.lod = 7)
-  plot(feim.mod)
-  }
 
 }
 \references{

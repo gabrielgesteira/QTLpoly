@@ -47,7 +47,7 @@
 #' @seealso \code{\link[qtlpoly]{maps6x}}, \code{\link[qtlpoly]{pheno6x}}
 #'
 #' @examples
-#'   \dontrun{
+#'   \donttest{
 #'   # Estimate conditional probabilities using mappoly package
 #'   library(mappoly)
 #'   library(qtlpoly)

@@ -56,7 +56,7 @@ An object of class \code{qtlpoly.optimize} which contains a list of \code{result
 Tests each QTL at a time and updates its position (if it changes) or drops the QTL (if non-significant).
 }
 \examples{
-  \dontrun{
+  \donttest{
   # Estimate conditional probabilities using mappoly package
   library(mappoly)
   library(qtlpoly)

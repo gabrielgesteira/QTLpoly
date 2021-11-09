@@ -67,7 +67,7 @@ An object of class \code{qtlpoly.remim} which contains a list of \code{results} 
 Automatic function that performs REMIM algorithm using score statistics.
 }
 \examples{
-  \dontrun{
+  \donttest{
   # Estimate conditional probabilities using mappoly package
   library(mappoly)
   library(qtlpoly)

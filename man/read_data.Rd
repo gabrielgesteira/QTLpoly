@@ -66,7 +66,7 @@ An object of class \code{qtlpoly.data} which is a list containing the following 
 Reads files in specific formats and creates a \code{qtlpoly.data} object to be used in subsequent analyses.
 }
 \examples{
-  \dontrun{
+  \donttest{
   # Estimate conditional probabilities using mappoly package
   library(mappoly)
   library(qtlpoly)

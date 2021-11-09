@@ -22,7 +22,7 @@
 #' @seealso \code{\link[qtlpoly]{read_data}}, \code{\link[qtlpoly]{fit_model}}
 #'
 #' @examples
-#'   \dontrun{
+#'   \donttest{
 #'   # Estimate conditional probabilities using mappoly package
 #'   library(mappoly)
 #'   library(qtlpoly)

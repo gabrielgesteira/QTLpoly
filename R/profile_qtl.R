@@ -34,7 +34,7 @@
 #'     \item{upper}{a data frame with information from the upper support interval of mapped QTL.}
 #'
 #' @examples
-#'   \dontrun{
+#'   \donttest{
 #'   # Estimate conditional probabilities using mappoly package
 #'   library(mappoly)
 #'   library(qtlpoly)

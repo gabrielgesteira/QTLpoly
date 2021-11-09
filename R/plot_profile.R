@@ -23,7 +23,7 @@
 #' @seealso \code{\link[qtlpoly]{profile_qtl}},  \code{\link[qtlpoly]{remim}}
 #'
 #' @examples
-#'   \dontrun{
+#'   \donttest{
 #'   # Estimate conditional probabilities using mappoly package
 #'   library(mappoly)
 #'   library(qtlpoly)
@@ -58,7 +58,8 @@ plot_profile <- function(data = data, model = model, pheno.col = NULL, sup.int =
   for(p in 1:nphe) { #lines
     t <- which(model$pheno.col == pheno.col[p])
     TRT <- rep(names(model$results)[t], length(LGS))
-    if(any(class(model) == "qtlpoly.feim")) SIG <- model$results[[t]][[3]] else SIG <- -log10(as.numeric(model$results[[t]][[3]]))
+    if(is(model, "qtlpoly.feim")) SIG <- model$results[[t]][[3]] else SIG <- -log10(as.numeric(model$results[[t]][[3]]))
+    ## if(any(class(model) == "qtlpoly.feim")) SIG <- model$results[[t]][[3]] else SIG <- -log10(as.numeric(model$results[[t]][[3]]))
     lines <- rbind(lines, data.frame(TRT=as.factor(TRT), LGS=LGS, POS=POS, SIG=SIG))
   }
   for(p in 1:nphe) { #points
@@ -77,7 +78,8 @@ plot_profile <- function(data = data, model = model, pheno.col = NULL, sup.int =
     }
   }
   points$TRT <- factor(points$TRT, levels=trait.names)
-  if(any(class(model) == "qtlpoly.feim")) {
+  if(is(model, "qtlpoly.feim")) {
+  ## if(any(class(model) == "qtlpoly.feim")) {
     for(p in 1:nphe) { #threshold
       t <- which(model$pheno.col == pheno.col[p])
       LGS <- c(1:length(data$lgs))

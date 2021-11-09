@@ -45,7 +45,7 @@ An object of class \code{qtlpoly.null} which contains a list of \code{results} f
 Creates a null model (with no QTL) for each trait.
 }
 \examples{
-  \dontrun{
+  \donttest{
   # Estimate conditional probabilities using mappoly package
   library(mappoly)
   library(qtlpoly)

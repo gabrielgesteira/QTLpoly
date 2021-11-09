@@ -42,7 +42,7 @@ An object of class \code{qtlpoly.modify} which contains a list of \code{results}
 Adds or removes QTL manually from a given model.
 }
 \examples{
-  \dontrun{
+  \donttest{
   # Estimate conditional probabilities using mappoly package
   library(mappoly)
   library(qtlpoly)

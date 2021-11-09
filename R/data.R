@@ -40,10 +40,8 @@
 #'     Mollinari M, Garcia AAF (2019) Linkage analysis and haplotype phasing in experimental autopolyploid populations with high ploidy level using hidden Markov models, \emph{G3: Genes|Genomes|Genetics} 9 (10): 3297-3314. \doi{10.1534/g3.119.400378}
 #'
 #' @examples
-#' \dontrun{
 #' library(mappoly)
 #' plot(hexafake)
-#' }
 "hexafake"
 
 #' Simulated autohexaploid map
@@ -72,10 +70,8 @@
 #'     Mollinari M, Garcia AAF (2019) Linkage analysis and haplotype phasing in experimental autopolyploid populations with high ploidy level using hidden Markov models, \emph{G3: Genes|Genomes|Genetics} 9 (10): 3297-3314. \doi{10.1534/g3.119.400378}
 #'
 #' @examples
-#' \dontrun{
 #' library(mappoly)
-#' plot(maps6x)
-#' }
+#' plot_map_list(maps6x)
 "maps6x"
 
 #' Simulated phenotypes
@@ -102,9 +98,7 @@
 #'     Pereira GS, Gemenet DC, Mollinari M, Olukolu BA, Wood JC, Mosquera V, Gruneberg WJ, Khan A, Buell CR, Yencho GC, Zeng ZB (2019) Multiple QTL mapping in autopolyploids: a random-effect model approach with application in a hexaploid sweetpotato full-sib population, \emph{Genetics} 215 (3): 579-595. \doi{10.1534/genetics.120.303080}.
 #'
 #' @examples
-#' \dontrun{
 #' head(pheno6x)
-#' }
 "pheno6x"
 
 #' Autotetraploid potato dataset
@@ -128,10 +122,8 @@
 #'     Pereira GS, Mollinari M, Schumann MJ, Clough ME, Zeng ZB, Yencho C (2021) The recombination landscape and multiple QTL mapping in a \emph{Solanum tuberosum} cv. ‘Atlantic’-derived F_1 population. Heredity. \doi{10.1038/s41437-021-00416-x}.
 #' 
 #' @examples
-#' \dontrun{
 #' library(mappoly)
 #' plot(B2721)
-#' }
 "B2721"
 
 #' Autotetraploid potato map
@@ -156,10 +148,8 @@
 #'     Pereira GS, Mollinari M, Schumann MJ, Clough ME, Zeng ZB, Yencho C (2021) The recombination landscape and multiple QTL mapping in a \emph{Solanum tuberosum} cv. ‘Atlantic’-derived F_1 population. Heredity. \doi{10.1038/s41437-021-00416-x}.
 #'
 #' @examples
-#' \dontrun{
 #' library(mappoly)
-#' plot(maps4x)
-#' }
+#' plot_map_list(maps4x)
 "maps4x"
 
 #' Autotetraploid potato phenotypes
@@ -186,7 +176,5 @@
 #'     Pereira GS, Mollinari M, Schumann MJ, Clough ME, Zeng ZB, Yencho C (2021) The recombination landscape and multiple QTL mapping in a \emph{Solanum tuberosum} cv. ‘Atlantic’-derived F_1 population. Heredity. \doi{10.1038/s41437-021-00416-x}.
 #'
 #' @examples
-#' \dontrun{
 #' head(pheno4x)
-#' }
 "pheno4x"

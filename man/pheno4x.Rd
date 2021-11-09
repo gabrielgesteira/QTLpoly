@@ -20,9 +20,7 @@ pheno4x
 A subset of phenotypes from a tetraploid potato full-sib family (Atlantic x B1829-5).
 }
 \examples{
-\dontrun{
 head(pheno4x)
-}
 }
 \references{
 Pereira GS, Gemenet DC, Mollinari M, Olukolu BA, Wood JC, Mosquera V, Gruneberg WJ, Khan A, Buell CR, Yencho GC, Zeng ZB (2020) Multiple QTL mapping in autopolyploids: a random-effect model approach with application in a hexaploid sweetpotato full-sib population, \emph{Genetics} 215 (3): 579-595. \doi{10.1534/genetics.120.303080}.

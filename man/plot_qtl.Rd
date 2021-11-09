@@ -36,7 +36,7 @@ A \pkg{ggplot2} with dots representing the QTLs.
 Creates a plot where dot sizes and colors represent the QTLs heritabilities and their \emph{p}-values, respectively.
 }
 \examples{
-  \dontrun{
+  \donttest{
   # Estimate conditional probabilities using mappoly package
   library(mappoly)
   library(qtlpoly)

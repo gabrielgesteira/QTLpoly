@@ -31,7 +31,7 @@
 #' @seealso \code{\link[qtlpoly]{feim}}
 #'
 #' @examples
-#'   \dontrun{
+#'   \donttest{
 #'   # Estimate conditional probabilities using mappoly package
 #'   library(mappoly)
 #'   library(qtlpoly)

@@ -54,7 +54,7 @@ An object of class \code{qtlpoly.sim} which contains a list of \code{results} wi
 Simulate new phenotypes with a given number of QTL and creates new object with the same structure of class \code{qtlpoly.data} from an existing genetic map.
 }
 \examples{
-  \dontrun{
+  \donttest{
   # Estimate conditional probabilities using mappoly package
   library(mappoly)
   library(qtlpoly)

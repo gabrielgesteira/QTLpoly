@@ -38,7 +38,7 @@ A \pkg{ggplot2} barplot with parental allele and allele combination effects.
 Computes allele specific and allele combination (within-parent) heritable effects from multiple QTL models.
 }
 \examples{
-  \dontrun{
+  \donttest{
   # Estimate conditional probabilities using mappoly package
   library(mappoly)
   library(qtlpoly)
