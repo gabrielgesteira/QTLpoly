@@ -79,7 +79,7 @@ breeding_values <- function(data, fitted) {
     } else {
       y.hat <- NULL
     }
-    colnames(y.hat) = "T1"
+    if(!is.null(y.hat)) colnames(y.hat) = "T1"
 
     results[[p]] <- list(
       pheno.col=fitted$results[[p]]$pheno.col,
