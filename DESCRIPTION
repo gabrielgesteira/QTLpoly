@@ -1,7 +1,7 @@
 Package: qtlpoly
 Type: Package
 Title: Random-Effect Multiple QTL Mapping in Autopolyploids
-Version: 0.2.2
+Version: 0.2.3
 Authors@R: c(person(given = "Guilhereme",
                     family = "da Silva Pereira",
                     role = "aut",
@@ -26,7 +26,7 @@ Authors@R: c(person(given = "Guilhereme",
                     family = "Qu",
                     role = "ctb",
                     email = "rtistician@gmail.com",
-                    comment = "C code for variance component tests using score statistics in R/varComp.R"),
+                    comment = "R code for variance component tests using score statistics in R/varComp.R"),
             person(given = "Giovanny",
                     family = "Covarrubias-Pazaran",
                     role = "ctb",
