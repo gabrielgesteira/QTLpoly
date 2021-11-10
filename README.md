@@ -2,7 +2,7 @@
  [![Development](https://img.shields.io/badge/development-active-blue.svg)](https://img.shields.io/badge/development-active-blue.svg)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/qtlpoly)](https://cran.r-project.org/package=qtlpoly)
-[![CRAN_monthly_downloads](https://cranlogs.r-pkg.org/badges/qtlpoly)](https://cranlogs.r-pkg.org/badges/qtlpoly)
+[![CRAN_monthly_downloads](https://cranlogs.r-pkg.org/badges/qtlpoly)](https://cranlogs.r-pkg.org/badges/qtlpoly?color=orange)
 
 
 # QTLpoly <img src="https://raw.githubusercontent.com/gabrielgesteira/QTLpoly/main/hex.png" align="right" width="200" />
