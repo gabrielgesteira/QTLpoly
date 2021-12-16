@@ -2,7 +2,7 @@ Package: qtlpoly
 Type: Package
 Title: Random-Effect Multiple QTL Mapping in Autopolyploids
 Version: 0.2.2
-Authors@R: c(person(given = "Guilhereme",
+Authors@R: c(person(given = "Guilherme",
                     family = "da Silva Pereira",
                     role = "aut",
                     email = "gdasilv@ncsu.edu",
