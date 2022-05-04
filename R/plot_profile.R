@@ -102,7 +102,13 @@ plot_profile <- function(data = data, model = model, pheno.col = NULL, sup.int =
   if(max(data$lgs.size) > 200) cutx <- 150 else cutx <- 100
   if(max(lines$SIG[is.finite(lines$SIG)]) < 10) cuty <- 2 else cuty <- 4
   if(data$nlgs > 10) { addx <- 50; linesize <- 1} else { addx <- 10 ; cutx <- 50; linesize <- 1.25}
-  
+
+  # Get ggplot default palette
+  n <- length(unique(lines$TRT))
+  hues = seq(15, 375, length = n + 1)
+  colors_palette <- hcl(h = hues, l = 65, c = 100)[1:n]
+  names(colors_palette) <- unique(lines$TRT)
+
   pl <- ggplot(data = lines, aes(x = POS)) +
     {if(grid) facet_grid(TRT ~ LGS, scales = "free", space = "free", shrink = TRUE) else facet_grid(~ LGS, scales = "free_x", space = "free_x")} +
     {if(nrow(points) > 0 & sup.int) geom_rect(data=points, aes(xmin = INF, xmax = SUP, ymin = -Inf, ymax = Inf, fill = TRT), alpha = 0.2)} +
@@ -123,6 +129,8 @@ plot_profile <- function(data = data, model = model, pheno.col = NULL, sup.int =
     theme(legend.position=legend, plot.title = element_text(hjust = 0.5), plot.subtitle = element_text(hjust = 0.5),
           panel.spacing.x = unit(0.01, "lines"), panel.spacing.y = unit(0.05, "lines"), strip.text.y = element_blank(),
           axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) +
-    {if(is.null(legend)) guides(color = "none")}
+    {if(is.null(legend)) guides(color = "none")} +
+    scale_color_manual(values = colors_palette) + 
+    scale_fill_manual(values = colors_palette)
   print(pl)
 }
