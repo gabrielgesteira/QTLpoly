@@ -81,5 +81,5 @@ Pereira GS, Gemenet DC, Mollinari M, Olukolu BA, Wood JC, Mosquera V, Gruneberg 
 \code{\link[qtlpoly]{maps6x}}, \code{\link[qtlpoly]{pheno6x}}
 }
 \author{
-Guilherme da Silva Pereira, \email{gdasilv@ncsu.edu}
+Guilherme da Silva Pereira, \email{gdasilv@ncsu.edu}, with minor updates by Gabriel de Siqueira Gesteira, \email{gdesiqu@ncsu.edu}
 }

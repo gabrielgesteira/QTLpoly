@@ -21,6 +21,7 @@ hex.xcf
 test-qtl.R
 resampling.R
 vigs
+vigs2
 qtl_ivan_test.R
 potato.rda
 example-data.rda

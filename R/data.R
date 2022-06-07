@@ -123,7 +123,7 @@
 #' 
 #' @examples
 #' library(mappoly)
-#' plot(B2721)
+#' print(B2721)
 "B2721"
 
 #' Autotetraploid potato map

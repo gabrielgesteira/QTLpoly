@@ -10,7 +10,7 @@ qtl_effects(ploidy = 6, fitted, pheno.col = NULL, verbose = TRUE)
 \method{plot}{qtlpoly.effects}(x, pheno.col = NULL, p1 = "P1", p2 = "P2", ...)
 }
 \arguments{
-\item{ploidy}{a numeric value of ploidy level of the cross (currently, only 4 or 6).}
+\item{ploidy}{a numeric value of ploidy level of the cross (currently, only 2, 4 or 6).}
 
 \item{fitted}{a fitted multiple QTL model of class \code{qtlpoly.fitted}.}
 
@@ -69,5 +69,5 @@ Pereira GS, Gemenet DC, Mollinari M, Olukolu BA, Wood JC, Mosquera V, Gruneberg 
 \code{\link[qtlpoly]{read_data}}, \code{\link[qtlpoly]{remim}}, \code{\link[qtlpoly]{fit_model}}
 }
 \author{
-Guilherme da Silva Pereira, \email{gdasilv@ncsu.edu}
+Guilherme da Silva Pereira, \email{gdasilv@ncsu.edu}, with modifications by Gabriel Gesteira, \email{gdesiqu@ncsu.edu}
 }

@@ -3,7 +3,7 @@
 #'
 #' Computes allele specific and allele combination (within-parent) heritable effects from multiple QTL models.
 #'
-#' @param ploidy a numeric value of ploidy level of the cross (currently, only 4 or 6).
+#' @param ploidy a numeric value of ploidy level of the cross (currently, only 2, 4 or 6).
 #'
 #' @param fitted a fitted multiple QTL model of class \code{qtlpoly.fitted}.
 #'
@@ -50,7 +50,7 @@
 #'   plot(est.effects)
 #'   }
 #'   
-#' @author Guilherme da Silva Pereira, \email{gdasilv@@ncsu.edu}
+#' @author Guilherme da Silva Pereira, \email{gdasilv@@ncsu.edu}, with modifications by Gabriel Gesteira, \email{gdesiqu@ncsu.edu}
 #'
 #' @references
 #'     Pereira GS, Gemenet DC, Mollinari M, Olukolu BA, Wood JC, Mosquera V, Gruneberg WJ, Khan A, Buell CR, Yencho GC, Zeng ZB (2020) Multiple QTL mapping in autopolyploids: a random-effect model approach with application in a hexaploid sweetpotato full-sib population, \emph{Genetics} 215 (3): 579-595. \doi{10.1534/genetics.120.303080}.
@@ -256,6 +256,49 @@ qtl_effects <- function(ploidy = 6, fitted, pheno.col = NULL, verbose = TRUE) {
         }
         
       }
+      if(ploidy == 2) {
+        
+        for(q in 1:nqtl) {
+          
+          if(verbose) {
+            if(q < nqtl) cat("...", qtl.mrk[q], "")
+            if(q == nqtl) cat(paste0("... ", qtl.mrk[q]))
+          }
+          
+          blups <- fitted$results[[pheno.col[p]]]$fitted$U[[q]]
+          alleles = matrix(unlist(strsplit(fitted$results[[pheno.col[p]]]$fitted$alleles, '')), ncol=3, byrow=TRUE)[,-2]
+          ## alleles <- matrix(unlist(strsplit(rownames(blups), '')), ncol=5, byrow=TRUE)[,-3]
+          
+          A <- t(combn(letters[1:4],1))
+          D <- t(combn(letters[1:4],2))
+          
+          a <- vector("list", dim(A)[1])
+          d <- vector("list", dim(D)[1])
+          
+          for(i in 1:dim(A)[1]) {
+            a[[i]] <- which(alleles == as.character(A[i,]), arr.ind = TRUE)[,1]
+            a[[i]] <- mean(blups[Reduce(intersect, list(a[[i]]))])
+          }
+          names(a) <- as.character(A)
+          for(i in 1:dim(D)[1]) {
+            d[[i]] <- which(apply(alleles == as.character(D[i,1]) | alleles == as.character(D[i,2]), 1, sum) == 2)
+            d[[i]] <- mean(blups[Reduce(intersect, list(d[[i]]))])
+          }
+          names(d) <- apply(D, 1, paste, collapse="")
+          
+          a <- a[!is.nan(unlist(a))]
+          d <- d[!is.nan(unlist(d))]
+          
+          for(i in 1:length(d)) {
+            d[[i]] <- d[[i]] -
+              sum(unlist(a[which(lapply(lapply(strsplit(names(a), split = ""), function(x) intersect(strsplit(names(d), split = "")[[i]], x)), function(x) length(x) == 1) == TRUE)]))
+          }
+          
+          effects[[q]] <- list(unlist(a), unlist(d))
+          
+        }
+        
+      }
       
       if(verbose) cat(". Done! \n\n", sep="")
       
@@ -295,6 +338,10 @@ plot.qtlpoly.effects <- function(x, pheno.col = NULL, p1 = "P1", p2 = "P2", ...)
     nqtl <- length(x$results[[p]]$effects)
     if(nqtl > 0) {
       for(q in 1:nqtl) {
+        if(x$ploidy == 2) {
+          data <- unlist(x$results[[p]]$effects[[q]])[1:8]
+          data <- data.frame(Estimates=as.numeric(data), Alleles=names(data), Parent=c(rep(p1,2),rep(p2,2),rep(p1,2),rep(p2,2)), Effects=c(rep("Additive",4),rep("Digenic",4)))
+        }
         if(x$ploidy == 4) {
           data <- unlist(x$results[[p]]$effects[[q]])[1:36]
           data <- data.frame(Estimates=as.numeric(data), Alleles=names(data), Parent=c(rep(p1,4),rep(p2,4),rep(p1,14),rep(p2,14)), Effects=c(rep("Additive",8),rep("Digenic",28)))

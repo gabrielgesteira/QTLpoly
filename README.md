@@ -62,7 +62,7 @@ Tutorials as well as simulated and real data set analyses will be listed here in
   * [VCF2SM: Python script that integrates VCF files and SuperMASSA](https://github.com/guilherme-pereira/vcf2sm)
  
 * Genetic mapping in polyploids
-  * [MAPpoly: Genetic maps in complex autopolyploids with even ploidy levels](https://cran.r-project.org/package=mappoly)
+  * [MAPpoly: Genetic maps in complex autopolyploids with even ploidy levels](https://CRAN.R-project.org/package=mappoly)
   * [MDSMap: High Density Genetic Linkage Mapping using Multidimensional Scaling](https://CRAN.R-project.org/package=MDSMap)
   * [polymapR: Linkage Analysis in Outcrossing Polyploids](https://CRAN.R-project.org/package=polymapR)
   * [TetraploidSNPMap: Linkage maps and mapping QTLs for autotetraploid species, using SNP dosage data.](https://www.bioss.ac.uk/knowledge/tetraploidmap/)
@@ -74,10 +74,10 @@ Tutorials as well as simulated and real data set analyses will be listed here in
 
 * QTL mapping
   * [diaQTL: QTL analysis of diploid and autotetraploid diallel populations](https://github.com/jendelman/diaQTL)
-  * [polyqtlR: QTL analysis and exploration of meiotic patterns in autopolyploid bi-parental F1 populations.](https://cran.r-project.org/web/packages/polyqtlR/index.html)
+  * [polyqtlR: QTL analysis and exploration of meiotic patterns in autopolyploid bi-parental F1 populations.](https://CRAN.R-project.org/package=polyqtlR)
   
 * Data visualization
-  * [VIEWpoly: integrate, visualize and explore results from genetic analysis, together with genomic information for autopolyploids](https://cran.r-project.org/package=viewpoly)
+  * [VIEWpoly: integrate, visualize and explore results from genetic analysis, together with genomic information for autopolyploids](https://CRAN.R-project.org/package=viewpoly)
   
 
 # Acknowledgments

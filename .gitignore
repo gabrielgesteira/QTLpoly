@@ -10,3 +10,12 @@ test-qtl.R
 resampling.R
 .Rproj.user
 TODO.org
+vigs/
+vigs2/
+.travis2.yml
+QTLpoly_dev.Rproj
+cran-comments.md
+hex-plot.png
+hex-plot2.png
+hex.xcf
+qtl_ivan_test.R
