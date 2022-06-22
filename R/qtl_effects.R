@@ -370,6 +370,6 @@ plot.qtlpoly.effects <- function(x, pheno.col = NULL, p1 = "P1", p2 = "P2", ...)
       }
     }
   }
-  invisible(return(res))
+  invisible(res)
 }
 
