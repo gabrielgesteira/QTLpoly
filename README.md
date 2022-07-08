@@ -6,6 +6,7 @@
 [![CRAN_monthly_downloads](https://cranlogs.r-pkg.org/badges/qtlpoly)](https://cranlogs.r-pkg.org/badges/qtlpoly?color=orange)
 
 
+
 # QTLpoly <img src="https://raw.githubusercontent.com/gabrielgesteira/QTLpoly/main/hex.png" align="right" width="200" />
 
 The R package `qtlpoly` (v. 0.2.2) is an under development software to map quantitative trait loci (QTL) in full-sib families of outcrossing autopolyploid species based on a random-effect multiple QTL model (Pereira et al. 2020). 
