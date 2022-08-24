@@ -9,7 +9,7 @@
 
 # QTLpoly <img src="https://raw.githubusercontent.com/gabrielgesteira/QTLpoly/main/hex.png" align="right" width="200" />
 
-The R package `qtlpoly` (v. 0.2.2) is an under development software to map quantitative trait loci (QTL) in full-sib families of outcrossing autopolyploid species based on a random-effect multiple QTL model (Pereira et al. 2020). 
+The R package `qtlpoly` (v. 0.2.4) is an under development software to map quantitative trait loci (QTL) in full-sib families of outcrossing autopolyploid species based on a random-effect multiple QTL model (Pereira et al. 2020). 
 
 In order to do so, you will need a genetic map from which conditional probabilities of putative QTL can be computed. We recommend [`mappoly`](https://cran.r-project.org/package=mappoly), a hidden Markov model-based R package to construct genetic maps in autopolyploids (Mollinari and Garcia 2019).
 
@@ -34,7 +34,7 @@ install.packages("devtools")
 devtools::install_github("gabrielgesteira/qtlpoly") 
 ```
 
-If you are using Windows, you may need to first install the the latest recommended version of [Rtools](https://cran.r-project.org/bin/windows/Rtools/).
+If you are using Windows, you may need to first install the latest recommended version of [Rtools](https://cran.r-project.org/bin/windows/Rtools/).
 
 # Documents 
 
