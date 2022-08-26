@@ -36,7 +36,7 @@ knitr::opts_chunk$set(eval = TRUE, cache = TRUE, echo = TRUE, results = 'hold', 
 
 # Introduction
 
-The R package `qtlpoly` (v. 0.2.3) [@Pereira2020] is an under development software to map multiple quantitative trait loci (QTL) in full-sib families of outcrossing autopolyploid species. It is based on the following random-effect model:
+The R package `qtlpoly` (v. 0.2.4) [@Pereira2020] is an under development software to map multiple quantitative trait loci (QTL) in full-sib families of outcrossing autopolyploid species. It is based on the following random-effect model:
 
 $$\boldsymbol{y} = \boldsymbol{1}\mu + \sum_{q=1}^Q \boldsymbol{g}_q + \boldsymbol{e}$$
 
@@ -56,7 +56,7 @@ install.packages("qtlpoly")
 
 To use the development version, please run the following commands to install `qtlpoly` and all of its dependencies:
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 ##install.packages("devtools")
 devtools::install_github("gabrielgesteira/qtlpoly")
 ```
@@ -444,6 +444,18 @@ plot_profile(data = data, model = feim.mod, grid = TRUE)
 ```
 
 <!-- Notice that one QTL on LG 1 was not detected for the trait 'T32' (false negative), while one QTL on LG 3 for the trait 'T45' was wrongly assigned (false positive). This exemplifies the power of multiple-QTL models over the single-QTL ones. Therefore, the FEIM model may be recommended only as a first, quick approach, but not as the ultimate model for detecting QTL in autopolyploid species.  -->
+
+# Exporting to VIEWpoly
+
+One can export the results from `MAPpoly` and `QTLpoly` to visualize them in the R package `VIEWpoly` with the commands below:
+
+```{r, eval=FALSE}
+save(maps4x, file="mappoly.maps.RData")
+save(data, file="qtlpoly.data.RData")
+save(remim.mod, file="qtlpoly.remim.mod.RData")
+save(fitted.mod, file="qtlpoly.fitted.mod.RData")
+save(est.effects, file="qtlpoly.est.effects.RData")
+```
 
 # Acknowledgments
 

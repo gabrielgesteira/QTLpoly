@@ -34,7 +34,7 @@ editor_options:
 
 # Introduction
 
-The R package `qtlpoly` (v. 0.2.3) [@Pereira2020] is an under development software to map multiple quantitative trait loci (QTL) in full-sib families of outcrossing autopolyploid species. It is based on the following random-effect model:
+The R package `qtlpoly` (v. 0.2.4) [@Pereira2020] is an under development software to map multiple quantitative trait loci (QTL) in full-sib families of outcrossing autopolyploid species. It is based on the following random-effect model:
 
 $$\boldsymbol{y} = \boldsymbol{1}\mu + \sum_{q=1}^Q \boldsymbol{g}_q + \boldsymbol{e}$$
 
@@ -59,39 +59,6 @@ To use the development version, please run the following commands to install `qt
 ```r
 > ##install.packages("devtools")
 > devtools::install_github("gabrielgesteira/qtlpoly")
-## Downloading GitHub repo gabrielgesteira/qtlpoly@HEAD
-## Installing 17 packages: pillar, tibble, rlang, ps, processx, pkgload, evaluate, callr, Rcpp, nloptr, viridisLite, farver, lme4, scales, RcppArmadillo, gtools, ggplot2
-## Installing packages into '/home/gdesiqu/R/x86_64-pc-linux-gnu-library/4.2'
-## (as 'lib' is unspecified)
-## Installing package into '/home/gdesiqu/R/x86_64-pc-linux-gnu-library/4.2'
-## (as 'lib' is unspecified)
-## Warning in i.p(...): installation of package '/tmp/RtmpJHrUuN/file43d3e1185e802/
-## qtlpoly_0.2.4.tar.gz' had non-zero exit status
-## pillar       (1.7.0      -> 1.8.1     ) [CRAN]
-## tibble       (3.1.6      -> 3.1.8     ) [CRAN]
-## rlang        (1.0.2      -> 1.0.4     ) [CRAN]
-## ps           (1.7.0      -> 1.7.1     ) [CRAN]
-## processx     (3.5.3      -> 3.7.0     ) [CRAN]
-## pkgload      (1.2.4      -> 1.3.0     ) [CRAN]
-## evaluate     (0.15       -> 0.16      ) [CRAN]
-## callr        (3.7.0      -> 3.7.2     ) [CRAN]
-## Rcpp         (1.0.8.3    -> 1.0.9     ) [CRAN]
-## nloptr       (2.0.0      -> 2.0.3     ) [CRAN]
-## viridisLite  (0.4.0      -> 0.4.1     ) [CRAN]
-## farver       (2.1.0      -> 2.1.1     ) [CRAN]
-## lme4         (1.1-29     -> 1.1-30    ) [CRAN]
-## scales       (1.2.0      -> 1.2.1     ) [CRAN]
-## RcppArmad... (0.11.1.1.0 -> 0.11.2.3.1) [CRAN]
-## gtools       (3.9.2      -> 3.9.3     ) [CRAN]
-## ggplot2      (3.3.5      -> 3.3.6     ) [CRAN]
-## * checking for file ‘/tmp/RtmpJHrUuN/remotes43d3ef58f51d/gabrielgesteira-QTLpoly-847ee41/DESCRIPTION’ ... OK
-## * preparing ‘qtlpoly’:
-## * checking DESCRIPTION meta-information ... OK
-## * cleaning src
-## * checking for LF line-endings in source and make files and shell scripts
-## * checking for empty or unneeded directories
-## * building ‘qtlpoly_0.2.4.tar.gz’
-## Warning: invalid uid value replaced by that for user 'nobody'
 ```
 
 Then, use the function `library()` -- or `require()` -- to load the package: 
@@ -1074,6 +1041,19 @@ Finally, one may want to plot the profiles and compare to the [plot profiles] fr
 <img src="1-tutorial_files/figure-html/unnamed-chunk-40-1.png" width="70%" height="70%" style="display: block; margin: auto;" />
 
 <!-- Notice that one QTL on LG 1 was not detected for the trait 'T32' (false negative), while one QTL on LG 3 for the trait 'T45' was wrongly assigned (false positive). This exemplifies the power of multiple-QTL models over the single-QTL ones. Therefore, the FEIM model may be recommended only as a first, quick approach, but not as the ultimate model for detecting QTL in autopolyploid species.  -->
+
+# Exporting to VIEWpoly
+
+One can export the results from `MAPpoly` and `QTLpoly` to visualize them in the R package `VIEWpoly` with the commands below:
+
+
+```r
+> save(maps4x, file="mappoly.maps.RData")
+> save(data, file="qtlpoly.data.RData")
+> save(remim.mod, file="qtlpoly.remim.mod.RData")
+> save(fitted.mod, file="qtlpoly.fitted.mod.RData")
+> save(est.effects, file="qtlpoly.est.effects.RData")
+```
 
 # Acknowledgments
 
