@@ -40,7 +40,8 @@ If you are using Windows, you may need to first install the latest recommended v
 
 Tutorials as well as simulated and real data set analyses will be listed here in order to help users to get familiar with the software and allow them to perform their own analyses:
 
-1. [Tutorial on Multiple QTL Mapping in Autopolyploids with QTLpoly](https://guilherme-pereira.github.io/QTLpoly/1-tutorial)
+<!-- 1. [Tutorial on Multiple QTL Mapping in Autopolyploids with QTLpoly](https://guilherme-pereira.github.io/QTLpoly/1-tutorial) -->
+1. [Tutorial on Multiple QTL Mapping in Autopolyploids with QTLpoly](https://gabrielgesteira.github.io/QTLpoly/docs/1-tutorial)
 2. [Tools for Polyploids](https://www.polyploids.org/workshop/2021/january/info) training section: [Multiple QTL Mapping in an Autotetraploid F<sub>1</sub> population with QTLpoly](https://guilherme-pereira.github.io/QTLpoly/2-tetraploid_example.html)
 
 
