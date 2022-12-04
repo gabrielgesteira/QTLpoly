@@ -113,7 +113,8 @@ remim_multi <- function(data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01, sig
     markers <- c(1:data$nmrk)
     temp <- parSapply(cl, as.character(markers), function(x) {
       m <- as.numeric(x)
-      full.mod <- varComp(Y ~ 1 + data$pheno$Pop, varcov = list(data$G[ind,ind,m]), weights = weight/max(weight))
+      cat(m)
+      full.mod <- varComp(Y ~ -1 + factor(data$pheno$Pop), varcov = list(data$G[ind,ind,m]), weights = weight/max(weight))
       test <- varComp.test(full.mod, null=integer(0L))
       c(st=as.numeric(test[[1]][[1]][[1]]$statistic), pv=as.numeric(test[[1]][[1]][[1]]$p.value))
     }) #first search
@@ -156,20 +157,20 @@ remim_multi <- function(data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01, sig
         markers <- c(1:data$nmrk)[-markers.out]
         if(polygenes) {
           Gstar <- apply(data$G[ind,ind,qtl.mrk], MARGIN = c(1,2), sum)/length(qtl.mrk); Gstar[1:5,1:5]
-          full.mod0 <- varComp(Y ~ 1 + data$pheno$Pop, varcov = list(Gstar), weights = weight/max(weight))
+          full.mod0 <- varComp(Y ~ -1 + factor(data$pheno$Pop), varcov = list(Gstar), weights = weight/max(weight))
           control <- varComp.control(start = c(coef(full.mod0, what = "var.ratio"),0))
           temp <- parSapply(cl, as.character(markers), function(x) {
             m <- as.numeric(x)
-            full.mod <- varComp(Y ~ 1 + data$pheno$Pop, varcov = list(Gstar, data$G[ind,ind,m]), control = control, weights = weight/max(weight))
+            full.mod <- varComp(Y ~ -1 + factor(data$pheno$Pop), varcov = list(Gstar, data$G[ind,ind,m]), control = control, weights = weight/max(weight))
             test <- varComp.test(full.mod, null=1L)
             c(st=as.numeric(test[[1]][[1]][[1]]$statistic), pv=as.numeric(test[[1]][[1]][[1]]$p.value))
           })
         } else {
-          withCallingHandlers(full.mod0 <- varComp(Y ~ 1 + data$pheno$Pop, varcov = c(qtl.vcv), weights = weight/max(weight)), warning = h)
+          withCallingHandlers(full.mod0 <- varComp(Y ~ -1 + factor(data$pheno$Pop), varcov = c(qtl.vcv), weights = weight/max(weight)), warning = h)
           control <- varComp.control(start = c(coef(full.mod0, what = "var.ratio"),0))
           temp <- parSapply(cl, as.character(markers), function(x) {
             m <- as.numeric(x)
-            full.mod <- varComp(Y ~ 1 + data$pheno$Pop, varcov = c(qtl.vcv, list(data$G[ind,ind,m])), control = control, weights = weight/max(weight))
+            full.mod <- varComp(Y ~ -1 + factor(data$pheno$Pop), varcov = c(qtl.vcv, list(data$G[ind,ind,m])), control = control, weights = weight/max(weight))
             test <- varComp.test(full.mod, null=c(1:length(qtl.vcv)))
             c(st=as.numeric(test[[1]][[1]][[1]]$statistic), pv=as.numeric(test[[1]][[1]][[1]]$p.value))
           })
@@ -205,7 +206,7 @@ remim_multi <- function(data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01, sig
           markers.out <- c((data$cum.nmrk[qtl.lgr[1]]+1):(data$cum.nmrk[qtl.lgr[1]+1]))
           temp <- parSapply(cl, as.character(markers.out), function(x) { #like first search
             m <- as.numeric(x)
-            full.mod <- varComp(Y ~ 1 + data$pheno$Pop, varcov = list(data$G[ind,ind,m]), weights = weight/max(weight))
+            full.mod <- varComp(Y ~ -1 + factor(data$pheno$Pop), varcov = list(data$G[ind,ind,m]), weights = weight/max(weight))
             test <- varComp.test(full.mod, null=integer(0L))
             c(st=as.numeric(test[[1]][[1]][[1]]$statistic), pv=as.numeric(test[[1]][[1]][[1]]$p.value))
           })
@@ -258,20 +259,20 @@ remim_multi <- function(data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01, sig
               }
               if(polygenes) {
                 Gstar <- apply(data$G[ind,ind,qtl.mrk0], MARGIN = c(1,2), sum)/length(qtl.mrk0); Gstar[1:5,1:5]
-                full.mod0 <- varComp(Y ~ 1 + data$pheno$Pop, varcov = list(Gstar), weights = weight/max(weight))
+                full.mod0 <- varComp(Y ~ -1 + factor(data$pheno$Pop), varcov = list(Gstar), weights = weight/max(weight))
                 control <- varComp.control(start = c(coef(full.mod0, what = "var.ratio"),0))
                 temp <- parSapply(cl, as.character(markers.out), function(x) {
                   m <- as.numeric(x)
-                  full.mod <- varComp(Y ~ 1 + data$pheno$Pop, varcov = list(Gstar, data$G[ind,ind,m]), control = control, weights = weight/max(weight))
+                  full.mod <- varComp(Y ~ -1 + factor(data$pheno$Pop), varcov = list(Gstar, data$G[ind,ind,m]), control = control, weights = weight/max(weight))
                   test <- varComp.test(full.mod, null=1L)
                   c(st=as.numeric(test[[1]][[1]][[1]]$statistic), pv=as.numeric(test[[1]][[1]][[1]]$p.value))
                 })
               } else {
-                withCallingHandlers(full.mod0 <- varComp(Y ~ 1 + data$pheno$Pop, varcov = c(qtl.vcv), weights = weight/max(weight)), warning = h)
+                withCallingHandlers(full.mod0 <- varComp(Y ~ -1 + factor(data$pheno$Pop), varcov = c(qtl.vcv), weights = weight/max(weight)), warning = h)
                 control <- varComp.control(start = c(coef(full.mod0, what = "var.ratio"),0))
                 temp <- parSapply(cl, as.character(markers.out), function(x) {
                   m <- as.numeric(x)
-                  full.mod <- varComp(Y ~ 1 + data$pheno$Pop, varcov = c(qtl.vcv, list(data$G[ind,ind,m])), control = control, weights = weight/max(weight))
+                  full.mod <- varComp(Y ~ -1 + factor(data$pheno$Pop), varcov = c(qtl.vcv, list(data$G[ind,ind,m])), control = control, weights = weight/max(weight))
                   test <- varComp.test(full.mod, null=c(1:length(qtl.vcv)))
                   c(st=as.numeric(test[[1]][[1]][[1]]$statistic), pv=as.numeric(test[[1]][[1]][[1]]$p.value))
                 })
@@ -324,7 +325,7 @@ remim_multi <- function(data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01, sig
         markers <- c(1:data$nmrk)
         temp <- parSapply(cl, as.character(markers), function(x) { #like first search
           m <- as.numeric(x)
-          full.mod <- varComp(Y ~ 1 + data$pheno$Pop, varcov = list(data$G[ind,ind,m]), weights = weight/max(weight))
+          full.mod <- varComp(Y ~ -1 + factor(data$pheno$Pop), varcov = list(data$G[ind,ind,m]), weights = weight/max(weight))
           test <- varComp.test(full.mod, null=integer(0L))
           c(st=as.numeric(test[[1]][[1]][[1]]$statistic), pv=as.numeric(test[[1]][[1]][[1]]$p.value))
         })
@@ -346,7 +347,7 @@ remim_multi <- function(data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01, sig
         markers <- c(1:data$nmrk)[-markers.out]
         temp <- parSapply(cl, as.character(markers.out), function(x) { #like first search
           m <- as.numeric(x)
-          full.mod <- varComp(Y ~ 1 + data$pheno$Pop, varcov = list(data$G[ind,ind,m]), weights = weight/max(weight))
+          full.mod <- varComp(Y ~ -1 + factor(data$pheno$Pop), varcov = list(data$G[ind,ind,m]), weights = weight/max(weight))
           test <- varComp.test(full.mod, null=integer(0L))
           c(st=as.numeric(test[[1]][[1]][[1]]$statistic), pv=as.numeric(test[[1]][[1]][[1]]$p.value))
         })
@@ -356,11 +357,11 @@ remim_multi <- function(data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01, sig
         stat[as.numeric(colnames(temp))] <- temp["st",]
         pval[as.numeric(colnames(temp))] <- temp["pv",]
         qtl.vcv <- list(data$G[ind,ind,qtl.mrk[1]])
-        withCallingHandlers(full.mod0 <- varComp(Y ~ 1 + data$pheno$Pop, varcov = c(qtl.vcv), weights = weight/max(weight)), warning = h)
+        withCallingHandlers(full.mod0 <- varComp(Y ~ -1 + factor(data$pheno$Pop), varcov = c(qtl.vcv), weights = weight/max(weight)), warning = h)
         control <- varComp.control(start = c(coef(full.mod0, what = "var.ratio"),0))
         temp <- parSapply(cl, as.character(markers), function(x) { #markers outside chr with QTL (second search)
           m <- as.numeric(x)
-          full.mod <- varComp(Y ~ 1 + data$pheno$Pop, varcov = c(qtl.vcv, list(data$G[ind,ind,m])), control = control, weights = weight/max(weight))
+          full.mod <- varComp(Y ~ -1 + factor(data$pheno$Pop), varcov = c(qtl.vcv, list(data$G[ind,ind,m])), control = control, weights = weight/max(weight))
           test <- varComp.test(full.mod, null=1L)
           c(st=as.numeric(test[[1]][[1]][[1]]$statistic), pv=as.numeric(test[[1]][[1]][[1]]$p.value))
         })
@@ -410,20 +411,20 @@ remim_multi <- function(data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01, sig
           }
           if(polygenes) {
             Gstar <- apply(data$G[ind,ind,qtl.mrk0], MARGIN = c(1,2), sum)/length(qtl.mrk0); Gstar[1:5,1:5]
-            full.mod0 <- varComp(Y ~ 1 + data$pheno$Pop, varcov = list(Gstar), weights = weight/max(weight))
+            full.mod0 <- varComp(Y ~ -1 + factor(data$pheno$Pop), varcov = list(Gstar), weights = weight/max(weight))
             control <- varComp.control(start = c(coef(full.mod0, what = "var.ratio"),0))
             temp <- parSapply(cl, as.character(markers.out), function(x) {
               m <- as.numeric(x)
-              full.mod <- varComp(Y ~ 1 + data$pheno$Pop, varcov = list(Gstar, data$G[ind,ind,m]), control = control, weights = weight/max(weight))
+              full.mod <- varComp(Y ~ -1 + factor(data$pheno$Pop), varcov = list(Gstar, data$G[ind,ind,m]), control = control, weights = weight/max(weight))
               test <- varComp.test(full.mod, null=1L)
               c(st=as.numeric(test[[1]][[1]][[1]]$statistic), pv=as.numeric(test[[1]][[1]][[1]]$p.value))
             })
           } else {
-            withCallingHandlers(full.mod0 <- varComp(Y ~ 1 + data$pheno$Pop, varcov = c(qtl.vcv), weights = weight/max(weight)), warning = h)
+            withCallingHandlers(full.mod0 <- varComp(Y ~ -1 + factor(data$pheno$Pop), varcov = c(qtl.vcv), weights = weight/max(weight)), warning = h)
             control <- varComp.control(start = c(coef(full.mod0, what = "var.ratio"),0))
             temp <- parSapply(cl, as.character(markers.out), function(x) {
               m <- as.numeric(x)
-              full.mod <- varComp(Y ~ 1 + data$pheno$Pop, varcov = c(qtl.vcv, list(data$G[ind,ind,m])), control = control, weights = weight/max(weight))
+              full.mod <- varComp(Y ~ -1 + factor(data$pheno$Pop), varcov = c(qtl.vcv, list(data$G[ind,ind,m])), control = control, weights = weight/max(weight))
               test <- varComp.test(full.mod, null=c(1:length(qtl.vcv)))
               c(st=as.numeric(test[[1]][[1]][[1]]$statistic), pv=as.numeric(test[[1]][[1]][[1]]$p.value))
             })
@@ -461,20 +462,20 @@ remim_multi <- function(data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01, sig
           }
           if(polygenes) {
             Gstar <- apply(data$G[ind,ind,qtl.mrk], MARGIN = c(1,2), sum)/length(qtl.mrk); Gstar[1:5,1:5]
-            full.mod0 <- varComp(Y ~ 1 + data$pheno$Pop, varcov = list(Gstar), weights = weight/max(weight))
+            full.mod0 <- varComp(Y ~ -1 + factor(data$pheno$Pop), varcov = list(Gstar), weights = weight/max(weight))
             control <- varComp.control(start = c(coef(full.mod0, what = "var.ratio"),0))
             temp <- parSapply(cl, as.character(markers.out), function(x) {
               m <- as.numeric(x)
-              full.mod <- varComp(Y ~ 1 + data$pheno$Pop, varcov = list(Gstar, data$G[ind,ind,m]), control = control, weights = weight/max(weight))
+              full.mod <- varComp(Y ~ -1 + factor(data$pheno$Pop), varcov = list(Gstar, data$G[ind,ind,m]), control = control, weights = weight/max(weight))
               test <- varComp.test(full.mod, null=1L)
               c(st=as.numeric(test[[1]][[1]][[1]]$statistic), pv=as.numeric(test[[1]][[1]][[1]]$p.value))
             })
           } else {
-            withCallingHandlers(full.mod <- varComp(Y ~ 1 + data$pheno$Pop, varcov = c(qtl.vcv), weights = weight/max(weight)), warning = h)
+            withCallingHandlers(full.mod <- varComp(Y ~ -1 + factor(data$pheno$Pop), varcov = c(qtl.vcv), weights = weight/max(weight)), warning = h)
             control <- varComp.control(start = c(coef(full.mod, what = "var.ratio"),0))
             temp <- parSapply(cl, as.character(markers.out), function(x) {
               m <- as.numeric(x)
-              full.mod <- varComp(Y ~ 1 + data$pheno$Pop, varcov = c(qtl.vcv, list(data$G[ind,ind,m])), control = control, weights = weight/max(weight))
+              full.mod <- varComp(Y ~ -1 + factor(data$pheno$Pop), varcov = c(qtl.vcv, list(data$G[ind,ind,m])), control = control, weights = weight/max(weight))
               test <- varComp.test(full.mod, null=c(1:length(qtl.vcv)))
               c(st=as.numeric(test[[1]][[1]][[1]]$statistic), pv=as.numeric(test[[1]][[1]][[1]]$p.value))
             })
