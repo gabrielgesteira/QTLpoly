@@ -77,7 +77,7 @@ remim2 <- function (data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01,
   if (verbose) cat("INFO: Using", n.clusters, "CPUs for calculation\n\n")
   cl <- makeCluster(n.clusters)
   ## registerDoParallel(cl)
-  clusterevalq(cl, require(qtlpoly))
+  clusterEvalQ(cl, require(qtlpoly))
   sig.fwd0 <- sig.fwd
   sig.bwd0 <- sig.bwd
   min.pvl <- NULL
