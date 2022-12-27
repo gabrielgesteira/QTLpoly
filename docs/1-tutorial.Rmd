@@ -112,6 +112,19 @@ print(data, detailed = TRUE)
 
 Notice that regardless of the number of markers per linkage group, we will rather evaluate only a limited number of positions, given the `step` argument (in our example, every 1 cM). Because of the quite large linkage disequilibrium blocks in mapping populations, especially in full-sib families with relatively small sample sizes (let us say, $N < 300$), there is no need to test every single marker in the map. Moreover, with such marker density (e.g., 5+ markers/cM), a lot of markers will contain redundant information for QTL mapping purposes anyway. `step = NULL` will allow to test every single marker in a high density map if one wants to do so, but be sure that computational time (and needed RAM for loading the `qtlpoly.data` object) will be hugely increased.
 
+# Score-based resampling to assess genome-wide significance
+
+Rather than guessing pointwise significance levels for declaring QTL, you can use the score-based resampling method to assess the genome-wide significance level (Zou et al. 2004). This method is relatively intensive, because it involves score statistics computation for every position in the map repeated 1,000 times (resampling):
+
+```{r, eval=F}
+## data.sim = simulate_qtl(data = data, mu = 0, h2.qtl = NULL, var.error = 1, n.sim = 1000, missing = TRUE, seed = 123)
+## score.null = null_model(data = data.sim$results, n.clusters = 6, plot = NULL)
+## min.pvl = unlist(lapply(score.null$results, function(x) return(x$pval[which.max(x$stat)])))
+## quantile(sort(min.pvl), c(0.2, 0.05))
+##          20%           5% 
+## 0.0011493379 0.0002284465
+```
+
 # Perform QTL detection
 
 Building a multiple QTL model is considered a model selection problem, and there are several ways to approach it. Here, we adapted the algorithm proposed by @Kao1999 for fixed-effect multiple interval mapping (MIM) for diploids to our random-effect MIM (REMIM) for polyploids, which is summarized as follows:
