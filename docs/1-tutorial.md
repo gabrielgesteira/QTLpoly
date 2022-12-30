@@ -1,7 +1,7 @@
 ---
 title: "Tutorial on Multiple QTL Mapping in Autopolyploids with QTLpoly"
 author: "Guilherme da Silva Pereira, Gabriel de Siqueira Gesteira, Marcelo Mollinari, Zhao-Bang Zeng"
-date: "2022-08-26"
+date: "2022-12-27"
 output:
  html_document:
    highlight: tango
@@ -42,7 +42,7 @@ where the vector of phenotypic values from a specific trait $\boldsymbol{y}$ is 
 
 Variance components associated with putative QTL ($\sigma^2_q$) are tested using score statistics, as proposed in @Qu2013. Final models are fitted using residual maximum likelihood (REML) from the R package `sommer` (v. 4.1) [@Covarrubias-Pazaran2016]. Plots for visualizing the results are based on `ggplot2` (v. 3.1.0) [@Wickham2016]. 
 
-This tutorial used R version 4.2.1 (2022-06-23) running on Ubuntu 20.04 LTS (64-bit).
+This tutorial used R version 4.2.2 Patched (2022-11-10 r83330) running on Ubuntu 20.04 LTS (64-bit).
 
 ## Install and load the `qtlpoly` package and data
 
@@ -57,7 +57,7 @@ To use the development version, please run the following commands to install `qt
 
 
 ```r
-> ##install.packages("devtools")
+> ## install.packages('devtools')
 > devtools::install_github("gabrielgesteira/qtlpoly")
 ```
 
@@ -65,7 +65,7 @@ Then, use the function `library()` -- or `require()` -- to load the package:
 
 
 ```r
-> library(qtlpoly) 
+> library(qtlpoly)
 ```
 
 `qtlpoly` includes preloaded datasets that are simpler, so one can run the functions along with this tutorial using a regular personal computer (with 4 cores and 6 GB of RAM, minimum). For real data analyses, one may need to run an R script in a cluster with more cores and RAM. In general, the computational needs depend on ploidy level, population size, and the number of markers.
@@ -74,10 +74,11 @@ The dataset used in this tutorial was based on a full-sib family ($N = 156$) fro
 
 
 ```r
-> ##install.packages("mappoly")
+> ## install.packages('mappoly')
 > library(mappoly)
+## Warning in fun(libname, pkgname): couldn't connect to display ":0"
 ## =====================================================
-## MAPpoly Package [Version 0.3.1]
+## MAPpoly Package [Version 0.3.22022-12-02 08:00:02 UTC]
 ## More information: https://github.com/mmollina/MAPpoly
 ## =====================================================
 > plot_map_list(maps4x)
@@ -241,7 +242,7 @@ Once the conditional probabilities have been calculated, you can use the functio
 
 
 ```r
-> data = read_data(ploidy = 4, geno.prob = genoprob4x, pheno = pheno4x, step = 1) 
+> data = read_data(ploidy = 4, geno.prob = genoprob4x, pheno = pheno4x, step = 1)
 ## Reading the following data: 
 ##   Ploidy level:       4
 ##   No. individuals:    156
@@ -255,7 +256,7 @@ If you want to see detailed information on the map (number of positions per link
 
 
 ```r
-> print(data, detailed = TRUE) 
+> print(data, detailed = TRUE)
 ## This is an object of class 'qtlpoly.data'
 ##   Ploidy level:       4
 ##   No. individuals:    156
@@ -281,6 +282,20 @@ If you want to see detailed information on the map (number of positions per link
 ```
 
 Notice that regardless of the number of markers per linkage group, we will rather evaluate only a limited number of positions, given the `step` argument (in our example, every 1 cM). Because of the quite large linkage disequilibrium blocks in mapping populations, especially in full-sib families with relatively small sample sizes (let us say, $N < 300$), there is no need to test every single marker in the map. Moreover, with such marker density (e.g., 5+ markers/cM), a lot of markers will contain redundant information for QTL mapping purposes anyway. `step = NULL` will allow to test every single marker in a high density map if one wants to do so, but be sure that computational time (and needed RAM for loading the `qtlpoly.data` object) will be hugely increased.
+
+# Score-based resampling to assess genome-wide significance
+
+Rather than guessing pointwise significance levels for declaring QTL, you can use the score-based resampling method to assess the genome-wide significance level (Zou et al. 2004). This method is relatively intensive, because it involves score statistics computation for every position in the map repeated 1,000 times (resampling):
+
+
+```r
+> ## data.sim = simulate_qtl(data = data, mu = 0, h2.qtl = NULL, var.error =
++ ## 1, n.sim = 1000, missing = TRUE, seed = 123) score.null =
++ ## null_model(data = data.sim$results, n.clusters = 6, plot = NULL)
++ ## min.pvl = unlist(lapply(score.null$results, function(x)
++ ## return(x$pval[which.max(x$stat)]))) quantile(sort(min.pvl), c(0.2,
++ ## 0.05)) 20% 5% 0.0011493379 0.0002284465
+```
 
 # Perform QTL detection
 
@@ -309,13 +324,13 @@ The function `null_mod()` runs the first round of score statistics along the gen
 ## INFO: Using 4 CPUs for calculation
 ## 
 ## Null model for trait 1 'FM07' 
-##   Calculation took 20 seconds
+##   Calculation took 20.49 seconds
 ## 
 ## Null model for trait 2 'FM08' 
-##   Calculation took 19.25 seconds
+##   Calculation took 19.61 seconds
 ## 
 ## Null model for trait 3 'FM14' 
-##   Calculation took 18.02 seconds
+##   Calculation took 18.58 seconds
 ```
 
 Progress is shown as `verbose = TRUE` by default. Plots with the logarithm of $P$-value [$LOP = -\log_{10}(P)$] can be generated using the argument `plot`, which is `NULL` by default. Notice that 4 cores are requested for parallel analysis by `n.clusters = 4`, which speeds up the process. 
@@ -343,7 +358,8 @@ Once the first run of score statistics has been carried out, you can start looki
 
 
 ```r
-> search.mod = search_qtl(data = data, model = null.mod, w.size = 15, sig.fwd = 0.01, n.clusters = 4)
+> search.mod = search_qtl(data = data, model = null.mod, w.size = 15, sig.fwd = 0.01,
++     n.clusters = 4)
 ## INFO: Using 4 CPUs for calculation
 ## 
 ## Forward search for trait 1 'FM07'; there are no QTL in the model 
@@ -351,7 +367,7 @@ Once the first run of score statistics has been carried out, you can start looki
 ##   QTL was found on LG 7 at 60.68 cM (position number 641)
 ##   QTL was found on LG 6 at 47.14 cM (position number 529)
 ##   No more QTL were found. A putative QTL on LG 1 at 7.12 cM (position number 4) did not reach the threshold; its p-value was 0.02045
-##   Calculation took 227.61 seconds
+##   Calculation took 226.54 seconds
 ## 
 ## Forward search for trait 2 'FM08'; there are no QTL in the model 
 ##   QTL was found on LG 5 at 26.19 cM (position number 438)
@@ -361,7 +377,7 @@ Once the first run of score statistics has been carried out, you can start looki
 ##   QTL was found on LG 8 at 18.1 cM (position number 701)
 ##   QTL was found on LG 6 at 49.48 cM (position number 531)
 ##   No more QTL were found. A putative QTL on LG 11 at 85.89 cM (position number 1017) did not reach the threshold; its p-value was 0.01051
-##   Calculation took 779.84 seconds
+##   Calculation took 775.17 seconds
 ## 
 ## Forward search for trait 3 'FM14'; there are no QTL in the model 
 ##   QTL was found on LG 5 at 12.09 cM (position number 430)
@@ -370,7 +386,7 @@ Once the first run of score statistics has been carried out, you can start looki
 ##   QTL was found on LG 2 at 95.98 cM (position number 203)
 ##   QTL was found on LG 11 at 81.32 cM (position number 1014)
 ##   No more QTL were found. A putative QTL on LG 12 at 0 cM (position number 1037) did not reach the threshold; its p-value was 0.01534
-##   Calculation took 541.52 seconds
+##   Calculation took 537.86 seconds
 ```
 
 The last putative QTL position that does not reach the threshold is printed together with its $P$-value. The default `n.rounds = Inf` will let the function run consecutive rounds until no more significant positions are found. One can optionally set `n.rounds = 1` to limit the number of QTL included in the model to only the most significant one. 
@@ -430,14 +446,15 @@ Rounds of model optimization are repeated until no more QTL have their positions
 
 
 ```r
-> optimize.mod = optimize_qtl(data = data, model = search.mod, sig.bwd = 0.0001, n.clusters = 4)
+> optimize.mod = optimize_qtl(data = data, model = search.mod, sig.bwd = 1e-04,
++     n.clusters = 4)
 ## INFO: Using 4 CPUs for calculation
 ## 
 ## Model optimization for trait 1 'FM07'; there are 3 QTL in the model already 
 ##   Refining QTL positions ... 438 ... 641 ... 529 
 ##   Excluding non-significant QTL ... 529 
 ##   Refining QTL positions ... 438 ... 641 
-##   Calculation took 48.23 seconds
+##   Calculation took 49.38 seconds
 ## 
 ## Model optimization for trait 2 'FM08'; there are 6 QTL in the model already 
 ##   Refining QTL positions ... 438 ... 5 ... 644 ... 892 ... 701 ... 531 
@@ -447,7 +464,7 @@ Rounds of model optimization are repeated until no more QTL have their positions
 ##   Refining QTL positions ... 438 ... 4 
 ##   Excluding non-significant QTL ... 4 
 ##   Refining QTL positions ... 438 
-##   Calculation took 191.41 seconds
+##   Calculation took 194.58 seconds
 ## 
 ## Model optimization for trait 3 'FM14'; there are 5 QTL in the model already 
 ##   Refining QTL positions ... 427 ... 645 ... 449 ... 203 ... 1014 
@@ -455,7 +472,7 @@ Rounds of model optimization are repeated until no more QTL have their positions
 ##   Refining QTL positions ... 427 ... 645 ... 449 ... 203 
 ##   Excluding non-significant QTL ... 203 
 ##   Refining QTL positions ... 427 ... 645 ... 449 
-##   Calculation took 148.35 seconds
+##   Calculation took 152.27 seconds
 ```
 
 <!-- In our example, one QTL was dropped from the models for the traits 'T32' and 'T17' each. All two QTL were dropped from the model for the trait 'T45'. For the trait 'T32', notice that the QTL initially at the position 98 had its position updated to 100 after one QTL was excluded. -->
@@ -487,20 +504,21 @@ The current optimized models can be used in the `model` argument for a new searc
 
 
 ```r
-> search.mod2 = search_qtl(data=data, model = optimize.mod, sig.fwd = 0.0001, n.clusters = 4)
+> search.mod2 = search_qtl(data = data, model = optimize.mod, sig.fwd = 1e-04,
++     n.clusters = 4)
 ## INFO: Using 4 CPUs for calculation
 ## 
 ## Forward search for trait 1 'FM07'; there are 2 QTL in the model already 
 ##   No more QTL were found. A putative QTL on LG 6 at 47.14 cM (position number 529) did not reach the threshold; its p-value was 0.00734
-##   Calculation took 72.53 seconds
+##   Calculation took 74.04 seconds
 ## 
 ## Forward search for trait 2 'FM08'; there is 1 QTL in the model already 
 ##   No more QTL were found. A putative QTL on LG 1 at 7.12 cM (position number 4) did not reach the threshold; its p-value was 0.00014
-##   Calculation took 53.09 seconds
+##   Calculation took 53.52 seconds
 ## 
 ## Forward search for trait 3 'FM14'; there are 3 QTL in the model already 
 ##   No more QTL were found. A putative QTL on LG 2 at 95.98 cM (position number 203) did not reach the threshold; its p-value was 0.00043
-##   Calculation took 104.68 seconds
+##   Calculation took 106.49 seconds
 ```
 
 In our example, no more QTL reached the significance level, so the `print()` function outputs the same results we have seen before:
@@ -534,20 +552,21 @@ Once a final QTL model is defined, one should run the function `profile_qtl()` i
 
 
 ```r
-> profile.mod = profile_qtl(data = data, model = optimize.mod, d.sint = 1.5, polygenes = FALSE, n.clusters = 4)
+> profile.mod = profile_qtl(data = data, model = optimize.mod, d.sint = 1.5, polygenes = FALSE,
++     n.clusters = 4)
 ## INFO: Using 4 CPUs for calculation
 ## 
 ## QTL profile for trait 1 'FM07'; there are 2 QTL in the model 
 ##   Profiling QTL ... 438 ... 641 
-##   Calculation took 81.64 seconds
+##   Calculation took 81.4 seconds
 ## 
 ## QTL profile for trait 2 'FM08'; there is 1 QTL in the model 
 ##   Profiling QTL ... 438 
-##   Calculation took 54.03 seconds
+##   Calculation took 54.41 seconds
 ## 
 ## QTL profile for trait 3 'FM14'; there are 3 QTL in the model 
 ##   Profiling QTL ... 427 ... 449 ... 645 
-##   Calculation took 119.08 seconds
+##   Calculation took 119.83 seconds
 ```
 
 A `print()` gives the final statistics for each QTL:
@@ -577,7 +596,7 @@ For objects of class `qtlpoly.profile`, you can also choose to print both lower 
 
 
 ```r
-> print(profile.mod, sint = "lower") 
+> print(profile.mod, sint = "lower")
 ## This is an object of class 'qtlpoly.profile'
 ## 
 ## * Trait 1 'FM07' 
@@ -662,7 +681,8 @@ The function `remim()` has the previous algorithm steps implemented in an automa
 
 
 ```r
-> remim.mod = remim(data = data, w.size = 15, sig.fwd = 0.01, sig.bwd = 0.0001, d.sint = 1.5, n.clusters = 4)
+> remim.mod = remim(data = data, w.size = 15, sig.fwd = 0.01, sig.bwd = 1e-04,
++     d.sint = 1.5, n.clusters = 4)
 ## INFO: Using 4 CPUs for calculation
 ## 
 ## REMIM for trait 1 'FM07' 
@@ -674,7 +694,7 @@ The function `remim()` has the previous algorithm steps implemented in an automa
 ##   Excluding non-significant QTL ... 529 
 ##   Refining QTL positions ... 438 ... 641 
 ##   Profiling QTL ... 438 ... 641 
-##   Calculation took 376.95 seconds
+##   Calculation took 374.45 seconds
 ## 
 ## REMIM for trait 2 'FM08' 
 ##   QTL was found on LG 5 at 26.19 cM (position number 438)
@@ -692,7 +712,7 @@ The function `remim()` has the previous algorithm steps implemented in an automa
 ##   Excluding non-significant QTL ... 4 
 ##   Refining QTL positions ... 438 
 ##   Profiling QTL ... 438 
-##   Calculation took 1045.44 seconds
+##   Calculation took 1040.95 seconds
 ## 
 ## REMIM for trait 3 'FM14' 
 ##   QTL was found on LG 5 at 12.09 cM (position number 430)
@@ -707,7 +727,7 @@ The function `remim()` has the previous algorithm steps implemented in an automa
 ##   Excluding non-significant QTL ... 203 
 ##   Refining QTL positions ... 427 ... 645 ... 449 
 ##   Profiling QTL ... 427 ... 449 ... 645 
-##   Calculation took 828.15 seconds
+##   Calculation took 826.51 seconds
 ```
 
 Notice that the output for all traits was the same as doing it step-by-step, i.e., using separate functions. This alternative also helps to run all the steps in a faster way, as the needed data for parallel processing have to be loaded into RAM only once. 
@@ -787,10 +807,11 @@ Given the final profiled models, you can plot either individual or joint $LOP$ p
 
 
 ```r
-> for(p in remim.mod$pheno.col) plot_profile(data = data, model = remim.mod, pheno.col = p, ylim = c(0,10))
+> for (p in remim.mod$pheno.col) plot_profile(data = data, model = remim.mod,
++     pheno.col = p, ylim = c(0, 10))
 ```
 
-<img src="1-tutorial_files/figure-html/unnamed-chunk-25-1.png" width="70%" height="70%" style="display: block; margin: auto;" /><img src="1-tutorial_files/figure-html/unnamed-chunk-25-2.png" width="70%" height="70%" style="display: block; margin: auto;" /><img src="1-tutorial_files/figure-html/unnamed-chunk-25-3.png" width="70%" height="70%" style="display: block; margin: auto;" />
+<img src="1-tutorial_files/figure-html/unnamed-chunk-26-1.png" width="70%" height="70%" style="display: block; margin: auto;" /><img src="1-tutorial_files/figure-html/unnamed-chunk-26-2.png" width="70%" height="70%" style="display: block; margin: auto;" /><img src="1-tutorial_files/figure-html/unnamed-chunk-26-3.png" width="70%" height="70%" style="display: block; margin: auto;" />
 
 Triangles indicate the estimated position of the QTL peaks. By providing values to the y-axis limits using `ylim`, one guarantees that all plots will be in the same scale.
 
@@ -798,16 +819,16 @@ If one wants to plot some or all QTL profiles at once for comparison, `pheno.col
 
 
 ```r
-> plot_profile(data = data, model = remim.mod, grid = TRUE) 
+> plot_profile(data = data, model = remim.mod, grid = TRUE)
 ```
 
-<img src="1-tutorial_files/figure-html/unnamed-chunk-26-1.png" width="70%" height="70%" style="display: block; margin: auto;" />
+<img src="1-tutorial_files/figure-html/unnamed-chunk-27-1.png" width="70%" height="70%" style="display: block; margin: auto;" />
 
 ```r
-> plot_profile(data = data, model = remim.mod, grid = FALSE) 
+> plot_profile(data = data, model = remim.mod, grid = FALSE)
 ```
 
-<img src="1-tutorial_files/figure-html/unnamed-chunk-26-2.png" width="70%" height="70%" style="display: block; margin: auto;" />
+<img src="1-tutorial_files/figure-html/unnamed-chunk-27-2.png" width="70%" height="70%" style="display: block; margin: auto;" />
 
 The argument `grid` organizes the multiple plots as a grid if `TRUE`, or superimposed profiles if `FALSE`.
 
@@ -820,7 +841,7 @@ You can visualize the QTL distributed along the linkage map, together with their
 > plot_sint(data = data, model = remim.mod)
 ```
 
-<img src="1-tutorial_files/figure-html/unnamed-chunk-27-1.png" width="70%" height="70%" style="display: block; margin: auto;" />
+<img src="1-tutorial_files/figure-html/unnamed-chunk-28-1.png" width="70%" height="70%" style="display: block; margin: auto;" />
 
 Notice that for highly significant QTL ($P < 2.22 \times 10^{-16}$), computing support intervals may need adjustment due to the floating point precision limit.
 
@@ -830,7 +851,7 @@ Once final models have been defined, one may use REML to estimate their paramete
 
 
 ```r
-> fitted.mod = fit_model(data=data, model=remim.mod, probs="joint", polygenes="none")
+> fitted.mod = fit_model(data = data, model = remim.mod, probs = "joint", polygenes = "none")
 ## There are 2 QTL in the model for trait 1 'FM07'. Fitting model... Done! 
 ## 
 ## There is 1 QTL in the model for trait 2 'FM08'. Fitting model... Done! 
@@ -874,7 +895,7 @@ After models have been fitted, you can visualize a summary of QTL metrics with t
 > plot_qtl(data = data, model = remim.mod, fitted = fitted.mod, drop.pheno = FALSE)
 ```
 
-<img src="1-tutorial_files/figure-html/unnamed-chunk-30-1.png" width="70%" height="70%" style="display: block; margin: auto;" />
+<img src="1-tutorial_files/figure-html/unnamed-chunk-31-1.png" width="70%" height="70%" style="display: block; margin: auto;" />
 
 Dots are located on the respective chromosome positions of the QTL peaks. The dots' sizes correspond to the specific QTL heritability, while their colors correspond to the $P$-values, which may help to identify the most or the less significant QTL. `drop = FALSE` makes sure all traits are displayed, even if they do not had any QTL detected.
 
@@ -896,10 +917,10 @@ A `plot()` function allows the user to visualize these contributions graphically
 
 
 ```r
-> plot(est.effects) 
+> plot(est.effects)
 ```
 
-<img src="1-tutorial_files/figure-html/unnamed-chunk-32-1.png" width="70%" height="70%" style="display: block; margin: auto;" /><img src="1-tutorial_files/figure-html/unnamed-chunk-32-2.png" width="70%" height="70%" style="display: block; margin: auto;" /><img src="1-tutorial_files/figure-html/unnamed-chunk-32-3.png" width="70%" height="70%" style="display: block; margin: auto;" /><img src="1-tutorial_files/figure-html/unnamed-chunk-32-4.png" width="70%" height="70%" style="display: block; margin: auto;" /><img src="1-tutorial_files/figure-html/unnamed-chunk-32-5.png" width="70%" height="70%" style="display: block; margin: auto;" /><img src="1-tutorial_files/figure-html/unnamed-chunk-32-6.png" width="70%" height="70%" style="display: block; margin: auto;" />
+<img src="1-tutorial_files/figure-html/unnamed-chunk-33-1.png" width="70%" height="70%" style="display: block; margin: auto;" /><img src="1-tutorial_files/figure-html/unnamed-chunk-33-2.png" width="70%" height="70%" style="display: block; margin: auto;" /><img src="1-tutorial_files/figure-html/unnamed-chunk-33-3.png" width="70%" height="70%" style="display: block; margin: auto;" /><img src="1-tutorial_files/figure-html/unnamed-chunk-33-4.png" width="70%" height="70%" style="display: block; margin: auto;" /><img src="1-tutorial_files/figure-html/unnamed-chunk-33-5.png" width="70%" height="70%" style="display: block; margin: auto;" /><img src="1-tutorial_files/figure-html/unnamed-chunk-33-6.png" width="70%" height="70%" style="display: block; margin: auto;" />
 
 For each QTL, one can see which alleles contribute the most to increase or decrease the phenotypic mean. This is interesting to plan marker-assisted selection strategies, for example, as specific alleles can be selected based on the marker dosage at or around the QTL peak and with the support of the population linkage map from `mappoly`. 
 
@@ -918,10 +939,10 @@ A `plot()` function shows the distribution of the genotypic values for the popul
 
 
 ```r
-> plot(y.hat) 
+> plot(y.hat)
 ```
 
-<img src="1-tutorial_files/figure-html/unnamed-chunk-34-1.png" width="70%" height="70%" style="display: block; margin: auto;" /><img src="1-tutorial_files/figure-html/unnamed-chunk-34-2.png" width="70%" height="70%" style="display: block; margin: auto;" /><img src="1-tutorial_files/figure-html/unnamed-chunk-34-3.png" width="70%" height="70%" style="display: block; margin: auto;" />
+<img src="1-tutorial_files/figure-html/unnamed-chunk-35-1.png" width="70%" height="70%" style="display: block; margin: auto;" /><img src="1-tutorial_files/figure-html/unnamed-chunk-35-2.png" width="70%" height="70%" style="display: block; margin: auto;" /><img src="1-tutorial_files/figure-html/unnamed-chunk-35-3.png" width="70%" height="70%" style="display: block; margin: auto;" />
 
 This may be interesting for those populations whose individuals have been genotyped, but not phenotyped, and you still want to consider them when selecting the best genotypes.
 
@@ -948,15 +969,15 @@ Using the same object `data` from REMIM analyses, one can first compute the thre
 ## 
 ## Permutations for trait 1 'FM07' 
 ##   95% LOD threshold = 5.9
-##   Calculation took 296.21 seconds
+##   Calculation took 333.23 seconds
 ## 
 ## Permutations for trait 2 'FM08' 
 ##   95% LOD threshold = 6
-##   Calculation took 283.98 seconds
+##   Calculation took 277.44 seconds
 ## 
 ## Permutations for trait 3 'FM14' 
 ##   95% LOD threshold = 5.99
-##   Calculation took 293.71 seconds
+##   Calculation took 287.11 seconds
 ```
 
 Once the analyses are done, one may print the results by specifying a vector with the probabilities of interest. By default, `probs = c(0.95, 0.90)`, so that 95% and 90% quantiles are shown:
@@ -1005,14 +1026,14 @@ As `probs = c(0.95, 0.90)` were also the default in `permutations()` function, w
 ## FEIM for trait 3 'FM14' 
 ##   QTL was found on LG 5 at 26.19 cM (position number 438)
 ## 
-## Calculation took 4.17 seconds
+## Calculation took 5.19 seconds
 ```
 
 A `print` function shows detailed information on the detected QTL:
 
 
 ```r
-> print(feim.mod) 
+> print(feim.mod)
 ## This is an object of class 'qtlpoly.feim'
 ## 
 ## * Trait 1 'FM07' 
@@ -1038,7 +1059,7 @@ Finally, one may want to plot the profiles and compare to the [plot profiles] fr
 > plot_profile(data = data, model = feim.mod, grid = TRUE)
 ```
 
-<img src="1-tutorial_files/figure-html/unnamed-chunk-40-1.png" width="70%" height="70%" style="display: block; margin: auto;" />
+<img src="1-tutorial_files/figure-html/unnamed-chunk-41-1.png" width="70%" height="70%" style="display: block; margin: auto;" />
 
 <!-- Notice that one QTL on LG 1 was not detected for the trait 'T32' (false negative), while one QTL on LG 3 for the trait 'T45' was wrongly assigned (false positive). This exemplifies the power of multiple-QTL models over the single-QTL ones. Therefore, the FEIM model may be recommended only as a first, quick approach, but not as the ultimate model for detecting QTL in autopolyploid species.  -->
 
@@ -1048,11 +1069,11 @@ One can export the results from `MAPpoly` and `QTLpoly` to visualize them in the
 
 
 ```r
-> save(maps4x, file="mappoly.maps.RData")
-> save(data, file="qtlpoly.data.RData")
-> save(remim.mod, file="qtlpoly.remim.mod.RData")
-> save(fitted.mod, file="qtlpoly.fitted.mod.RData")
-> save(est.effects, file="qtlpoly.est.effects.RData")
+> save(maps4x, file = "mappoly.maps.RData")
+> save(data, file = "qtlpoly.data.RData")
+> save(remim.mod, file = "qtlpoly.remim.mod.RData")
+> save(fitted.mod, file = "qtlpoly.fitted.mod.RData")
+> save(est.effects, file = "qtlpoly.est.effects.RData")
 ```
 
 # Acknowledgments
