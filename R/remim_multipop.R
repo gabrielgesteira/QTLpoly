@@ -77,7 +77,7 @@ remim_multipop <- function (data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01,
   if (verbose) cat("INFO: Using", n.clusters, "CPUs for calculation\n\n")
   cl <- makeCluster(n.clusters)
   registerDoParallel(cl)
-  clusterEvalQ(cl, require(qtlpoly))
+  ## clusterEvalQ(cl, require(qtlpoly))
   sig.fwd0 <- sig.fwd
   sig.bwd0 <- sig.bwd
   min.pvl <- NULL
@@ -121,9 +121,10 @@ remim_multipop <- function (data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01,
     G <- share(G)
     Y = share(Y)
     X = share(X)
-    clusterExport(cl, c("Y", "X", "G"))
-    ind = as.factor(ind)
     tau <- c()
+    ## clusterExport(cl, c("Y", "X", "G","tau","score.test"))
+    clusterExport(cl, "score.test")
+    ind = as.factor(ind)
     temp <-  foreach(m = markers, .combine = cbind) %dopar%{
       K = G[m]
       score.test(Y,X,K,tau)
