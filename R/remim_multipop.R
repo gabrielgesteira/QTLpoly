@@ -769,7 +769,7 @@ remim_multipop <- function (data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01,
     results[[p]] <- list(pheno.col = pheno.col[p], stat = stat, 
                          pval = pval, qtls = qtls, lower = lower, upper = upper)
   }
-  ## freeSharedMemory(listSharedObjects())
+  SharedObject::freeSharedMemory(listSharedObjects())
   stopCluster(cl)
   structure(list(data = deparse(substitute(data)), pheno.col = pheno.col, 
                  w.size = w.size * data$step, sig.fwd = sig.fwd0, sig.bwd = sig.bwd0, 

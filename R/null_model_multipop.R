@@ -117,7 +117,7 @@ null_model_multipop <- function(data, offset.data = NULL, pheno.col = NULL, n.cl
     if(verbose) cat("  Calculation took", round((end - start)[3], digits = 2), "seconds\n\n")
     
   }
-  
+  SharedObject::freeSharedMemory(listSharedObjects())  
   stopCluster(cl)
   structure(list(data=deparse(substitute(data)),
                  offset.data=deparse(substitute(offset.data)),
