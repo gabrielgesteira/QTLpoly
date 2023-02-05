@@ -212,7 +212,7 @@ remim_multipop <- function (data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01,
             full.mod0 = asreml(Y ~ 1, random, trace = F)
             tau = full.mod0$vparameters[1:length(qtl.vcv)]
           } else{
-            withCallingHandlers(full.mod0 <- varComp(Y ~ -1 + factor(data$pheno$Pop), varcov = qtl.vcv, weights = weight/max(weight)), warnings = "supress")
+            withCallingHandlers(full.mod0 <- varComp(Y ~  -1 + factor(data$pheno$Pop), varcov = qtl.vcv, weights = weight/max(weight)), warnings = "supress")
             tau <- full.mod0$parms
           }
           temp <-  foreach(m = markers, .combine = cbind) %dopar%{
