@@ -52,11 +52,11 @@
 #'   data = read_data(ploidy = 4, geno.prob = genoprob4x, pheno = pheno4x, step = 1)
 #'
 #'   # Search for QTL
-#'   remim.mod = remim(data = data, pheno.col = 1, w.size = 15, sig.fwd = 0.0011493379,
+#'   remim.mod = remim2(data = data, pheno.col = 1, w.size = 15, sig.fwd = 0.0011493379,
 #' sig.bwd = 0.0002284465, d.sint = 1.5, n.clusters = 1)
 #'   }
 #'
-#' @author Guilherme da Silva Pereira, \email{gdasilv@@ncsu.edu}
+#' @author Guilherme da Silva Pereira, \email{gdasilv@@ncsu.edu}, Getúlio Caixeta Ferreira, \email{gcaifer@gmail.com}
 #'
 #' @references
 #'     Kao CH, Zeng ZB, Teasdale RD (1999) Multiple interval mapping for quantitative trait loci. \emph{Genetics} 152 (3): 1203–16. 
