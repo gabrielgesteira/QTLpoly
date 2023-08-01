@@ -56,7 +56,7 @@
 #' sig.bwd = 0.0002284465, d.sint = 1.5, n.clusters = 1)
 #'   }
 #'
-#' @author Guilherme da Silva Pereira, \email{gdasilv@@ncsu.edu}, Getúlio Caixeta Ferreira, \email{gcaifer@gmail.com}
+#' @author Guilherme da Silva Pereira, \email{gdasilv@@ncsu.edu}, Getúlio Caixeta Ferreira, \email{getulio.caifer@gmail.com}
 #'
 #' @references
 #'     Kao CH, Zeng ZB, Teasdale RD (1999) Multiple interval mapping for quantitative trait loci. \emph{Genetics} 152 (3): 1203–16. 
