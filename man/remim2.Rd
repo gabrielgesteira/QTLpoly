@@ -44,11 +44,7 @@ remim2(
 
 \item{verbose}{if \code{TRUE} (default), current progress is shown; if \code{FALSE}, no output is produced.}
 
-\item{x}{an object of class \code{qtlpoly.remim} to be printed.}
-
 \item{sint}{whether \code{"upper"} or \code{"lower"} support intervals should be printed; if \code{NULL} (default), only QTL peak information will be printed.}
-
-\item{...}{currently ignored}
 }
 \value{
 An object of class \code{qtlpoly.remim} which contains a list of \code{results} for each trait with the following components:
@@ -72,7 +68,7 @@ Automatic function that performs REMIM algorithm using score statistics.
   data = read_data(ploidy = 4, geno.prob = genoprob4x, pheno = pheno4x, step = 1)
 
   # Search for QTL
-  remim.mod = remim(data = data, pheno.col = 1, w.size = 15, sig.fwd = 0.0011493379,
+  remim.mod = remim2(data = data, pheno.col = 1, w.size = 15, sig.fwd = 0.0011493379,
 sig.bwd = 0.0002284465, d.sint = 1.5, n.clusters = 1)
   }
 
@@ -90,5 +86,5 @@ Kao CH, Zeng ZB, Teasdale RD (1999) Multiple interval mapping for quantitative t
 \code{\link[qtlpoly]{read_data}}
 }
 \author{
-Guilherme da Silva Pereira, \email{gdasilv@ncsu.edu}
+Guilherme da Silva Pereira, \email{gdasilv@ncsu.edu}, Getúlio Caixeta Ferreira, \email{getulio.caifer@gmail.com}
 }

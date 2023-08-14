@@ -26,11 +26,7 @@
 #'
 #' @param verbose if \code{TRUE} (default), current progress is shown; if \code{FALSE}, no output is produced.
 #'
-#' @param x an object of class \code{qtlpoly.remim} to be printed.
-#'
 #' @param sint whether \code{"upper"} or \code{"lower"} support intervals should be printed; if \code{NULL} (default), only QTL peak information will be printed.
-#'
-#' @param ... currently ignored
 #'
 #' @return An object of class \code{qtlpoly.remim} which contains a list of \code{results} for each trait with the following components:
 #'
