@@ -52,7 +52,7 @@ null_model2 <- function(data, offset.data = NULL, pheno.col = NULL, n.clusters =
   cl <- makeCluster(n.clusters)
   registerDoParallel(cl)
   clusterEvalQ(cl, require(qtlpoly))
-  clusterExport(cl, c("score.test"))
+  ## clusterExport(cl, c("score.test"))
   if(is.null(pheno.col)) pheno.col <- 1:dim(data$pheno)[2]
   if(!is.null(plot)) plot <- paste(plot, "pdf", sep = ".")
   results <- vector("list", length(pheno.col))
