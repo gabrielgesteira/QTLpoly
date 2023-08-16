@@ -44,6 +44,7 @@
 #'
 #' @export null_model2
 #' @import parallel
+#' @import SharedObject
 
 null_model2 <- function(data, offset.data = NULL, pheno.col = NULL, n.clusters = NULL, plot = NULL, verbose = TRUE) {
   
@@ -60,6 +61,7 @@ null_model2 <- function(data, offset.data = NULL, pheno.col = NULL, n.clusters =
   markers <- c(1:data$nmrk)
   ind <- rownames(data$pheno)[which(!is.na(data$pheno[,pheno.col[1]]))]
   G <- lapply(markers, function(x) data$G[ind,ind,x])
+  G = share(G)
   
   for(p in 1:length(results)) {
     
@@ -111,7 +113,7 @@ null_model2 <- function(data, offset.data = NULL, pheno.col = NULL, n.clusters =
     if(verbose) cat("  Calculation took", round((end - start)[3], digits = 2), "seconds\n\n")
     
   }
-  
+  freeSharedMemory(listSharedObjects())
   stopCluster(cl)
   structure(list(data=deparse(substitute(data)),
                  offset.data=deparse(substitute(offset.data)),

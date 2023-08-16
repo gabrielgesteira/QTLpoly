@@ -67,6 +67,7 @@
 #' @export remim2
 #' @import doParallel
 #' @import foreach
+#' @import SharedObject
 remim2 <- function (data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01,
                     sig.bwd = 1e-04, score.null = NULL, d.sint = 1.5, polygenes = FALSE,
                     n.clusters = NULL, n.rounds = Inf, plot = NULL, verbose = TRUE)
@@ -113,6 +114,10 @@ remim2 <- function (data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01,
     markers <- c(1:data$nmrk)
     G <- lapply(markers, function(x) data$G[ind,ind,x])
     G <- lapply(G, function(x) x/mean(diag(x)))
+    G = share(G)
+    Y = share(Y)
+    X = share(X)
+    ## clusterExport(cl, c("Y", "X", "G"))
     ind = as.factor(ind)
     tau <- c()
     temp <-  foreach(m = markers, .combine = cbind) %dopar%{
@@ -693,6 +698,7 @@ remim2 <- function (data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01,
     results[[p]] <- list(pheno.col = pheno.col[p], stat = stat, 
                          pval = pval, qtls = qtls, lower = lower, upper = upper)
   }
+  freeSharedMemory(listSharedObjects())
   stopCluster(cl)
   structure(list(data = deparse(substitute(data)), pheno.col = pheno.col, 
                  w.size = w.size * data$step, sig.fwd = sig.fwd0, sig.bwd = sig.bwd0, 
