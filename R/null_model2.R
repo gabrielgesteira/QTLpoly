@@ -59,15 +59,17 @@ null_model2 <- function(data, offset.data = NULL, pheno.col = NULL, n.clusters =
   results <- vector("list", length(pheno.col))
   names(results) <- colnames(data$pheno)[pheno.col]
   markers <- c(1:data$nmrk)
-  ind <- rownames(data$pheno)[which(!is.na(data$pheno[,pheno.col[1]]))]
-  G <- lapply(markers, function(x) data$G[ind,ind,x])
-  G = share(G)
+  ## ind <- rownames(data$pheno)[which(!is.na(data$pheno[,pheno.col[1]]))]
+  ## G <- lapply(markers, function(x) data$G[ind,ind,x])
+  ## G = share(G)
+  G = share(data$G)
   
   for(p in 1:length(results)) {
     
     start <- proc.time()
     stat <- numeric(data$nmrk)
     pval <- numeric(data$nmrk)
+    ind <- rownames(data$pheno)[which(!is.na(data$pheno[,pheno.col[p]]))]
     Y <- data$pheno[ind,pheno.col[p]]
     X <- matrix(1, length(Y))
     if(is.null(offset.data)) {
@@ -80,7 +82,7 @@ null_model2 <- function(data, offset.data = NULL, pheno.col = NULL, n.clusters =
 
     tau <- c()
     temp <-  foreach(m = markers, .combine = cbind) %dopar%{
-      K = G[m]
+      K = list(G[ind,ind,m])
       score.test(Y,X,K,tau)
     }
     colnames(temp) = markers
