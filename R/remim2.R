@@ -91,7 +91,7 @@ remim2 <- function (data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01,
   results <- vector("list", length(pheno.col))
   names(results) <- colnames(data$pheno)[pheno.col]
   if (data$step > 1) w.size <- w.size/data$step
-  for (i in 1:dim(data$G)[3]){data$G[,,i] = data$G[,,i]/mean(diag(data$G[,,i]))}
+  ## for (i in 1:dim(data$G)[3]){data$G[,,i] = data$G[,,i]/mean(diag(data$G[,,i]))}
   G = share(data$G)
   
   for (p in 1:length(results)) {
