@@ -93,7 +93,7 @@ remim2 <- function (data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01,
   if (data$step > 1) w.size <- w.size/data$step
   G = data$G
   for (i in 1:dim(G)[3]){G[,,i] = G[,,i]/mean(diag(G[,,i]))}
-  G = share(G)
+  ## G = share(G)
   
   for (p in 1:length(results)) {
     round <- 1
@@ -702,7 +702,7 @@ remim2 <- function (data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01,
     results[[p]] <- list(pheno.col = pheno.col[p], stat = stat, 
                          pval = pval, qtls = qtls, lower = lower, upper = upper)
   }
-  freeSharedMemory(listSharedObjects())
+  ## freeSharedMemory(listSharedObjects())
   stopCluster(cl)
   structure(list(data = deparse(substitute(data)), pheno.col = pheno.col, 
                  w.size = w.size * data$step, sig.fwd = sig.fwd0, sig.bwd = sig.bwd0, 
