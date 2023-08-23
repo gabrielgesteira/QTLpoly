@@ -519,7 +519,7 @@ remim2 <- function (data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01,
           qtl.vcv <- NULL
           qtl.mrk0 <- c()
           for (q0 in which(qtl.mrk != qtl.mrk[q])) {
-            qtl.vcv <- c(qtl.vcv, list(G[qtl.mrk[q0]]))
+            qtl.vcv <- c(qtl.vcv, list(G[,,qtl.mrk[q0]]))
             qtl.mrk0 <- c(qtl.mrk0, qtl.mrk[q0])
           }
           if (polygenes) {
