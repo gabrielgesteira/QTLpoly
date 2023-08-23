@@ -35,7 +35,7 @@
 #'   null.mod = null_model(data = data, pheno.col = 1, n.clusters = 1)
 #'   }
 #'
-#' @author Guilherme da Silva Pereira, \email{gdasilv@@ncsu.edu}, Getúlio Caixeta Ferreira, \email{getulio.caifer@gmail.com}, Gabriel de Siqueira Gesteira, \email{gdesiqu@ncsu.edu}
+#' @author Guilherme da Silva Pereira, \email{gdasilv@@ncsu.edu}, Gabriel de Siqueira Gesteira, \email{gdesiqu@ncsu.edu}
 #'
 #' @references
 #'     Pereira GS, Gemenet DC, Mollinari M, Olukolu BA, Wood JC, Mosquera V, Gruneberg WJ, Khan A, Buell CR, Yencho GC, Zeng ZB (2020) Multiple QTL mapping in autopolyploids: a random-effect model approach with application in a hexaploid sweetpotato full-sib population, \emph{Genetics} 215 (3): 579-595. \doi{10.1534/genetics.120.303080}.
@@ -58,16 +58,20 @@ null_model2 <- function(data, offset.data = NULL, pheno.col = NULL, n.clusters =
   results <- vector("list", length(pheno.col))
   names(results) <- colnames(data$pheno)[pheno.col]
   markers <- c(1:data$nmrk)
-  ind <- rownames(data$pheno)[which(!is.na(data$pheno[,pheno.col[1]]))]
-  G <- lapply(markers, function(x) data$G[ind,ind,x])
   
   for(p in 1:length(results)) {
     
     start <- proc.time()
     stat <- numeric(data$nmrk)
     pval <- numeric(data$nmrk)
+    ind <- rownames(data$pheno)[which(!is.na(data$pheno[,pheno.col[p]]))]
     Y <- data$pheno[ind,pheno.col[p]]
     X <- matrix(1, length(Y))
+    G <- data$G[ind,ind,markers]
+    ## G <- lapply(markers, function(x) data$G[ind,ind,x])
+    for(i in markers){
+      G[,,i] = G[,,i]/mean(diag(G[,,i]))
+    }
     if(is.null(offset.data)) {
       offset <- NULL
     } else {
@@ -78,7 +82,7 @@ null_model2 <- function(data, offset.data = NULL, pheno.col = NULL, n.clusters =
 
     tau <- c()
     temp <-  foreach(m = markers, .combine = cbind) %dopar%{
-      K = G[m]
+      K = list(G[,,m])
       score.test(Y,X,K,tau)
     }
     colnames(temp) = markers
