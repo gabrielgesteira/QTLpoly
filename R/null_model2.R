@@ -35,7 +35,7 @@
 #'   null.mod = null_model(data = data, pheno.col = 1, n.clusters = 1)
 #'   }
 #'
-#' @author Guilherme da Silva Pereira, \email{gdasilv@@ncsu.edu}, Getúlio Caixeta Ferreira, \email{getulio.caifer@gmail.com}, Gabriel de Siqueira Gesteira, \email{gdesiqu@ncsu.edu}
+#' @author Guilherme da Silva Pereira, \email{gdasilv@@ncsu.edu}, Gabriel de Siqueira Gesteira, \email{gdesiqu@ncsu.edu}
 #'
 #' @references
 #'     Pereira GS, Gemenet DC, Mollinari M, Olukolu BA, Wood JC, Mosquera V, Gruneberg WJ, Khan A, Buell CR, Yencho GC, Zeng ZB (2020) Multiple QTL mapping in autopolyploids: a random-effect model approach with application in a hexaploid sweetpotato full-sib population, \emph{Genetics} 215 (3): 579-595. \doi{10.1534/genetics.120.303080}.
@@ -45,7 +45,6 @@
 #' @export null_model2
 #' @import parallel
 #' @import SharedObject
-
 null_model2 <- function(data, offset.data = NULL, pheno.col = NULL, n.clusters = NULL, plot = NULL, verbose = TRUE) {
   
   if(is.null(n.clusters)) n.clusters <- 1

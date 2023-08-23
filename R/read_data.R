@@ -139,6 +139,10 @@ read_data <- function(ploidy = 6, geno.prob, geno.dose = NULL, double.reduction 
     for(m in 1:nmrk) {
       G[,,m] <- t(Z[sib.names,m,])%*%Pi%*%Z[sib.names,m,]
     }
+    ## Normalizing G (Necessary for new score.test and varComp functions)
+    for(m in 1:nmrk){
+      G[,,m] = G[,,m]/mean(diag(G[,,m]))
+    }
     
     nphe <- dim(pheno)[2]
     ## Check for matching individual names
