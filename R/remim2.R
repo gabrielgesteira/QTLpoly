@@ -67,6 +67,7 @@
 #' @export remim2
 #' @import doParallel
 #' @import foreach
+#' @import SharedObject
 remim2 <- function (data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01,
                     sig.bwd = 1e-04, score.null = NULL, d.sint = 1.5, polygenes = FALSE,
                     n.clusters = NULL, n.rounds = Inf, plot = NULL, verbose = TRUE)
@@ -90,7 +91,6 @@ remim2 <- function (data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01,
   results <- vector("list", length(pheno.col))
   names(results) <- colnames(data$pheno)[pheno.col]
   if (data$step > 1) w.size <- w.size/data$step
-
   for (p in 1:length(results)) {
     round <- 1
     stat <- numeric(data$nmrk)
@@ -105,24 +105,22 @@ remim2 <- function (data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01,
       sig.fwd <- sig.fwd0
       sig.bwd <- sig.bwd0
     }
-    markers <- c(1:data$nmrk)
-    ind <- rownames(data$pheno)[which(!is.na(data$pheno[,pheno.col[1]]))]
+    ind <- rownames(data$pheno)[which(!is.na(data$pheno[,pheno.col[p]]))]
     Y <- data$pheno[ind, pheno.col[p]]
     X <- matrix(1, length(Y))
-    G <- data$G[ind,ind,markers]
-    ## Normalizing G (Necessary for new score.test and varComp functions)
-    for(m in markers){
-      G[,,m] = G[,,m]/mean(diag(G[,,m]))
-    }
-    G = share(G)
     if (!is.null(data$weights)) {
       weight <- data$weights[ind, pheno.col[p]]
     } else weight <- rep(1, length(ind))
+    markers <- c(1:data$nmrk)
+    G <- data$G[ind,ind,markers]
+    for(i in markers){
+      G[,,i] = G[,,i]/mean(diag(G[,,i]))
+    }
+    G = share(G)
     ind = as.factor(ind)
     tau <- c()
     temp <-  foreach(m = markers, .combine = cbind) %dopar%{
-      K = list(G[,,m])
-      score.test(Y,X,K,tau)
+      score.test(Y,X,list(G[,,m]),tau)
     }
     colnames(temp) = markers
     if (!is.null(plot)) {
@@ -187,8 +185,7 @@ remim2 <- function (data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01,
           withCallingHandlers(full.mod0 <- varComp(Y ~ 1, varcov = Gstar, weights = weight/max(weight)), warning = h)
           tau <- full.mod0$parms
           temp <-  foreach(m = markers, .combine = cbind) %dopar%{
-            K = list(Gstar, G[,,m])
-            score.test(Y,X,K,tau)
+            score.test(Y,X,list(Gstar, G[,,m]),tau)
           }
           colnames(temp) = markers
         }
@@ -196,8 +193,7 @@ remim2 <- function (data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01,
           withCallingHandlers(full.mod0 <- varComp(Y ~ 1, varcov = qtl.vcv, weights = weight/max(weight)), warning = h)
           tau <- full.mod0$parms
           temp <-  foreach(m = markers, .combine = cbind) %dopar%{
-            K = c(qtl.vcv, list(G[,,m]))
-            score.test(Y,X,K,tau)
+            score.test(Y,X,c(qtl.vcv, list(G[,,m])),tau)
           }
           colnames(temp) = markers
         }
@@ -256,8 +252,7 @@ remim2 <- function (data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01,
                               1):(data$cum.nmrk[qtl.lgr[1] + 1]))
           tau <- c()
           temp <-  foreach(m = markers.out, .combine = cbind) %dopar%{
-            K = list(G[,,m])
-            score.test(Y,X,K,tau)
+            score.test(Y,X,list(G[,,m]),tau)
           }
           colnames(temp) = markers.out
           if (length(temp) < 1) {
@@ -341,8 +336,7 @@ remim2 <- function (data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01,
                 withCallingHandlers(full.mod0 <- varComp(Y ~ 1, varcov = Gstar, weights = weight/max(weight)), warning = h)
                 tau <- full.mod0$parms
                 temp <-  foreach(m = markers.out, .combine = cbind) %dopar%{
-                  K = list(Gstar, G[,,m])
-                  score.test(Y,X,K,tau)
+                  score.test(Y,X,list(Gstar, G[,,m]),tau)
                 }
                 colnames(temp) = markers.out
               }
@@ -350,8 +344,7 @@ remim2 <- function (data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01,
                 withCallingHandlers(full.mod0 <- varComp(Y ~ 1, varcov = qtl.vcv, weights = weight/max(weight)), warning = h)
                 tau <- full.mod0$parms
                 temp <-  foreach(m = markers.out, .combine = cbind) %dopar%{
-                  K = c(qtl.vcv, list(G[,,m]))
-                  score.test(Y,X,K,tau)
+                  score.test(Y,X,c(qtl.vcv, list(G[,,m])),tau)
                 }
                 colnames(temp) = markers.out
               }
@@ -417,8 +410,7 @@ remim2 <- function (data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01,
         markers <- c(1:data$nmrk)
         tau <- c()
         temp <-  foreach(m = markers, .combine = cbind) %dopar%{
-          K = list(G[,,m])
-          score.test(Y,X,K,tau)
+          score.test(Y,X,list(G[,,m]),tau)
         }
         colnames(temp) = markers
         if (length(temp) < 1) {
@@ -445,8 +437,7 @@ remim2 <- function (data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01,
         markers <- c(1:data$nmrk)[-markers.out]
         tau <- c()
         temp <-  foreach(m = markers.out, .combine = cbind) %dopar%{
-          K = list(G[,,m])
-          score.test(Y,X,K,tau)
+          score.test(Y,X,list(G[,,m]),tau)
         }
         colnames(temp) = markers.out
         if (length(temp) < 1) {
@@ -460,8 +451,7 @@ remim2 <- function (data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01,
         withCallingHandlers(full.mod0 <- varComp(Y ~ 1, varcov = qtl.vcv, weights = weight/max(weight)), warning = h)
         tau <- full.mod0$parms
         temp <-  foreach(m = markers, .combine = cbind) %dopar%{
-          K = c(qtl.vcv, list(G[,,m]))
-          score.test(Y,X,K,tau)
+          score.test(Y,X,c(qtl.vcv, list(G[,,m])),tau)
         }
         colnames(temp) = markers
         if (length(temp) < 1) {
@@ -530,8 +520,7 @@ remim2 <- function (data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01,
             withCallingHandlers(full.mod0 <- varComp(Y ~ 1, varcov = Gstar, weights = weight/max(weight)), warning = h)
             tau <- full.mod0$parms
             temp <-  foreach(m = markers.out, .combine = cbind) %dopar%{
-              K = list(Gstar, G[,,m])
-              score.test(Y,X,K,tau)
+              score.test(Y,X,list(Gstar, G[,,m]),tau)
             }
             colnames(temp) = markers.out
           }
@@ -539,8 +528,7 @@ remim2 <- function (data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01,
             withCallingHandlers(full.mod0 <- varComp(Y ~ 1, varcov = qtl.vcv, weights = weight/max(weight)), warning = h)
             tau <- full.mod0$parms
             temp <-  foreach(m = markers.out, .combine = cbind) %dopar%{
-              K = c(qtl.vcv, list(G[,,m]))
-              score.test(Y,X,K,tau)
+              score.test(Y,X,c(qtl.vcv, list(G[,,m])),tau)
             }
             colnames(temp) = markers.out
           }
@@ -588,8 +576,7 @@ remim2 <- function (data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01,
             withCallingHandlers(full.mod0 <- varComp(Y ~ 1, varcov = Gstar, weights = weight/max(weight)), warning = h)
             tau <- full.mod0$parms
             temp <-  foreach(m = markers.out, .combine = cbind) %dopar%{
-              K = list(Gstar, G[,,m])
-              score.test(Y,X,K,tau)
+              score.test(Y,X,list(Gstar, G[,,m]),tau)
             }
             colnames(temp) = markers.out
           }
@@ -597,8 +584,7 @@ remim2 <- function (data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01,
             withCallingHandlers(full.mod0 <- varComp(Y ~ 1, varcov = qtl.vcv, weights = weight/max(weight)), warning = h)
             tau <- full.mod0$parms
             temp <-  foreach(m = markers.out, .combine = cbind) %dopar%{
-              K = c(qtl.vcv, list(G[,,m]))
-              score.test(Y,X,K,tau)
+              score.test(Y,X,c(qtl.vcv, list(G[,,m])),tau)
             }
             colnames(temp) = markers.out
           }
@@ -706,4 +692,3 @@ remim2 <- function (data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01,
                  min.pvl = min.pvl, polygenes = polygenes, d.sint = d.sint, 
                  results = results), class = c("qtlpoly.model", "qtlpoly.remim"))
 }
-

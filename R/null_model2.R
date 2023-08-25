@@ -52,16 +52,13 @@ null_model2 <- function(data, offset.data = NULL, pheno.col = NULL, n.clusters =
   cl <- makeCluster(n.clusters)
   registerDoParallel(cl)
   clusterEvalQ(cl, require(qtlpoly))
-  ## clusterExport(cl, c("score.test"))
   if(is.null(pheno.col)) pheno.col <- 1:dim(data$pheno)[2]
   if(!is.null(plot)) plot <- paste(plot, "pdf", sep = ".")
   results <- vector("list", length(pheno.col))
   names(results) <- colnames(data$pheno)[pheno.col]
   markers <- c(1:data$nmrk)
-  ## ind <- rownames(data$pheno)[which(!is.na(data$pheno[,pheno.col[1]]))]
   ## G <- lapply(markers, function(x) data$G[ind,ind,x])
-  ## G = share(G)
-  G = share(data$G)
+  G = share(data$G[,,markers])
   
   for(p in 1:length(results)) {
     
@@ -81,10 +78,13 @@ null_model2 <- function(data, offset.data = NULL, pheno.col = NULL, n.clusters =
 
     tau <- c()
     temp <-  foreach(m = markers, .combine = cbind) %dopar%{
-      K = list(G[ind,ind,m])
-      score.test(Y,X,K,tau)
+      score.test(Y,X,list(G[ind,ind,m]),tau)
     }
     colnames(temp) = markers
+    ## clusterExport(cl, varlist=c("score.test","tau", "Y", "X", "G"), envir=environment())
+    ## temp = parApply(cl, G, 3, function(x) score.test(Y,X,list(x),tau))
+    ## rownames(temp) = c("st","pv")
+    ## colnames(temp) = markers
     ## temp <- parSapply(cl, as.character(markers), function(x) {
     ## ## temp <- sapply(as.character(markers), function(x) {
     ##   m <- as.numeric(x)

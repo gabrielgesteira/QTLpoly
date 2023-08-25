@@ -59,5 +59,5 @@ Pereira GS, Gemenet DC, Mollinari M, Olukolu BA, Wood JC, Mosquera V, Gruneberg 
 \code{\link[qtlpoly]{read_data}}
 }
 \author{
-Guilherme da Silva Pereira, \email{gdasilv@ncsu.edu}, Getúlio Caixeta Ferreira, \email{getulio.caifer@gmail.com}, Gabriel de Siqueira Gesteira, \email{gdesiqu@ncsu.edu}
+Guilherme da Silva Pereira, \email{gdasilv@ncsu.edu}, Gabriel de Siqueira Gesteira, \email{gdesiqu@ncsu.edu}
 }
