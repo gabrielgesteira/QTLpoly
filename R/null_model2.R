@@ -58,7 +58,7 @@ null_model2 <- function(data, offset.data = NULL, pheno.col = NULL, n.clusters =
   names(results) <- colnames(data$pheno)[pheno.col]
   markers <- c(1:data$nmrk)
   ## G <- lapply(markers, function(x) data$G[ind,ind,x])
-  G = share(data$G[,,markers])
+  G = share(data$G)
   
   for(p in 1:length(results)) {
     
