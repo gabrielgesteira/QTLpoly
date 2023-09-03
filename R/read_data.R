@@ -155,17 +155,32 @@ read_data <- function(ploidy = 6, geno.prob, geno.dose = NULL, double.reduction 
     
     alleles <- matrix(unlist(strsplit(dimnames(Z)[[1]], '')), ncol=(ploidy+1), byrow=TRUE)[,-c((ploidy/2)+1)]
     X <- array(data = NA, dim = c(nind, (ploidy*2), nmrk), dimnames = list(c(ind.names), letters[1:(ploidy*2)], c(mrk.names)))
-    for(m in 1:nmrk) {
-      for(i in 1:nind) {
-        a <- vector("list", (ploidy*2))
-        names(a) <- letters[1:(ploidy*2)]
-        for(j in 1:(ploidy*2)) {
-          a[[j]] <- which(alleles == letters[j], arr.ind = TRUE)[,1]
-          a[[j]] <- sum(Z[,m,i][Reduce(intersect, list(a[[j]]))])
-        }
-        X[i,,m] <- unlist(a)
+    ## Replacing slow part with updated code
+    ## Creating incidence matrix to transition from genotypes to homologs
+    alleles2 = matrix(0, length(genotypes), ploidy*2)
+    ## Creating dummy variables to associate genotypes with alleles
+    for(i in 1:nrow(alleles)){
+      for(j in 1:ncol(alleles)){
+        alleles2[i,match(alleles[i,j], letters)]=1
       }
     }
+    ## Getting homolog probabilities
+    for(m in 1:nmrk) {
+      X[,,m] <- t(Z[sib.names,m,])%*%alleles2
+    }
+    ## Replaced slow code starts here
+    ## for(m in 1:nmrk) {
+    ##   for(i in 1:nind) {
+    ##     a <- vector("list", (ploidy*2))
+    ##     names(a) <- letters[1:(ploidy*2)]
+    ##     for(j in 1:(ploidy*2)) {
+    ##       a[[j]] <- which(alleles == letters[j], arr.ind = TRUE)[,1]
+    ##       a[[j]] <- sum(Z[,m,i][Reduce(intersect, list(a[[j]]))])
+    ##     }
+    ##     X[i,,m] <- unlist(a)
+    ##   }
+    ## }
+    ## Finished replacing slow code
   } else G <- Pi <- Z <- X <- NULL
   
   ######### DOSAGE
