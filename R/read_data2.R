@@ -18,12 +18,6 @@
 #'
 #' @param verbose if \code{TRUE} (default), current progress is shown; if \code{FALSE}, no output is produced.
 #'
-#' @param x an object of class \code{qtlpoly.data} to be printed.
-#'
-#' @param detailed if \code{TRUE}, detailed information on linkage groups and phenotypes in shown; if \code{FALSE}, no details are printed.
-#'
-#' @param ... currently ignored
-#'
 #' @return An object of class \code{qtlpoly.data} which is a list containing the following components:
 #'
 #'     \item{ploidy}{a scalar with ploidy level.}
@@ -62,10 +56,12 @@
 #' @export read_data2
 #' @importFrom abind abind
 #' @importFrom gtools combinations
+#' @importFrom mappoly calc_genoprob
 
 read_data2 <- function(ploidy = 6, geno.prob, geno.dose = NULL, double.reduction = FALSE, pheno, weights = NULL, step = 1, verbose = TRUE) {
 
-  if (class(geno.prob) == "mappoly2.sequence"){
+  if(inherits(geno.prob, "mappoly2.sequence")){
+  ## if (class(geno.prob) == "mappoly2.sequence"){
         
   if(is.null(step)) step <- 1e-10
 
@@ -78,11 +74,12 @@ read_data2 <- function(ploidy = 6, geno.prob, geno.dose = NULL, double.reduction
     probs = x$map.genome$phase[[1]]$haploprob
     a = split(1:nrow(probs), ceiling(seq_along(1:nrow(probs)) / (ploidy*2)))
     b = lapply(a, function(y) return(as.matrix(probs[y,-c(1:3)])))
-    c = abind::abind(b, along = 3)
+    c = abind(b, along = 3)
     dimnames(c)[[1]] = letters[1:(ploidy*2)]
     dimnames(c)[[2]] = rownames(x$map.genome$phase[[1]]$p1)
     dimnames(c)[[3]] = raw.individual.names
-    map = c(0, cumsum(mappoly::imf_h(x$map.genome$phase[[1]]$rf)))
+    mpgpt = calc_genoprob # to ensure mappoly's function is required in the package
+    map = c(0, cumsum(imf_h(x$map.genome$phase[[1]]$rf)))
     names(map) = rownames(x$map.genome$phase[[1]]$p1)
     return(list(probs = c, map = map))
   })
@@ -522,4 +519,10 @@ read_data2 <- function(ploidy = 6, geno.prob, geno.dose = NULL, double.reduction
 
  }
   
+}
+
+## Support function from mappoly
+imf_h <- function(r) {
+  r[r >= 0.5] <- 0.5 - 1e-14
+  -50 * log(1 - 2 * r)
 }

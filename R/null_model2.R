@@ -58,6 +58,7 @@ null_model2 <- function(data, offset.data = NULL, pheno.col = NULL, n.clusters =
   results <- vector("list", length(pheno.col))
   names(results) <- colnames(data$pheno)[pheno.col]
   markers <- c(1:data$nmrk)
+  m = 1
   
   for(p in 1:length(results)) {
     

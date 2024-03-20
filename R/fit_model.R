@@ -288,8 +288,6 @@ summary.qtlpoly.fitted <- function(object, pheno.col=NULL, ...) {
 #' Adapts genomic incidence and relationship (varcov) matrices to run using sommer's C++ core function (v. 4.0 or higher)
 #' Function adapted from sommer v. 3.6 (Author: Giovanny Covarrubias-Pazaran)
 #'
-#' @param void internal function to be documented
-#'
 #' @keywords internal
 #'
 #' @author Gabriel de Siqueira Gesteira, \email{gdesiqu@@ncsu.edu}

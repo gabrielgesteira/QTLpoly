@@ -31,12 +31,6 @@ read_data2(
 \item{step}{a numeric value of step size (in centiMorgans) where tests will be performed, e.g. 1 (default); if \code{NULL}, tests will be performed at every marker.}
 
 \item{verbose}{if \code{TRUE} (default), current progress is shown; if \code{FALSE}, no output is produced.}
-
-\item{x}{an object of class \code{qtlpoly.data} to be printed.}
-
-\item{detailed}{if \code{TRUE}, detailed information on linkage groups and phenotypes in shown; if \code{FALSE}, no details are printed.}
-
-\item{...}{currently ignored}
 }
 \value{
 An object of class \code{qtlpoly.data} which is a list containing the following components:

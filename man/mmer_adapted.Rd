@@ -30,9 +30,6 @@ mmer_adapted(
   verbose = FALSE
 )
 }
-\arguments{
-\item{void}{internal function to be documented}
-}
 \description{
 Adapts genomic incidence and relationship (varcov) matrices to run using sommer's C++ core function (v. 4.0 or higher)
 Function adapted from sommer v. 3.6 (Author: Giovanny Covarrubias-Pazaran)

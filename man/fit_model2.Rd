@@ -29,10 +29,6 @@ fit_model2(
 \code{FALSE}, no output is produced.}
 
 \item{pheno.col}{a numeric vector with the phenotype column numbers to be summarized; if \code{NULL} (default), all phenotypes from \code{'data'} will be included.}
-
-\item{object}{an object of class \code{qtlpoly.fitted} to be summarized.}
-
-\item{...}{currently ignored}
 }
 \value{
 An object of class \code{qtlpoly.fitted} which contains a list of \code{results} for each trait with the following components:

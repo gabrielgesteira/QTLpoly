@@ -1,7 +1,7 @@
-[![Travis Build Status](https://app.travis-ci.com/gabrielgesteira/QTLpoly.svg?branch=main)](https://app.travis-ci.com/gabrielgesteira/QTLpoly)
+r[![Travis Build Status](https://app.travis-ci.com/gabrielgesteira/QTLpoly.svg?branch=main)](https://app.travis-ci.com/gabrielgesteira/QTLpoly)
  [![Development](https://img.shields.io/badge/development-active-blue.svg)](https://img.shields.io/badge/development-active-blue.svg)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/qtlpoly)](https://cran.r-project.org/package=qtlpoly)
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/qtlpoly)](https://cran.r-project.org/package=qtlpoly)
 [![R-universe PolyVerse Status Badge](https://polyploids.r-universe.dev/badges/qtlpoly)](https://polyploids.r-universe.dev/badges/qtlpoly)
 [![CRAN_monthly_downloads](https://cranlogs.r-pkg.org/badges/qtlpoly)](https://cranlogs.r-pkg.org/badges/qtlpoly?color=orange)
 
@@ -47,7 +47,7 @@ Tutorials as well as simulated and real data set analyses will be listed here in
 
 # Related software
 
-* [Polyverse](https://polyploids.r-universe.dev/ui#builds) - the polyploid R universe (a Lindsay Clark's initiative)
+* [Polyverse](https://polyploids.r-universe.dev/builds) - the polyploid R universe (a Lindsay Clark's initiative)
 
 * Variant Calling
   *  [GBSapp: An automated pipeline for variant calling and filtering.](https://github.com/bodeolukolu/GBSapp)
@@ -67,7 +67,7 @@ Tutorials as well as simulated and real data set analyses will be listed here in
   * [MAPpoly: Genetic maps in complex autopolyploids with even ploidy levels](https://CRAN.R-project.org/package=mappoly)
   * [MDSMap: High Density Genetic Linkage Mapping using Multidimensional Scaling](https://CRAN.R-project.org/package=MDSMap)
   * [polymapR: Linkage Analysis in Outcrossing Polyploids](https://CRAN.R-project.org/package=polymapR)
-  * [TetraploidSNPMap: Linkage maps and mapping QTLs for autotetraploid species, using SNP dosage data.](https://www.bioss.ac.uk/knowledge/tetraploidmap/)
+  * [TetraploidSNPMap: Linkage maps and mapping QTLs for autotetraploid species, using SNP dosage data.](https://www.bioss.ac.uk/knowledge-exchange/software/TetraploidSNPMap)
   
   
 * Haplotype reconstruction
@@ -96,4 +96,4 @@ Pereira GS, Gemenet DC, Mollinari M, Olukolu BA, Wood JC, Mosquera V, Gruneberg 
 
 Qu L, Guennel T, Marshall SL. 2013. “Linear score tests for variance components in linear mixed models and applications to genetic association studies.” Biometrics 69 (4): 883-892.
 
-Wickham H. 2016. “ggplot2: Elegant Graphics for Data Analysis.” Springer. [doi:10.1007/978-0-387-98141-3](https://www.springer.com/gp/book/9780387981413).
+Wickham H. 2016. “ggplot2: Elegant Graphics for Data Analysis.” Springer. [doi:10.1007/978-0-387-98141-3](https://link.springer.com/book/10.1007/978-0-387-98141-3).

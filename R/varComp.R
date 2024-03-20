@@ -2083,17 +2083,17 @@ varComp.test.varComp = function(object, object2,
 			alt=object
 		}
 		if(!all(nul$random.labels %in% alt$random.labels)) stop("Two model ares not nested.")
-		varComp.test.2modelDoTest(null.fit=nul, alt.fit=alt, test=test, control=control, ...)
+		varCompTest2modelDoTest(null.fit=nul, alt.fit=alt, test=test, control=control, ...)
 	}else if(!missing(additional.varcov)){  ## null fit is available
 		if(!missing(null)) warning("'null' is ignored when 'additional.varcov' is provided.")
-		varComp.test.nulDoTest(null.fit=object, additional.varcov = additional.varcov, test=test, control=control, ...)
+		varCompTestNulDoTest(null.fit=object, additional.varcov = additional.varcov, test=test, control=control, ...)
 	}else if(!missing(null)){ ##  alt fit is available
-		varComp.test.altDoTest(alt.fit=object, null=null, test=test,  control=control, ...)
+		varCompTestAltDoTest(alt.fit=object, null=null, test=test,  control=control, ...)
 	}else {  ## default testing all components of object
-		varComp.test.altDoTest(alt.fit=object, null=integer(0L), test=test,  control=control, ...)
+		varCompTestAltDoTest(alt.fit=object, null=integer(0L), test=test,  control=control, ...)
 	}
 }
-varComp.test.2modelDoTest = function(null.fit, alt.fit, test='LinScore', control=varCompTest.control(test), ...)
+varCompTest2modelDoTest = function(null.fit, alt.fit, test='LinScore', control=varCompTest.control(test), ...)
 {
   # information=match.arg(information, informationTypes)
   varCompScoreTests = c(score='LinScore',score='VM03',score='SS95')
@@ -2136,7 +2136,7 @@ varComp.test.2modelDoTest = function(null.fit, alt.fit, test='LinScore', control
 	environment(varComp.test.Common)  = sys.frame(sys.nframe())
 	varComp.test.Common()
 }
-varComp.test.nulDoTest = function(null.fit, additional.varcov, test='LinScore', control=varCompTest.control(test), alt.fit=NULL, ...)
+varCompTestNulDoTest = function(null.fit, additional.varcov, test='LinScore', control=varCompTest.control(test), alt.fit=NULL, ...)
 {
   # information=match.arg(information, informationTypes)
   varCompScoreTests = c(score='LinScore',score='VM03',score='SS95')
@@ -2199,7 +2199,7 @@ varComp.test.nulDoTest = function(null.fit, additional.varcov, test='LinScore', 
 	varComp.test.Common()
 }
 
-varComp.test.altDoTest = function(alt.fit, null=integer(0L), test='LinScore', control=varCompTest.control(test), null.fit=NULL, ...)
+varCompTestAltDoTest = function(alt.fit, null=integer(0L), test='LinScore', control=varCompTest.control(test), null.fit=NULL, ...)
 {
   # information=match.arg(information, informationTypes)
   varCompScoreTests = c(score='LinScore',score='VM03',score='SS95')
@@ -2425,7 +2425,8 @@ function(control, infoMat, tau.idx, LIkLI, tr1, n, LIy, all.scores)# , ...)
     repeat{
       i=i+1
       tmp=try( solve.QP(Dmat=invNegHess/fact, dvec=drop(invNegHess%*%all.scores[tau.idx])/fact, Amat=Amat, bvec=bvec, meq=0L, factorized=FALSE)$value )
-      if(class(tmp)!='try-error'){
+      if(!inherits(tmp, "try-error")){
+      ## if(class(tmp)!='try-error'){
         qp.term=tmp*fact
         break
       }else if(i==20L){

@@ -111,6 +111,7 @@ remim2 <- function (data, pheno.col = NULL, w.size = 15, sig.fwd = 0.01,
       weight <- data$weights[ind, pheno.col[p]]
     } else weight <- rep(1, length(ind))
     markers <- c(1:data$nmrk)
+    m = 1
     G <- data$G[ind,ind,markers]
     for(i in markers){
       G[,,i] = G[,,i]/mean(diag(G[,,i]))
