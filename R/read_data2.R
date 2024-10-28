@@ -67,20 +67,20 @@ read_data2 <- function(ploidy = 6, geno.prob, geno.dose = NULL, double.reduction
 
   homo.prob = geno.prob
    
-  raw.individual.names = homo.prob$data$ind.names
-
+  raw.individual.names = homo.prob$data$screened.data$ind.names
+  
   ## Converting object back to previous format
   geno.prob = lapply(homo.prob$maps, function(x) {
-    probs = x$map.genome$phase[[1]]$haploprob
+    probs = x$genome$p1p2$hmm.phase[[1]]$haploprob
     a = split(1:nrow(probs), ceiling(seq_along(1:nrow(probs)) / (ploidy*2)))
     b = lapply(a, function(y) return(as.matrix(probs[y,-c(1:3)])))
     c = abind(b, along = 3)
     dimnames(c)[[1]] = letters[1:(ploidy*2)]
-    dimnames(c)[[2]] = rownames(x$map.genome$phase[[1]]$p1)
+    dimnames(c)[[2]] = rownames(x$genome$p1p2$hmm.phase[[1]]$p1)
     dimnames(c)[[3]] = raw.individual.names
     mpgpt = calc_genoprob # to ensure mappoly's function is required in the package
-    map = c(0, cumsum(imf_h(x$map.genome$phase[[1]]$rf)))
-    names(map) = rownames(x$map.genome$phase[[1]]$p1)
+    map = c(0, cumsum(imf_h(x$genome$p1p2$hmm.phase[[1]]$rf)))
+    names(map) = rownames(x$genome$p1p2$hmm.phase[[1]]$p1)
     return(list(probs = c, map = map))
   })
   
