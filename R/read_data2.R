@@ -155,7 +155,7 @@ read_data2 <- function(ploidy = 6, geno.prob, geno.dose = NULL, double.reduction
     if (length(which(rownames(pheno) %in% dimnames(G)[[1]])) == 0) stop("Individual names between genotype and phenotype data do not match. Please check your datasets and try again.")
     pheno.new <- as.matrix(pheno[which(rownames(pheno) %in% dimnames(G)[[1]]),])
     rownames(pheno.new) <- rownames(pheno)[which(rownames(pheno) %in% dimnames(G)[[1]])]
-    
+    colnames(pheno.new) <-colnames(pheno)
     if(!is.null(weights)) {
       weights.new <- as.matrix(weights[which(rownames(weights) %in% dimnames(G)[[1]]),])
       rownames(weights.new) <- rownames(weights)[which(rownames(weights) %in% dimnames(G)[[1]])]
