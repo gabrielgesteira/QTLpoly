@@ -76,7 +76,7 @@ read_data2 <- function(ploidy = 6, geno.prob, geno.dose = NULL, type=c("genome",
   
   ## Converting object back to previous format
   if(type=="genome"){
-    if(!exists("homo.prob$maps[[1]]$genome$p1p2$hmm.phase[[1]]$haploprob")){stop("Haploprobs for genome have not been calculated. Please go back to mappoly2 to calculate halploprobs")}
+    if(!exists("haploprob", where=homo.prob$maps[[1]]$genome$p1p2$hmm.phase[[1]])){stop("Haploprobs for genome have not been calculated. Please go back to mappoly2 to calculate halploprobs")}
     geno.prob = lapply(homo.prob$maps, function(x) {
       probs = x$genome$p1p2$hmm.phase[[1]]$haploprob
       a = split(1:nrow(probs), ceiling(seq_along(1:nrow(probs)) / (ploidy*2)))
@@ -91,7 +91,7 @@ read_data2 <- function(ploidy = 6, geno.prob, geno.dose = NULL, type=c("genome",
       return(list(probs = c, map = map))
     })
   } else if(type =="mds"){
-    if(!exists("homo.prob$maps[[1]]$mds$p1p2$hmm.phase[[1]]$haploprob")){stop("Haploprobs for mds have not been calculated. Please go back to mappoly2 to calculate halploprobs")}
+    if(!exists("haploprob", where=homo.prob$maps[[1]]$mds$p1p2$hmm.phase[[1]])){stop("Haploprobs for mds have not been calculated. Please go back to mappoly2 to calculate halploprobs")}
     geno.prob = lapply(homo.prob$maps, function(x) {
       probs = x$mds$p1p2$hmm.phase[[1]]$haploprob
       a = split(1:nrow(probs), ceiling(seq_along(1:nrow(probs)) / (ploidy*2)))
@@ -106,7 +106,7 @@ read_data2 <- function(ploidy = 6, geno.prob, geno.dose = NULL, type=c("genome",
       return(list(probs = c, map = map))
     })
   } else if(type =="custom"){
-    if(!exists("homo.prob$maps[[1]]$custom$p1p2$hmm.phase[[1]]$haploprob")){stop("Haploprobs for custom have not been calculated. Please go back to mappoly2 to calculate halploprobs")}
+    if(!exists("haploprob", where=homo.prob$maps[[1]]$custom$p1p2$hmm.phase[[1]])){stop("Haploprobs for custom have not been calculated. Please go back to mappoly2 to calculate halploprobs")}
     geno.prob = lapply(homo.prob$maps, function(x) {
       probs = x$custom$p1p2$hmm.phase[[1]]$haploprob
       a = split(1:nrow(probs), ceiling(seq_along(1:nrow(probs)) / (ploidy*2)))
