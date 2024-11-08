@@ -8,6 +8,7 @@ read_data2(
   ploidy = 6,
   geno.prob,
   geno.dose = NULL,
+  type = c("genome", "mds", "custom"),
   double.reduction = FALSE,
   pheno,
   weights = NULL,
@@ -21,6 +22,8 @@ read_data2(
 \item{geno.prob}{an object of class \code{mappoly.genoprob} from \pkg{mappoly}.}
 
 \item{geno.dose}{an object of class \code{mappoly.data} from \pkg{mappoly}.}
+
+\item{type}{either "genome", "mds", or "custom" from the \code{mappoly2.data} from \pkg{mappoly2}}
 
 \item{double.reduction}{if \code{TRUE}, double reduction genotypes are taken into account; if \code{FALSE}, no double reduction genotypes are considered.}
 
