@@ -78,6 +78,13 @@ qtl_effects <- function(ploidy = 6, fitted, pheno.col = NULL, verbose = TRUE) {
         if(length(qtl.mrk) == 1) cat("There is ", length(qtl.mrk), " QTL in the model for trait ", pheno.col[p], " ", sQuote(names(fitted$results)[pheno.col[p]]), ". Computing effects for QTL ", sep="")
         if(length(qtl.mrk) >= 2) cat("There are ", length(qtl.mrk), " QTL in the model for trait ", pheno.col[p], " ", sQuote(names(fitted$results)[pheno.col[p]]), ". Computing effects for QTL ", sep="")
       }
+
+      ## Creating temporary flag to indicate whether genotype probabilities come from MAPpoly or mappoly2
+      if (length(fitted$results[[pheno.col[p]]]$fitted$alleles) == ncol(combn(ploidy, ploidy/2))^2){
+        genoprob_flag = TRUE
+      } else {
+        genoprob_flag = FALSE
+      }
       
       if(ploidy == 6) {
         
@@ -89,8 +96,12 @@ qtl_effects <- function(ploidy = 6, fitted, pheno.col = NULL, verbose = TRUE) {
           }
           
           blups <- fitted$results[[pheno.col[p]]]$fitted$U[[q]]
-          alleles = matrix(unlist(strsplit(fitted$results[[pheno.col[p]]]$fitted$alleles, '')), ncol=7, byrow=TRUE)[,-4]
-          ## alleles <- matrix(unlist(strsplit(rownames(blups), '')), ncol=7, byrow=TRUE)[,-4]
+          if (genoprob_flag == TRUE){
+            alleles = matrix(unlist(strsplit(fitted$results[[pheno.col[p]]]$fitted$alleles, '')), ncol=7, byrow=TRUE)[,-4]
+            ## alleles <- matrix(unlist(strsplit(rownames(blups), '')), ncol=7, byrow=TRUE)[,-4]
+          } else {
+            alleles = fitted$results[[pheno.col[p]]]$fitted$alleles
+          }
           
           A <- t(combn(letters[1:12],1))
           D <- t(combn(letters[1:12],2))
@@ -105,36 +116,63 @@ qtl_effects <- function(ploidy = 6, fitted, pheno.col = NULL, verbose = TRUE) {
           f <- vector("list", dim(F)[1])
           g <- vector("list", dim(G)[1])
           s <- vector("list", dim(S)[1])
-          
-          for(i in 1:dim(A)[1]) {
-            a[[i]] <- which(alleles == as.character(A[i,1]), arr.ind = TRUE)[,1]
-            a[[i]] <- mean(blups[Reduce(intersect, list(a[[i]]))])
+
+          if (genoprob_flag == TRUE){
+            for(i in 1:dim(A)[1]) {
+              a[[i]] <- which(alleles == as.character(A[i,1]), arr.ind = TRUE)[,1]
+              a[[i]] <- mean(blups[Reduce(intersect, list(a[[i]]))])
+            }
+            for(i in 1:dim(D)[1]) {
+              d[[i]] <- which(apply(alleles == as.character(D[i,1]) | alleles == as.character(D[i,2]), 1, sum) == 2)
+              d[[i]] <- mean(blups[Reduce(intersect, list(d[[i]]))])
+            }
+            for(i in 1:dim(T)[1]) {
+              t[[i]] <- which(apply(alleles == as.character(T[i,1]) | alleles == as.character(T[i,2]) | alleles == as.character(T[i,3]), 1, sum) == 3)
+              t[[i]] <- mean(blups[Reduce(intersect, list(t[[i]]))])
+            }
+            for(i in 1:dim(F)[1]) {
+              f[[i]] <- which(apply(alleles == as.character(F[i,1]) | alleles == as.character(F[i,2]) | alleles == as.character(F[i,3]) | alleles == as.character(F[i,4]), 1, sum) == 4)
+              f[[i]] <- mean(blups[Reduce(intersect, list(f[[i]]))])
+            }
+            for(i in 1:dim(G)[1]) {
+              g[[i]] <- which(apply(alleles == as.character(G[i,1]) | alleles == as.character(G[i,2]) | alleles == as.character(G[i,3]) | alleles == as.character(G[i,4]) | alleles == as.character(G[i,5]), 1, sum) == 5)
+              g[[i]] <- mean(blups[Reduce(intersect, list(g[[i]]))])
+            }
+            for(i in 1:dim(S)[1]) {
+              s[[i]] <- which(apply(alleles == as.character(S[i,1]) | alleles == as.character(S[i,2]) | alleles == as.character(S[i,3]) | alleles == as.character(S[i,4]) | alleles == as.character(S[i,5]) | alleles == as.character(S[i,6]), 1, sum) == 6)
+              s[[i]] <- mean(blups[Reduce(intersect, list(s[[i]]))])
+            }
+          } else {
+            for(i in 1:dim(A)[1]) {
+              a[[i]] <- which(alleles == as.character(A[i,1]), arr.ind = TRUE)[1]
+              a[[i]] <- mean(blups[Reduce(intersect, list(a[[i]]))])
+            }
+            for(i in 1:dim(D)[1]) {
+              d[[i]] <- which(lapply(alleles == as.character(D[i,1]) | alleles == as.character(D[i,2]), sum) == 1)
+              d[[i]] <- mean(blups[Reduce(intersect, list(d[[i]]))])
+            }
+            for(i in 1:dim(T)[1]) {
+              t[[i]] <- which(lapply(alleles == as.character(T[i,1]) | alleles == as.character(T[i,2]) | alleles == as.character(T[i,3]), sum) == 1)
+              t[[i]] <- mean(blups[Reduce(intersect, list(t[[i]]))])
+            }
+            for(i in 1:dim(F)[1]) {
+              f[[i]] <- which(lapply(alleles == as.character(F[i,1]) | alleles == as.character(F[i,2]) | alleles == as.character(F[i,3]) | alleles == as.character(F[i,4]), sum) == 1)
+              f[[i]] <- mean(blups[Reduce(intersect, list(f[[i]]))])
+            }
+            for(i in 1:dim(G)[1]) {
+              g[[i]] <- which(lapply(alleles == as.character(G[i,1]) | alleles == as.character(G[i,2]) | alleles == as.character(G[i,3]) | alleles == as.character(G[i,4]) | alleles == as.character(G[i,5]), sum) == 1)
+              g[[i]] <- mean(blups[Reduce(intersect, list(g[[i]]))])
+            }
+            for(i in 1:dim(S)[1]) {
+              s[[i]] <- which(lapply(alleles == as.character(S[i,1]) | alleles == as.character(S[i,2]) | alleles == as.character(S[i,3]) | alleles == as.character(S[i,4]) | alleles == as.character(S[i,5]) | alleles == as.character(S[i,6]), sum) == 1)
+              s[[i]] <- mean(blups[Reduce(intersect, list(s[[i]]))])
+            }
           }
           names(a) <- as.character(A)
-          for(i in 1:dim(D)[1]) {
-            d[[i]] <- which(apply(alleles == as.character(D[i,1]) | alleles == as.character(D[i,2]), 1, sum) == 2)
-            d[[i]] <- mean(blups[Reduce(intersect, list(d[[i]]))])
-          }
           names(d) <- apply(D, 1, paste, collapse="")
-          for(i in 1:dim(T)[1]) {
-            t[[i]] <- which(apply(alleles == as.character(T[i,1]) | alleles == as.character(T[i,2]) | alleles == as.character(T[i,3]), 1, sum) == 3)
-            t[[i]] <- mean(blups[Reduce(intersect, list(t[[i]]))])
-          }
           names(t) <- apply(T, 1, paste, collapse="")
-          for(i in 1:dim(F)[1]) {
-            f[[i]] <- which(apply(alleles == as.character(F[i,1]) | alleles == as.character(F[i,2]) | alleles == as.character(F[i,3]) | alleles == as.character(F[i,4]), 1, sum) == 4)
-            f[[i]] <- mean(blups[Reduce(intersect, list(f[[i]]))])
-          }
           names(f) <- apply(F, 1, paste, collapse="")
-          for(i in 1:dim(G)[1]) {
-            g[[i]] <- which(apply(alleles == as.character(G[i,1]) | alleles == as.character(G[i,2]) | alleles == as.character(G[i,3]) | alleles == as.character(G[i,4]) | alleles == as.character(G[i,5]), 1, sum) == 5)
-            g[[i]] <- mean(blups[Reduce(intersect, list(g[[i]]))])
-          }
           names(g) <- apply(G, 1, paste, collapse="")
-          for(i in 1:dim(S)[1]) {
-            s[[i]] <- which(apply(alleles == as.character(S[i,1]) | alleles == as.character(S[i,2]) | alleles == as.character(S[i,3]) | alleles == as.character(S[i,4]) | alleles == as.character(S[i,5]) | alleles == as.character(S[i,6]), 1, sum) == 6)
-            s[[i]] <- mean(blups[Reduce(intersect, list(s[[i]]))])
-          }
           names(s) <- apply(S, 1, paste, collapse="")
           
           a <- a[!is.nan(unlist(a))]
@@ -194,8 +232,12 @@ qtl_effects <- function(ploidy = 6, fitted, pheno.col = NULL, verbose = TRUE) {
           }
           
           blups <- fitted$results[[pheno.col[p]]]$fitted$U[[q]]
-          alleles = matrix(unlist(strsplit(fitted$results[[pheno.col[p]]]$fitted$alleles, '')), ncol=5, byrow=TRUE)[,-3]
-          ## alleles <- matrix(unlist(strsplit(rownames(blups), '')), ncol=5, byrow=TRUE)[,-3]
+          if (genoprob_flag == TRUE){
+            alleles = matrix(unlist(strsplit(fitted$results[[pheno.col[p]]]$fitted$alleles, '')), ncol=5, byrow=TRUE)[,-3]
+            ## alleles <- matrix(unlist(strsplit(rownames(blups), '')), ncol=5, byrow=TRUE)[,-3]
+          } else {
+            alleles = fitted$results[[pheno.col[p]]]$fitted$alleles
+          }
           
           A <- t(combn(letters[1:8],1))
           D <- t(combn(letters[1:8],2))
@@ -206,26 +248,45 @@ qtl_effects <- function(ploidy = 6, fitted, pheno.col = NULL, verbose = TRUE) {
           d <- vector("list", dim(D)[1])
           t <- vector("list", dim(T)[1])
           f <- vector("list", dim(F)[1])
-          
-          for(i in 1:dim(A)[1]) {
-            a[[i]] <- which(alleles == as.character(A[i,]), arr.ind = TRUE)[,1]
-            a[[i]] <- mean(blups[Reduce(intersect, list(a[[i]]))])
+
+          if (genoprob_flag == TRUE){
+            for(i in 1:dim(A)[1]) {
+              a[[i]] <- which(alleles == as.character(A[i,]), arr.ind = TRUE)[,1]
+              a[[i]] <- mean(blups[Reduce(intersect, list(a[[i]]))])
+            }
+            for(i in 1:dim(D)[1]) {
+              d[[i]] <- which(apply(alleles == as.character(D[i,1]) | alleles == as.character(D[i,2]), 1, sum) == 2)
+              d[[i]] <- mean(blups[Reduce(intersect, list(d[[i]]))])
+            }
+            for(i in 1:dim(T)[1]) {
+              t[[i]] <- which(apply(alleles == as.character(T[i,1]) | alleles == as.character(T[i,2]) | alleles == as.character(T[i,3]), 1, sum) == 3)
+              t[[i]] <- mean(blups[Reduce(intersect, list(t[[i]]))])
+            }
+            for(i in 1:dim(F)[1]) {
+              f[[i]] <- which(apply(alleles == as.character(F[i,1]) | alleles == as.character(F[i,2]) | alleles == as.character(F[i,3]) | alleles == as.character(F[i,4]), 1, sum) == 4)
+              f[[i]] <- mean(blups[Reduce(intersect, list(f[[i]]))])
+            }
+          } else {
+            for(i in 1:dim(A)[1]) {
+              a[[i]] <- which(alleles == as.character(A[i,]), arr.ind = TRUE)[1]
+              a[[i]] <- mean(blups[Reduce(intersect, list(a[[i]]))])
+            } 
+            for(i in 1:dim(D)[1]) {
+              d[[i]] <- which(lapply(alleles == as.character(D[i,1]) | alleles == as.character(D[i,2]), sum) == 1)
+              d[[i]] <- mean(blups[Reduce(intersect, list(d[[i]]))])
+            }
+            for(i in 1:dim(T)[1]) {
+              t[[i]] <- which(lapply(alleles == as.character(T[i,1]) | alleles == as.character(T[i,2]) | alleles == as.character(T[i,3]), sum) == 1)
+              t[[i]] <- mean(blups[Reduce(intersect, list(t[[i]]))])
+            }
+            for(i in 1:dim(F)[1]) {
+              f[[i]] <- which(lapply(alleles == as.character(F[i,1]) | alleles == as.character(F[i,2]) | alleles == as.character(F[i,3]) | alleles == as.character(F[i,4]), sum) == 1)
+              f[[i]] <- mean(blups[Reduce(intersect, list(f[[i]]))])
+            }
           }
           names(a) <- as.character(A)
-          for(i in 1:dim(D)[1]) {
-            d[[i]] <- which(apply(alleles == as.character(D[i,1]) | alleles == as.character(D[i,2]), 1, sum) == 2)
-            d[[i]] <- mean(blups[Reduce(intersect, list(d[[i]]))])
-          }
           names(d) <- apply(D, 1, paste, collapse="")
-          for(i in 1:dim(T)[1]) {
-            t[[i]] <- which(apply(alleles == as.character(T[i,1]) | alleles == as.character(T[i,2]) | alleles == as.character(T[i,3]), 1, sum) == 3)
-            t[[i]] <- mean(blups[Reduce(intersect, list(t[[i]]))])
-          }
           names(t) <- apply(T, 1, paste, collapse="")
-          for(i in 1:dim(F)[1]) {
-            f[[i]] <- which(apply(alleles == as.character(F[i,1]) | alleles == as.character(F[i,2]) | alleles == as.character(F[i,3]) | alleles == as.character(F[i,4]), 1, sum) == 4)
-            f[[i]] <- mean(blups[Reduce(intersect, list(f[[i]]))])
-          }
           names(f) <- apply(F, 1, paste, collapse="")
           
           a <- a[!is.nan(unlist(a))]
@@ -266,24 +327,39 @@ qtl_effects <- function(ploidy = 6, fitted, pheno.col = NULL, verbose = TRUE) {
           }
           
           blups <- fitted$results[[pheno.col[p]]]$fitted$U[[q]]
-          alleles = matrix(unlist(strsplit(fitted$results[[pheno.col[p]]]$fitted$alleles, '')), ncol=3, byrow=TRUE)[,-2]
-          ## alleles <- matrix(unlist(strsplit(rownames(blups), '')), ncol=5, byrow=TRUE)[,-3]
+          if (genoprob_flag == TRUE){
+            alleles = matrix(unlist(strsplit(fitted$results[[pheno.col[p]]]$fitted$alleles, '')), ncol=3, byrow=TRUE)[,-2]
+            ## alleles <- matrix(unlist(strsplit(rownames(blups), '')), ncol=5, byrow=TRUE)[,-3]
+          } else {
+            alleles = fitted$results[[pheno.col[p]]]$fitted$alleles
+          }
           
           A <- t(combn(letters[1:4],1))
           D <- t(combn(letters[1:4],2))
           
           a <- vector("list", dim(A)[1])
           d <- vector("list", dim(D)[1])
-          
-          for(i in 1:dim(A)[1]) {
-            a[[i]] <- which(alleles == as.character(A[i,]), arr.ind = TRUE)[,1]
-            a[[i]] <- mean(blups[Reduce(intersect, list(a[[i]]))])
+
+          if (genoprob_flag == TRUE){
+            for(i in 1:dim(A)[1]) {
+              a[[i]] <- which(alleles == as.character(A[i,]), arr.ind = TRUE)[,1]
+              a[[i]] <- mean(blups[Reduce(intersect, list(a[[i]]))])
+            }
+            for(i in 1:dim(D)[1]) {
+              d[[i]] <- which(apply(alleles == as.character(D[i,1]) | alleles == as.character(D[i,2]), 1, sum) == 2)
+              d[[i]] <- mean(blups[Reduce(intersect, list(d[[i]]))])
+            }
+          } else {
+            for(i in 1:dim(A)[1]) {
+              a[[i]] <- which(alleles == as.character(A[i,]), arr.ind = TRUE)[1]
+              a[[i]] <- mean(blups[Reduce(intersect, list(a[[i]]))])
+            }
+            for(i in 1:dim(D)[1]) {
+              d[[i]] <- which(lapply(alleles == as.character(D[i,1]) | alleles == as.character(D[i,2]), sum) == 1)
+              d[[i]] <- mean(blups[Reduce(intersect, list(d[[i]]))])
+            }
           }
           names(a) <- as.character(A)
-          for(i in 1:dim(D)[1]) {
-            d[[i]] <- which(apply(alleles == as.character(D[i,1]) | alleles == as.character(D[i,2]), 1, sum) == 2)
-            d[[i]] <- mean(blups[Reduce(intersect, list(d[[i]]))])
-          }
           names(d) <- apply(D, 1, paste, collapse="")
           
           a <- a[!is.nan(unlist(a))]
