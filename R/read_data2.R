@@ -7,6 +7,8 @@
 #' @param geno.prob an object of class \code{mappoly.genoprob} from \pkg{mappoly}.
 #'
 #' @param geno.dose an object of class \code{mappoly.data} from \pkg{mappoly}.
+#' 
+#' @param type either "genome", "mds", or "custom" from the \code{mappoly2.data} from \pkg{mappoly2}
 #'
 #' @param double.reduction if \code{TRUE}, double reduction genotypes are taken into account; if \code{FALSE}, no double reduction genotypes are considered.
 #'
@@ -58,7 +60,7 @@
 #' @importFrom gtools combinations
 #' @importFrom mappoly calc_genoprob
 
-read_data2 <- function(ploidy = 6, geno.prob, geno.dose = NULL, double.reduction = FALSE, pheno, weights = NULL, step = 1, verbose = TRUE) {
+read_data2 <- function(ploidy = 6, geno.prob, geno.dose = NULL, type=c("genome","mds","custom"), double.reduction = FALSE, pheno, weights = NULL, step = 1, verbose = TRUE) {
 
   if(inherits(geno.prob, "mappoly2.sequence")){
   ## if (class(geno.prob) == "mappoly2.sequence"){
@@ -67,22 +69,59 @@ read_data2 <- function(ploidy = 6, geno.prob, geno.dose = NULL, double.reduction
 
   homo.prob = geno.prob
    
-  raw.individual.names = homo.prob$data$ind.names
-
+  raw.individual.names = homo.prob$data$screened.data$ind.names
+  
+  type <- match.arg(type) # Ensures only "genome","mds", or  "custom" are allowed
+  
+  
   ## Converting object back to previous format
-  geno.prob = lapply(homo.prob$maps, function(x) {
-    probs = x$map.genome$phase[[1]]$haploprob
-    a = split(1:nrow(probs), ceiling(seq_along(1:nrow(probs)) / (ploidy*2)))
-    b = lapply(a, function(y) return(as.matrix(probs[y,-c(1:3)])))
-    c = abind(b, along = 3)
-    dimnames(c)[[1]] = letters[1:(ploidy*2)]
-    dimnames(c)[[2]] = rownames(x$map.genome$phase[[1]]$p1)
-    dimnames(c)[[3]] = raw.individual.names
-    mpgpt = calc_genoprob # to ensure mappoly's function is required in the package
-    map = c(0, cumsum(imf_h(x$map.genome$phase[[1]]$rf)))
-    names(map) = rownames(x$map.genome$phase[[1]]$p1)
-    return(list(probs = c, map = map))
-  })
+  if(type=="genome"){
+    
+    geno.prob = lapply(homo.prob$maps, function(x) {
+      probs = x$genome$p1p2$hmm.phase[[1]]$haploprob
+      a = split(1:nrow(probs), ceiling(seq_along(1:nrow(probs)) / (ploidy*2)))
+      b = lapply(a, function(y) return(as.matrix(probs[y,-c(1:3)])))
+      c = abind(b, along = 3)
+      dimnames(c)[[1]] = letters[1:(ploidy*2)]
+      dimnames(c)[[2]] = rownames(x$genome$p1p2$hmm.phase[[1]]$p1)
+      dimnames(c)[[3]] = raw.individual.names
+      mpgpt = calc_genoprob # to ensure mappoly's function is required in the package
+      map = c(0, cumsum(imf_h(x$genome$p1p2$hmm.phase[[1]]$rf)))
+      names(map) = rownames(x$genome$p1p2$hmm.phase[[1]]$p1)
+      return(list(probs = c, map = map))
+    })
+  } else if(type =="mds"){
+    
+    geno.prob = lapply(homo.prob$maps, function(x) {
+      probs = x$mds$p1p2$hmm.phase[[1]]$haploprob
+      a = split(1:nrow(probs), ceiling(seq_along(1:nrow(probs)) / (ploidy*2)))
+      b = lapply(a, function(y) return(as.matrix(probs[y,-c(1:3)])))
+      c = abind(b, along = 3)
+      dimnames(c)[[1]] = letters[1:(ploidy*2)]
+      dimnames(c)[[2]] = rownames(x$mds$p1p2$hmm.phase[[1]]$p1)
+      dimnames(c)[[3]] = raw.individual.names
+      mpgpt = calc_genoprob # to ensure mappoly's function is required in the package
+      map = c(0, cumsum(imf_h(x$mds$p1p2$hmm.phase[[1]]$rf)))
+      names(map) = rownames(x$mds$p1p2$hmm.phase[[1]]$p1)
+      return(list(probs = c, map = map))
+    })
+  } else if(type =="custom"){
+    
+    geno.prob = lapply(homo.prob$maps, function(x) {
+      probs = x$custom$p1p2$hmm.phase[[1]]$haploprob
+      a = split(1:nrow(probs), ceiling(seq_along(1:nrow(probs)) / (ploidy*2)))
+      b = lapply(a, function(y) return(as.matrix(probs[y,-c(1:3)])))
+      c = abind(b, along = 3)
+      dimnames(c)[[1]] = letters[1:(ploidy*2)]
+      dimnames(c)[[2]] = rownames(x$custom$p1p2$hmm.phase[[1]]$p1)
+      dimnames(c)[[3]] = raw.individual.names
+      mpgpt = calc_genoprob # to ensure mappoly's function is required in the package
+      map = c(0, cumsum(imf_h(x$custom$p1p2$hmm.phase[[1]]$rf)))
+      names(map) = rownames(x$custom$p1p2$hmm.phase[[1]]$p1)
+      return(list(probs = c, map = map))
+    })
+  }
+      
   
   ######### HAPLOTYPE DATA
   
@@ -155,7 +194,7 @@ read_data2 <- function(ploidy = 6, geno.prob, geno.dose = NULL, double.reduction
     if (length(which(rownames(pheno) %in% dimnames(G)[[1]])) == 0) stop("Individual names between genotype and phenotype data do not match. Please check your datasets and try again.")
     pheno.new <- as.matrix(pheno[which(rownames(pheno) %in% dimnames(G)[[1]]),])
     rownames(pheno.new) <- rownames(pheno)[which(rownames(pheno) %in% dimnames(G)[[1]])]
-    
+    colnames(pheno.new) <-colnames(pheno)
     if(!is.null(weights)) {
       weights.new <- as.matrix(weights[which(rownames(weights) %in% dimnames(G)[[1]]),])
       rownames(weights.new) <- rownames(weights)[which(rownames(weights) %in% dimnames(G)[[1]])]
