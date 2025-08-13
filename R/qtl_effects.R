@@ -67,20 +67,20 @@ qtl_effects <- function(ploidy = 6, fitted, pheno.col = NULL, verbose = TRUE) {
   
   for(p in 1:length(results)) {
     
-    if(!is.null(fitted$results[[pheno.col[p]]]$qtls)) {
+    if(!is.null(fitted$results[[names(results)[p]]]$qtls)) {
       
-      nqtl <- dim(fitted$results[[pheno.col[p]]]$qtls)[1]
+      nqtl <- dim(fitted$results[[names(results)[p]]]$qtls)[1]
       if(nqtl > 1) nqtl <- nqtl - 1
       effects <- vector("list", nqtl)
-      qtl.mrk <- unlist(fitted$results[[pheno.col[p]]]$qtls[c(1:nqtl),"Nmrk"])
+      qtl.mrk <- unlist(fitted$results[[names(results)[p]]]$qtls[c(1:nqtl),"Nmrk"])
       
       if(verbose) {
-        if(length(qtl.mrk) == 1) cat("There is ", length(qtl.mrk), " QTL in the model for trait ", pheno.col[p], " ", sQuote(names(fitted$results)[pheno.col[p]]), ". Computing effects for QTL ", sep="")
-        if(length(qtl.mrk) >= 2) cat("There are ", length(qtl.mrk), " QTL in the model for trait ", pheno.col[p], " ", sQuote(names(fitted$results)[pheno.col[p]]), ". Computing effects for QTL ", sep="")
+        if(length(qtl.mrk) == 1) cat("There is ", length(qtl.mrk), " QTL in the model for trait ", pheno.col[p], " ", sQuote(names(results)[p]), ". Computing effects for QTL ", sep="")
+        if(length(qtl.mrk) >= 2) cat("There are ", length(qtl.mrk), " QTL in the model for trait ", pheno.col[p], " ", sQuote(names(results)[p]), ". Computing effects for QTL ", sep="")
       }
 
       ## Creating temporary flag to indicate whether genotype probabilities come from MAPpoly or mappoly2
-      if (length(fitted$results[[pheno.col[p]]]$fitted$alleles) == ncol(combn(ploidy, ploidy/2))^2){
+      if (length(fitted$results[[names(results)[p]]]$fitted$alleles) == ncol(combn(ploidy, ploidy/2))^2){
         genoprob_flag = TRUE
       } else {
         genoprob_flag = FALSE
@@ -95,12 +95,12 @@ qtl_effects <- function(ploidy = 6, fitted, pheno.col = NULL, verbose = TRUE) {
             if(q == nqtl) cat(paste0("... ", qtl.mrk[q]))
           }
           
-          blups <- fitted$results[[pheno.col[p]]]$fitted$U[[q]]
+          blups <- fitted$results[[names(results)[p]]]$fitted$U[[q]]
           if (genoprob_flag == TRUE){
-            alleles = matrix(unlist(strsplit(fitted$results[[pheno.col[p]]]$fitted$alleles, '')), ncol=7, byrow=TRUE)[,-4]
+            alleles = matrix(unlist(strsplit(fitted$results[[names(results)[p]]]$fitted$alleles, '')), ncol=7, byrow=TRUE)[,-4]
             ## alleles <- matrix(unlist(strsplit(rownames(blups), '')), ncol=7, byrow=TRUE)[,-4]
           } else {
-            alleles = fitted$results[[pheno.col[p]]]$fitted$alleles
+            alleles = fitted$results[[names(results)[p]]]$fitted$alleles
           }
           
           A <- t(combn(letters[1:12],1))
@@ -231,12 +231,12 @@ qtl_effects <- function(ploidy = 6, fitted, pheno.col = NULL, verbose = TRUE) {
             if(q == nqtl) cat(paste0("... ", qtl.mrk[q]))
           }
           
-          blups <- fitted$results[[pheno.col[p]]]$fitted$U[[q]]
+          blups <- fitted$results[[names(results)[p]]]$fitted$U[[q]]
           if (genoprob_flag == TRUE){
-            alleles = matrix(unlist(strsplit(fitted$results[[pheno.col[p]]]$fitted$alleles, '')), ncol=5, byrow=TRUE)[,-3]
+            alleles = matrix(unlist(strsplit(fitted$results[[names(results)[p]]]$fitted$alleles, '')), ncol=5, byrow=TRUE)[,-3]
             ## alleles <- matrix(unlist(strsplit(rownames(blups), '')), ncol=5, byrow=TRUE)[,-3]
           } else {
-            alleles = fitted$results[[pheno.col[p]]]$fitted$alleles
+            alleles = fitted$results[[names(results)[p]]]$fitted$alleles
           }
           
           A <- t(combn(letters[1:8],1))
@@ -326,12 +326,16 @@ qtl_effects <- function(ploidy = 6, fitted, pheno.col = NULL, verbose = TRUE) {
             if(q == nqtl) cat(paste0("... ", qtl.mrk[q]))
           }
           
-          blups <- fitted$results[[pheno.col[p]]]$fitted$U[[q]]
+          blups <- fitted$results[[names(results)[p]]]$fitted$U[[q]]
+
+          ## Reassessing genoprob_flag for diploid case
+          if (length(unlist(strsplit(fitted$results[[names(results)[p]]]$fitted$alleles, ''))) == 4) genoprob_flag = FALSE
+          
           if (genoprob_flag == TRUE){
-            alleles = matrix(unlist(strsplit(fitted$results[[pheno.col[p]]]$fitted$alleles, '')), ncol=3, byrow=TRUE)[,-2]
+            alleles = matrix(unlist(strsplit(fitted$results[[names(results)[p]]]$fitted$alleles, '')), ncol=3, byrow=TRUE)[,-2]
             ## alleles <- matrix(unlist(strsplit(rownames(blups), '')), ncol=5, byrow=TRUE)[,-3]
           } else {
-            alleles = fitted$results[[pheno.col[p]]]$fitted$alleles
+            alleles = fitted$results[[names(results)[p]]]$fitted$alleles
           }
           
           A <- t(combn(letters[1:4],1))
@@ -380,12 +384,12 @@ qtl_effects <- function(ploidy = 6, fitted, pheno.col = NULL, verbose = TRUE) {
       
     } else {
       
-      if(verbose) cat("There are no QTL in the model for trait ", pheno.col[p], " ", sQuote(names(fitted$results)[pheno.col[p]]), ". Skipping! \n\n", sep="")
+      if(verbose) cat("There are no QTL in the model for trait ", pheno.col[p], " ", sQuote(names(results)[p]), ". Skipping! \n\n", sep="")
       effects <- NULL
     }
     
     results[[p]] <- list(
-      pheno.col=fitted$results[[pheno.col[p]]]$pheno.col,
+      pheno.col=fitted$results[[names(results)[p]]]$pheno.col,
       effects=effects)
     
   }
