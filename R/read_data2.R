@@ -203,7 +203,8 @@ read_data2 <- function(ploidy = 6, geno.prob, geno.dose = NULL, type=c("genome",
     }
 
     ## Copying Z to X since Z already contains the homolog probabilities
-    X = Z
+    ## Changing order of array dimensions to avoid issues with FEIM functions
+    X = aperm(Z, c(3,1,2))
   } else G <- Pi <- Z <- X <- NULL
   
   ######### DOSAGE
